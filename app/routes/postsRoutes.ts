@@ -1,11 +1,39 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
+import {Router, Request, Response, NextFunction, response} from 'express';
 
-const postsController = require('../controllers/postController');
+export class PostsRouter {
+    router: Router
 
-router.get('/', postsController.readAll);
-router.post('/', postsController.create);
-router.get('/:id', postsController.read);
-router.put('/:id', postsController.update);
-router.delete('/:id', postsController.delete);
+    constructor() {
+        this.router = Router();
+        this.init();
+    }
+
+    public getAll(req: Request, res: Response, next: NextFunction) {
+        res.send("Nothing");
+    }
+    public getOne(req: Request, res: Response, next: NextFunction) {
+        res.send("Nothing");
+    }
+    public create(req: Request, res: Response, next: NextFunction) {
+        res.send("Nothing");
+    }
+    public update(req: Request, res: Response, next: NextFunction) {
+        res.send("Nothing");
+    }
+    public delete(req: Request, res: Response, next: NextFunction) {
+        res.send("Nothing");
+    }
+    init() {
+        this.router.get('/', this.getAll);
+        this.router.get('/:id', this.getOne);
+        this.router.post('/', this.create);
+        this.router.delete('/:id', this.delete);
+        this.router.put('/:id', this.update);
+    }
+}
+
+const postsRoutes = new PostsRouter();
+postsRoutes.init();
+
+export default postsRoutes.router;
