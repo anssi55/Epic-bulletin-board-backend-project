@@ -1,20 +1,17 @@
-"use strict";
+'use strict';
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// lib/app.ts
-var express = require("express");
-// Create a new express application instance
+var express = require('express');
+var bodyParser = require('body-parser');
+var cors = require('cors');
+//import PostsRouter from './routes/postsRouter';
+var index_1 = __importDefault(require("./routes/index"));
 var app = express();
-app.get('/post', function (req, res) {
-    res.send('Hello World!');
-});
-app.post('/', function (req, res) {
-    var s = req.body;
-    res.send("Hello " + s);
-});
-app.put('/', function (req, res) {
-    var p = req.body;
-    res.send("hello");
-});
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
-});
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use('', index_1.default);
+app.listen(3000);
+console.log("Server running on: http://localhost:" + 3000 + "/");

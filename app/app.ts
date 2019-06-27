@@ -1,22 +1,17 @@
-// lib/app.ts
-import express = require('express');
+'use strict'
 
-// Create a new express application instance
-const app: express.Application = express();
+import Index from './routes/index';
 
-app.get('/post', function (req, res) {
-  res.send('Hello World!');
-});
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const app = express();
 
-app.post('/', function (req, res) {
-    let s: String = req.body;
-    res.send("Hello " + s);
-});
-app.put('/', function (req, res) {
-    let p: String = req.body;
-    res.send("hello");
-});
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
-});
+app.use('', Index);
+
+app.listen(3000);
+console.log("Server running on: http://localhost:" + 3000 + "/");

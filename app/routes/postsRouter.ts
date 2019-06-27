@@ -33,7 +33,7 @@ export class PostsRouter {
     }
 }
 
-const postsRoutes = new PostsRouter();
-postsRoutes.init();
+const postsRouter = new PostsRouter();
+postsRouter.init();
 
-export default postsRoutes.router;
+export default postsRouter.router;
