@@ -1,7 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
 
 @Entity()
-export class User {
+export class Posts {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -15,10 +15,10 @@ export class User {
     @Column()
     datetime: Date;
 
-    //@Column()
-    //userId: Date;
+    @Column()
+    userId: number;
 
-    //@Column()
-    //categoriesId: Date;
+    @Column()
+    categoriesId: number;
 
 }

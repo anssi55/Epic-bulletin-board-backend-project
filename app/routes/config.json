@@ -1,0 +1,8 @@
+{
+    "db": {
+    "user"     : "user1",
+    "password" : "password",
+    "database" : "bulletinboard",
+    "host"     : "localhost"
+}
+}

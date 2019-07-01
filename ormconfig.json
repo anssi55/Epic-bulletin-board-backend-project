@@ -2,23 +2,23 @@
    "type": "mysql",
    "host": "localhost",
    "port": 3306,
-   "username": "test",
-   "password": "test",
-   "database": "test",
+   "username": "newuser",
+   "password": "password",
+   "database": "bulletinboard",
    "synchronize": true,
    "logging": false,
    "entities": [
-      "src/entity/**/*.ts"
+      "app/orm/entities/*.js"
    ],
    "migrations": [
-      "src/migration/**/*.ts"
+      "src/migration/**/*.js"
    ],
    "subscribers": [
-      "src/subscriber/**/*.ts"
+      "src/subscriber/**/*.js"
    ],
    "cli": {
-      "entitiesDir": "src/entity",
-      "migrationsDir": "src/migration",
-      "subscribersDir": "src/subscriber"
+      "entitiesDir": "app/orm",
+      "migrationsDir": "orm/migration",
+      "subscribersDir": "orm/subscriber"
    }
 }
