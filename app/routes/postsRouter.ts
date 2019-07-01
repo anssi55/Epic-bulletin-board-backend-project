@@ -1,9 +1,7 @@
 'use strict';
 import {Router, Request, Response, NextFunction, response} from 'express';
-import {Posts} from "../orm/Posts";
+import {Posts} from "../orm/entities/Posts";
 import {getRepository} from "typeorm";
-var mysql = require('mysql');
-
 
 export class PostsRouter {
     router: Router
@@ -13,34 +11,33 @@ export class PostsRouter {
         this.init();
     }
 
-    public getAll(req: Request, res: Response, next: NextFunction) {
-        var con = mysql.createConnection({user: "newuser",
-        password : "password",
-        database : "bulletinboard",
-        host    : "localhost"});
-        var sql = 'SELECT * FROM posts';
-
-        con.query(sql, function (err, results) {
-        if (err) {
-            console.log(err);
-            res.status(500).send({message:'Unable to retrieve tasks'});
-        } 
-        res.status(200).send(results);
-});
+    public async getAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            let results = await getRepository(Posts).find();
+            res.status(200).send(results);
+        } catch(error) {
+            res.status(400).send({"message": "Couldn't get the data"});
+         
+        }
         
     }
     public getOne(req: Request, res: Response, next: NextFunction) {
         res.send("Nothing");
     }
     public create(req: Request, res: Response, next: NextFunction) {
-        
+        try {  
         let post = new Posts();
         post.topic = req.body.topic;
         post.post = req.body.post;
         post.datetime = new Date(Date.now());
-        post.categoriesId = req.body.categoriesId;
+        post.categories = req.body.categoriesId;
+        let catalogRepository = getRepository(Posts);
+        catalogRepository.save(post);
         res.send(post);
-
+        } catch(error) {
+            res.status(400).send({"message": "Couldn't save the data"});
+     
+        }
         
         console.log("Post has been saved");
             

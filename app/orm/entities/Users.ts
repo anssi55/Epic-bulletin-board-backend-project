@@ -16,6 +16,6 @@ export class Users {
     password: string;
 
     @Column()
-    avatar: number;
+    avatar: string;
 
 }
