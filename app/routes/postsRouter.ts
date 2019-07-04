@@ -2,12 +2,10 @@
 import {Router, Request, Response, NextFunction, response} from 'express';
 import {Posts} from "../orm/entities/Posts";
 import {getRepository} from "typeorm";
-const awilix = require('awilix')
 
 
-const container = awilix.createContainer({
-  injectionMode: awilix.InjectionMode.PROXY
-})
+
+
 
 export class PostsRouter {
     router: Router
@@ -64,9 +62,7 @@ export class PostsRouter {
     }
 }
 
-container.register({
-    postsController: awilix.asClass(PostsRouter)
-  })
+
 
 const postsRouter = new PostsRouter();
 postsRouter.init();
