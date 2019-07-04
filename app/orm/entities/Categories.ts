@@ -1,5 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
-import {validate, Contains, IsInt, Length, IsEmail, IsFQDN, IsDate, Min, Max, MinLength, MaxLength} from "class-validator";
+import {IsInt, Length, MinLength, MaxLength} from "class-validator";
 
 @Entity()
 export class Categories {

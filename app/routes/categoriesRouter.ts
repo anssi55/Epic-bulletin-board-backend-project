@@ -1,6 +1,6 @@
 'use strict';
 import {Router, Request, Response, NextFunction} from 'express';
-import {Posts} from "../orm/entities/Posts";
+import {Categories} from "../orm/entities/Categories";
 import {getRepository} from "typeorm";
 import {validate} from "class-validator";
 const awilix = require('awilix');
@@ -10,17 +10,19 @@ const container = awilix.createContainer({
   injectionMode: awilix.InjectionMode.PROXY
 })
 
-export class PostsRouter {
+//Router to handle all category REST-api calls
+export class CategoriesRouter {
     router: Router
 
     constructor() {
         this.router = Router();
         this.init();
     }
-
+    
+    //Get all categories from the database
     public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            let results = await getRepository(Posts).find();
+            let results = await getRepository(Categories).find();
             res.status(200).send(results);
         } catch(error) {
             res.status(400).send({"message": "Couldn't get the data"});
@@ -28,28 +30,25 @@ export class PostsRouter {
         }
         
     }
+    //Get one category spesified by id
     public getOne(req: Request, res: Response, next: NextFunction) {
         res.send("Nothing");
     }
+    //Create one new category to database
     public async create(req: Request, res: Response, next: NextFunction) {
         let validateErrors;
         try {  
-            let post = new Posts();
-            post.topic = req.body.topic;
-            post.post = req.body.post;
-            post.datetime = new Date(Date.now());
-            post.categories = req.body.categoryId;
-            post.users = req.body.userId;
-            post.pinned = req.body.pinned;
-            console.log(post);
-            validateErrors = await validate(post);
+            let category = new Categories();
+            category.name = req.body.name;
+            category.description = req.body.description;
+            validateErrors = await validate(category);
             if(validateErrors.length > 0) {
                 throw 400;
             }
-            let postRepository = getRepository(Posts);
-            let sqlErrors = await postRepository.save(post);
+            let categoryRepository = getRepository(Categories);
+            let sqlErrors = await categoryRepository.save(category);
             console.log(sqlErrors);
-            res.status(200).send(post);
+            res.status(200).send(category);
         } catch(error) {
             if (error === 400) {
                 res.status(400).send({errors: validateErrors})
@@ -62,6 +61,7 @@ export class PostsRouter {
             
         
     }
+    //Update one category in database
     public update(req: Request, res: Response, next: NextFunction) {
         res.send("Nothing");
     }
@@ -78,11 +78,11 @@ export class PostsRouter {
 }
 
 container.register({
-    postsController: awilix.asClass(PostsRouter),
-    Posts: awilix.asClass(Posts)
-  })
+    CategoriesController: awilix.asClass(CategoriesRouter),
+    Categories: awilix.asClass(Categories)
+})
 
-const postsRouter = new PostsRouter();
-postsRouter.init();
+const categoriesRouter = new CategoriesRouter();
+categoriesRouter.init();
 
-export default postsRouter.router;
+export default categoriesRouter.router;

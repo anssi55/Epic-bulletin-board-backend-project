@@ -1,34 +1,72 @@
 'use strict'
-import {createConnection} from "typeorm";
+import {createConnection, getConnection} from "typeorm";
 import Index from './routes/index';
-import {Posts} from "./orm/entities/Posts";
+import express = require('express');
+import bodyParser = require('body-parser');
+import cors = require('cors');
+const awilix = require('awilix')
+import { Posts } from "./orm/entities/Posts";
 import { Categories } from "./orm/entities/Categories";
 import { Users } from "./orm/entities/Users";
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const app = express();
+const container = awilix.createContainer({
+    injectionMode: awilix.InjectionMode.PROXY
+  })
 
-createConnection({
-    type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "newuser",
-    password: "password",
-    database: "bulletinboard2",
-    entities: [
-        Posts, Users, Categories
-    ],
-    synchronize: true,
-    logging: false}).then(connection => {
-    connection.getRepository(Posts);
-    app.use(cors());
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
+class App {
+    public app: express.Application;
+    public connection;
 
-    app.use('/', Index);
+    constructor() {
+        this.app = express();
+        this.middleware();
+    }
+    //Adding middleware to app
+    private middleware(): void {
+        this.app.use(cors());
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(bodyParser.json());
+    }
+    //Making connection to database
+    private makeConnection():void {
+        this.connection = createConnection({
+            type: "mysql",
+            host: "localhost",
+            port: 3306,
+            username: "newuser",
+            password: "password",
+            database: "bulletinboard2",
+            entities: [
+                Posts, Users, Categories
+            ],
+            synchronize: true,
+            logging: false}).then(async connection => {
+               
+                this.app.use('/', Index);
+                this.app.listen(3000);
+                console.log("Server running on: http://localhost:" + 3000 + "/");
+        }).catch(error => console.log(error));
+    }
 
-    app.listen(3000);
-}).catch(error => console.log(error));
-console.log("Server running on: http://localhost:" + 3000 + "/");
+    
+
+    //Close connection
+    public closeConnection():void {
+        this.connection.close();
+    }
+
+    init() {
+        this.makeConnection();
+    }
+
+}
+const app = new App();
+app.init();
+
+container.register({
+    db: awilix.asClass(app).classic(),
+    connectionString: awilix.asValue(process.env.CONN_STR),
+    timeout: awilix.asValue(1000)
+})
+
+export default new App().app;

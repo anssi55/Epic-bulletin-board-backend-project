@@ -22,10 +22,10 @@ export class Posts {
     
     @IsString()
     @MinLength(10, {
-        message: "Post is too short"
+        message: "Post is too short, min: 10"
     })
     @MaxLength(255, {
-        message: "Post is too long"
+        message: "Post is too long, max: 255"
     })
     @Column()
     post: string;
