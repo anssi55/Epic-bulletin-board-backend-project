@@ -4,14 +4,11 @@ import Index from './routes/index';
 import express = require('express');
 import bodyParser = require('body-parser');
 import cors = require('cors');
-const awilix = require('awilix')
 import { Posts } from "./orm/entities/Posts";
 import { Categories } from "./orm/entities/Categories";
 import { Users } from "./orm/entities/Users";
 
-const container = awilix.createContainer({
-    injectionMode: awilix.InjectionMode.PROXY
-  })
+
 
 class App {
     public app: express.Application;
@@ -63,10 +60,6 @@ class App {
 const app = new App();
 app.init();
 
-container.register({
-    db: awilix.asClass(app).classic(),
-    connectionString: awilix.asValue(process.env.CONN_STR),
-    timeout: awilix.asValue(1000)
-})
+
 
 export default new App().app;

@@ -6,19 +6,19 @@ import {validate} from "class-validator";
 const awilix = require('awilix');
 
 
-const container = awilix.createContainer({
-  injectionMode: awilix.InjectionMode.PROXY
-})
 
-export class PostsRouter {
+
+//Router to route /posts-route
+class PostsRouter {
     router: Router
 
     constructor() {
         this.router = Router();
-        this.init();
     }
 
+    //get all posts from database
     public async getAll(req: Request, res: Response, next: NextFunction) {
+        console.log('lol');
         try {
             let results = await getRepository(Posts).find();
             res.status(200).send(results);
@@ -28,9 +28,11 @@ export class PostsRouter {
         }
         
     }
+    //get specific post from database
     public getOne(req: Request, res: Response, next: NextFunction) {
         res.send("Nothing");
     }
+    //Add new post to database
     public async create(req: Request, res: Response, next: NextFunction) {
         let validateErrors;
         try {  
@@ -62,27 +64,23 @@ export class PostsRouter {
             
         
     }
+    //Modify a post in database
     public update(req: Request, res: Response, next: NextFunction) {
         res.send("Nothing");
     }
+    //Delete a post from database
     public delete(req: Request, res: Response, next: NextFunction) {
         res.send("Nothing");
     }
     init() {
-        this.router.get('/', this.getAll);
-        this.router.get('/:id', this.getOne);
-        this.router.post('/', this.create);
-        this.router.delete('/:id', this.delete);
-        this.router.put('/:id', this.update);
+        this.router.get('/api/v1/posts', this.getAll);
+        this.router.get('/api/v1/posts/:id', this.getOne);
+        this.router.post('/api/v1/posts', this.create);
+        this.router.delete('/api/v1/posts/:id', this.delete);
+        this.router.put('/api/v1/posts/:id', this.update);
     }
 }
 
-container.register({
-    postsController: awilix.asClass(PostsRouter),
-    Posts: awilix.asClass(Posts)
-  })
 
-const postsRouter = new PostsRouter();
-postsRouter.init();
 
-export default postsRouter.router;
+export default PostsRouter;
