@@ -2,7 +2,8 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import {Posts} from "../orm/entities/Posts";
 import {getRepository} from "typeorm";
-import {validate} from "class-validator";
+import {validate, IsInt, ValidationError} from "class-validator";
+import ErrorHandler from '../middleware/errorhandler';
 const awilix = require('awilix');
 
 
@@ -11,9 +12,11 @@ const awilix = require('awilix');
 //Router to route /posts-route
 class PostsRouter {
     router: Router
+    
 
     constructor() {
         this.router = Router();
+        
     }
 
     //get all posts from database
@@ -34,7 +37,8 @@ class PostsRouter {
     }
     //Add new post to database
     public async create(req: Request, res: Response, next: NextFunction) {
-        let validateErrors;
+        let ehandler = new ErrorHandler();
+        let errors;
         try {  
             let post = new Posts();
             post.topic = req.body.topic;
@@ -43,18 +47,20 @@ class PostsRouter {
             post.categories = req.body.categoryId;
             post.users = req.body.userId;
             post.pinned = req.body.pinned;
-            console.log(post);
-            validateErrors = await validate(post);
+            
+            let validateErrors: ValidationError[] = await validate(post);
+            
             if(validateErrors.length > 0) {
+                errors = ehandler.handleValidationErrors(validateErrors);
                 throw 400;
             }
             let postRepository = getRepository(Posts);
             let sqlErrors = await postRepository.save(post);
-            console.log(sqlErrors);
+            
             res.status(200).send(post);
         } catch(error) {
             if (error === 400) {
-                res.status(400).send({errors: validateErrors})
+                res.status(400).send(errors)
             } else {
                 res.status(400).send({message: "Couldn't save the data", "Error": error.message});
             }
@@ -72,15 +78,15 @@ class PostsRouter {
     public delete(req: Request, res: Response, next: NextFunction) {
         res.send("Nothing");
     }
+    
     init() {
         this.router.get('/api/v1/posts', this.getAll);
-        this.router.get('/api/v1/posts/:id', this.getOne);
-        this.router.post('/api/v1/posts', this.create);
-        this.router.delete('/api/v1/posts/:id', this.delete);
-        this.router.put('/api/v1/posts/:id', this.update);
+        this.router.get('/:id', this.getOne);
+        this.router.post('/', this.create);
+        this.router.delete('/:id', this.delete);
+        this.router.put('/:id', this.update);
     }
 }
-
 
 
 export default PostsRouter;

@@ -1,7 +1,5 @@
 'use strict';
 import {Router, Request, Response, NextFunction} from 'express';
-const awilix = require('awilix');
-
 //TODO. Routers not ready yet
 //import authRouter from './authRouter';
 //import repliesRouter from './repliesRouter';
@@ -34,12 +32,22 @@ export class Index {
     public notFound(req: Request, res: Response, next: NextFunction) {
         res.status(404).send({message:'Path not found'});
     }
+    public routePosts() {
+        const p = container.resolve<PostsRouter>('postsController');
+        this.router.route("/api/v1/posts")
+        .get(p.getAll)
+        .post(p.create)
+        this.router.route("/api/v1/posts/:id")
+        .get(p.getOne)
+        .put(p.update)
+        .delete(p.delete)
+    }
     
     //Routing all the addresses to right path
     init() {
-        container.resolve<PostsRouter>('postsController').init();
+        container.resolve<PostsRouter>('postsController');
         this.router.get('/', this.rootPath);
-       
+        this.routePosts();
         this.router.use('/api/v1/categories', categoriesRouter);
        // this.router.use('/api/v1/replies', repliesRouter);
        // this.router.use('/api/v1/auth', authRouter);
@@ -53,4 +61,4 @@ export class Index {
 const index = new Index();
 index.init();
     
-export default index.router;
+export default index;

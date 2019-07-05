@@ -1,8 +1,8 @@
 'use strict'
 import {createConnection, getConnection} from "typeorm";
 import Index from './routes/index';
-import express = require('express');
-import bodyParser = require('body-parser');
+import express = require("express");
+import * as bodyParser from "body-parser";
 import cors = require('cors');
 import { Posts } from "./orm/entities/Posts";
 import { Categories } from "./orm/entities/Categories";
@@ -12,7 +12,7 @@ import { Users } from "./orm/entities/Users";
 
 class App {
     public app: express.Application;
-    public connection;
+    
 
     constructor() {
         this.app = express();
@@ -26,7 +26,7 @@ class App {
     }
     //Making connection to database
     private makeConnection():void {
-        this.connection = createConnection({
+        createConnection({
             type: "mysql",
             host: "localhost",
             port: 3306,
@@ -39,18 +39,13 @@ class App {
             synchronize: true,
             logging: false}).then(async connection => {
                
-                this.app.use('/', Index);
+                this.app.use('/', Index.router);
                 this.app.listen(3000);
                 console.log("Server running on: http://localhost:" + 3000 + "/");
         }).catch(error => console.log(error));
     }
 
     
-
-    //Close connection
-    public closeConnection():void {
-        this.connection.close();
-    }
 
     init() {
         this.makeConnection();
@@ -62,4 +57,4 @@ app.init();
 
 
 
-export default new App().app;
+export default new App();

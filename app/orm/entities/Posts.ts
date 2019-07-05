@@ -46,7 +46,9 @@ export class Posts {
     @JoinColumn()
     users: Users;
 
-    @IsInt()
+    @IsInt( {
+        message: "Category must be an integer number"
+    })
     @OneToOne(type => Categories)
     @JoinColumn()
     categories: Categories;
