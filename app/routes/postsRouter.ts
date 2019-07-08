@@ -20,7 +20,8 @@ export class PostsRouter {
             let results = await getRepository(Posts).find();
             res.status(200).send(results);
         } catch(error) {
-            res.status(400).send({"message": "Couldn't get the data"});
+            res.status(400).send({"message": "Couldn't get the data",
+        "Error": error});
          
         }
         
@@ -38,12 +39,13 @@ export class PostsRouter {
         let catalogRepository = getRepository(Posts);
         catalogRepository.save(post);
         res.send(post);
+        
         } catch(error) {
             res.status(400).send({"message": "Couldn't save the data"});
      
         }
         
-        console.log("Post has been saved");
+        
             
         
     }
