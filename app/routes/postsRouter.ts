@@ -21,12 +21,12 @@ class PostsRouter {
 
     //get all posts from database
     public async getAll(req: Request, res: Response, next: NextFunction) {
-        console.log('lol');
         try {
             let results = await getRepository(Posts).find();
             res.status(200).send(results);
         } catch(error) {
-            res.status(400).send({"message": "Couldn't get the data"});
+            res.status(400).send({"message": "Couldn't get the data",
+        "Error": error });
          
         }
         

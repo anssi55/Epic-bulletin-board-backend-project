@@ -4,21 +4,21 @@
    "port": 3306,
    "username": "newuser",
    "password": "password",
-   "database": "bulletinboard",
+   "database": "bulletinboard2",
    "synchronize": true,
    "logging": false,
    "entities": [
-      "${__dirname}/**/*.entity"
+      "build/app/orm/entities/*.js"
    ],
    "migrations": [
-      "src/migration/**/*.js"
+      "build/app/orm/migration/**/*.js"
    ],
    "subscribers": [
-      "src/subscriber/**/*.js"
+      "build/app/orm/subscriber/**/*.js"
    ],
    "cli": {
-      "entitiesDir": "app/orm",
-      "migrationsDir": "orm/migration",
-      "subscribersDir": "orm/subscriber"
+      "entitiesDir": "build/app/orm/entities",
+      "migrationsDir": "build/app/orm/migration",
+      "subscribersDir": "build/app/orm/subscriber"
    }
 }

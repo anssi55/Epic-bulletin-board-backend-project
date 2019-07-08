@@ -26,19 +26,7 @@ class App {
     }
     //Making connection to database
     private makeConnection():void {
-        createConnection({
-            type: "mysql",
-            host: "localhost",
-            port: 3306,
-            username: "newuser",
-            password: "password",
-            database: "bulletinboard2",
-            entities: [
-                Posts, Users, Categories
-            ],
-            synchronize: true,
-            logging: false}).then(async connection => {
-               
+        createConnection().then(async connection => {
                 this.app.use('/', Index.router);
                 this.app.listen(3000);
                 console.log("Server running on: http://localhost:" + 3000 + "/");

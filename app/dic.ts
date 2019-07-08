@@ -9,8 +9,8 @@ const container = awilix.createContainer({
 })
 
 container.register({
-    postsController: awilix.asClass(PostsRouter),
-    Posts: awilix.asClass(Posts)
+  postsController: awilix.asClass(PostsRouter),
+  Posts: awilix.asClass(Posts)
 })
 
 export default container

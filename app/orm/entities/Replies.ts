@@ -1,5 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne} from 'typeorm';
 import {validate, Contains, IsOptional, IsInt, Length, IsDate, Min, Max, MinLength, MaxLength, IsBoolean, IsString, IsIn} from "class-validator";
+import { Users } from './Users';
 
 @Entity()
 export class Replies {
@@ -21,8 +22,8 @@ export class Replies {
     @Column()
     datetime: Date;
 
-    @IsOptional()
     @IsInt()
-    @Column()
-    userId: number;
+    @OneToOne(type => Users)
+    @JoinColumn()
+    users: Users;
 }
