@@ -1,0 +1,24 @@
+{
+   "type": "mysql",
+   "host": "localhost",
+   "port": 3306,
+   "username": "newuser",
+   "password": "password",
+   "database": "bulletinboard2",
+   "synchronize": true,
+   "logging": false,
+   "entities": [
+      "build/orm/entities/*.js"
+   ],
+   "migrations": [
+      "build/orm/migration/**/*.js"
+   ],
+   "subscribers": [
+      "build/orm/subscriber/**/*.js"
+   ],
+   "cli": {
+      "entitiesDir": "build/orm/entities",
+      "migrationsDir": "build/orm/migration",
+      "subscribersDir": "build/orm/subscriber"
+   }
+}

@@ -29,12 +29,12 @@ export class Index {
     //Routing all the addresses to right path
     init() {
         this.router.get('/', this.rootPath);
-        this.router.all('/api/v1/posts', PostsRouter);
-       // this.router.all('/api/v1/categories', categoriesRouter);
-       // this.router.all('/api/v1/replies', repliesRouter);
-       // this.router.all('/api/v1/auth', authRouter);
-       // this.router.all('/api/v1/users', usersRouter);
-       this.router.all('*', this.notFound);
+        this.router.use('/api/v1/posts', PostsRouter);
+       // this.router.use('/api/v1/categories', categoriesRouter);
+       // this.router.use('/api/v1/replies', repliesRouter);
+       // this.router.use('/api/v1/auth', authRouter);
+       // this.router.use('/api/v1/users', usersRouter);
+        this.router.all('*', this.notFound);
     }
 }
 const index = new Index();

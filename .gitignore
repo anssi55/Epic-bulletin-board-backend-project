@@ -1,4 +1,8 @@
 # Untracked files
-
+.idea/
+.vscode/
 node_modules/
 build/
+tmp/
+temp/
+.circleci/

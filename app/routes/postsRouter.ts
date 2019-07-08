@@ -1,5 +1,11 @@
 'use strict';
 import {Router, Request, Response, NextFunction, response} from 'express';
+import {Posts} from "../orm/entities/Posts";
+import {getRepository} from "typeorm";
+
+
+
+
 
 export class PostsRouter {
     router: Router
@@ -9,14 +15,39 @@ export class PostsRouter {
         this.init();
     }
 
-    public getAll(req: Request, res: Response, next: NextFunction) {
-        res.send("Nothing");
+    public async getAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            let results = await getRepository(Posts).find();
+            res.status(200).send(results);
+        } catch(error) {
+            res.status(400).send({"message": "Couldn't get the data",
+        "Error": error});
+         
+        }
+        
     }
     public getOne(req: Request, res: Response, next: NextFunction) {
         res.send("Nothing");
     }
     public create(req: Request, res: Response, next: NextFunction) {
-        res.send("Nothing");
+        try {  
+        let post = new Posts();
+        post.topic = req.body.topic;
+        post.post = req.body.post;
+        post.datetime = new Date(Date.now());
+        post.categories = req.body.categoriesId;
+        let catalogRepository = getRepository(Posts);
+        catalogRepository.save(post);
+        res.send(post);
+        
+        } catch(error) {
+            res.status(400).send({"message": "Couldn't save the data"});
+     
+        }
+        
+        
+            
+        
     }
     public update(req: Request, res: Response, next: NextFunction) {
         res.send("Nothing");
@@ -32,6 +63,8 @@ export class PostsRouter {
         this.router.put('/:id', this.update);
     }
 }
+
+
 
 const postsRouter = new PostsRouter();
 postsRouter.init();
