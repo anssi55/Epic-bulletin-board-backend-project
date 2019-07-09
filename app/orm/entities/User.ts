@@ -1,5 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
-import { IsInt, IsString, Min, MinLength, MaxLength, IsEmail } from 'class-validator';
+import { IsInt, IsString, MinLength, MaxLength, IsEmail } from 'class-validator';
 import { Reply } from './Reply';
 import { Post } from './Post';
 import { LikeOnPost as LikeOnPost } from './LikeOnPost';

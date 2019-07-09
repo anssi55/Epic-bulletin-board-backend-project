@@ -1,9 +1,7 @@
-import app from '../app/app';
-import * as mocha from 'mocha';
+import { App } from '../app/app';
+import postExamples from './testJson/postsExamples.json';
 let chai = require("chai");
 import chaiHttp = require('chai-http');
-import postExamples from './testJson/postsExamples.json';
-const awilix = require('awilix')
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -25,7 +23,7 @@ describe('GET api/v1/posts', function()  {
 describe('POST api/v1/posts', function()  {
   
   it('responds with JSON array', async function()  {
-    return await chai.request(app).post('/posts')
+    return await chai.request(App).post('/posts')
     .set('content-type', 'application/json')
     .send(postExamples.tests[0])
       .then(res => {
@@ -35,7 +33,7 @@ describe('POST api/v1/posts', function()  {
   });
 
   it('Bad request: It should return 400 error', function()  {
-    return chai.request(app).post('/posts')
+    return chai.request(App).post('/posts')
     .set('content-type', 'application/json')
     .send(postExamples.tests[1])
       .then(res => {
@@ -47,7 +45,7 @@ describe('POST api/v1/posts', function()  {
   describe('PUT api/v1/posts', function() {
   
     it('responds with JSON array', async function()  {
-      return await chai.request(app).put('/posts/1')
+      return await chai.request(App).put('/posts/1')
       .set('content-type', 'application/json')
       .send(postExamples.tests[0])
         .then(res => {
@@ -60,7 +58,7 @@ describe('POST api/v1/posts', function()  {
   describe('DELETE api/v1/posts', function() {
   
     it('responds with JSON array', async function()  {
-      return await chai.request(app).delete('/posts/1')
+      return await chai.request(App).delete('/posts/1')
       .set('content-type', 'application/json')
       .send(postExamples.tests[0])
         .then(res => {

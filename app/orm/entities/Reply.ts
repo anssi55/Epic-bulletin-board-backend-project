@@ -1,8 +1,8 @@
-import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, ManyToMany, JoinTable, ManyToOne, OneToMany} from 'typeorm';
-import {validate, Contains, IsOptional, IsInt, Length, IsDate, Min, Max, MinLength, MaxLength, IsBoolean, IsString, IsIn} from "class-validator";
-import { User } from './User';
-import { Post } from './Post';
+import { IsDate, IsInt, IsString, MaxLength, MinLength } from "class-validator";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { LikeOnReply } from './LikeOnReply';
+import { Post } from './Post';
+import { User } from './User';
 
 @Entity()
 export class Reply {

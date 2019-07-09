@@ -4,9 +4,6 @@ import {Post} from "../orm/entities/Post";
 import {getRepository} from "typeorm";
 import {validate, IsInt, ValidationError} from "class-validator";
 import ErrorHandler from '../middleware/errorhandler';
-const awilix = require('awilix');
-
-
 
 
 //Router to route /posts-route
@@ -78,13 +75,7 @@ class PostsRouter {
         res.send("Nothing");
     }
     
-    init() {
-        this.router.get('/api/v1/posts', this.getAll);
-        this.router.get('/:id', this.getOne);
-        this.router.post('/', this.create);
-        this.router.delete('/:id', this.delete);
-        this.router.put('/:id', this.update);
-    }
+    
 }
 
 

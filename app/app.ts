@@ -4,13 +4,9 @@ import Index from './routes/index';
 import express = require("express");
 import * as bodyParser from "body-parser";
 import cors = require('cors');
-import { Post } from "./orm/entities/Post";
-import { Category } from "./orm/entities/Category";
-import { User } from "./orm/entities/User";
 
 
-
-class App {
+export class App {
     public app: express.Application;
     
 

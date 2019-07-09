@@ -3,15 +3,10 @@ import {Router, Request, Response, NextFunction} from 'express';
 import {Category} from "../orm/entities/Category";
 import {getRepository} from "typeorm";
 import {validate} from "class-validator";
-const awilix = require('awilix');
 
-
-const container = awilix.createContainer({
-  injectionMode: awilix.InjectionMode.PROXY
-})
 
 //Router to handle all category REST-api calls
-export class CategoriesRouter {
+class CategoriesRouter {
     router: Router
 
     constructor() {
@@ -77,10 +72,7 @@ export class CategoriesRouter {
     }
 }
 
-container.register({
-    CategoriesController: awilix.asClass(CategoriesRouter),
-    Categories: awilix.asClass(Category)
-})
+
 
 const categoriesRouter = new CategoriesRouter();
 categoriesRouter.init();

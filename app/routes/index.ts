@@ -45,7 +45,6 @@ export class Index {
     
     //Routing all the addresses to right path
     init() {
-        container.resolve<PostsRouter>('postsController');
         this.router.get('/', this.rootPath);
         this.routePosts();
         this.router.use('/api/v1/categories', categoriesRouter);
