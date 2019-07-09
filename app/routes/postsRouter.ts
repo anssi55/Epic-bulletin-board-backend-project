@@ -1,6 +1,6 @@
 'use strict';
 import {Router, Request, Response, NextFunction} from 'express';
-import {Posts} from "../orm/entities/Posts";
+import {Post} from "../orm/entities/Post";
 import {getRepository} from "typeorm";
 import {validate, IsInt, ValidationError} from "class-validator";
 import ErrorHandler from '../middleware/errorhandler';
@@ -22,7 +22,7 @@ class PostsRouter {
     //get all posts from database
     public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            let results = await getRepository(Posts).find();
+            let results = await getRepository(Post).find();
             res.status(200).send(results);
         } catch(error) {
             res.status(400).send({"message": "Couldn't get the data",
@@ -40,12 +40,11 @@ class PostsRouter {
         let ehandler = new ErrorHandler();
         let errors;
         try {  
-            let post = new Posts();
+            let post = new Post();
             post.topic = req.body.topic;
             post.post = req.body.post;
             post.datetime = new Date(Date.now());
             post.categories = req.body.categoryId;
-            post.users = req.body.userId;
             post.pinned = req.body.pinned;
             
             let validateErrors: ValidationError[] = await validate(post);
@@ -54,7 +53,7 @@ class PostsRouter {
                 errors = ehandler.handleValidationErrors(validateErrors);
                 throw 400;
             }
-            let postRepository = getRepository(Posts);
+            let postRepository = getRepository(Post);
             let sqlErrors = await postRepository.save(post);
             
             res.status(200).send(post);

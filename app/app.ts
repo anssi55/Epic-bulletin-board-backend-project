@@ -4,9 +4,9 @@ import Index from './routes/index';
 import express = require("express");
 import * as bodyParser from "body-parser";
 import cors = require('cors');
-import { Posts } from "./orm/entities/Posts";
-import { Categories } from "./orm/entities/Categories";
-import { Users } from "./orm/entities/Users";
+import { Post } from "./orm/entities/Post";
+import { Category } from "./orm/entities/Category";
+import { User } from "./orm/entities/User";
 
 
 

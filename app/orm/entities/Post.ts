@@ -1,10 +1,12 @@
-import {OneToOne, JoinColumn, Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
-import { Categories } from './Categories';
-import { Users } from './Users';
-import {validate, Contains, IsOptional, IsInt, Length, IsDate, Min, Max, MinLength, MaxLength, IsBoolean, IsString} from "class-validator";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from 'typeorm';
+import { Category } from './Category';
+import { User } from './User';
+import {IsOptional, IsInt, IsDate, MinLength, MaxLength, IsBoolean, IsString} from "class-validator";
+import { Reply } from './Reply';
+import { LikeOnPost } from './LikeOnPost';
 
 @Entity()
-export class Posts {
+export class Post {
     @IsOptional()
     @IsInt()
     @PrimaryGeneratedColumn()
@@ -40,17 +42,20 @@ export class Posts {
     @Column()
     pinned: Boolean;
     
-    @IsOptional()
-    @IsInt()
-    @OneToOne(type => Users)
-    @JoinColumn()
-    users: Users;
+    @ManyToOne(type => User, user => user.replies)
+    user: User;
 
     @IsInt( {
         message: "Category must be an integer number"
     })
-    @OneToOne(type => Categories)
-    @JoinColumn()
-    categories: Categories;
+    @ManyToOne(type => Category, categories => categories.posts)
+    categories: Category;
+
+    @OneToMany(type => Reply, replies => replies.post)
+    replies: Reply[];
+
+    @OneToMany(type => LikeOnPost, likesonposts => likesonposts.post)
+    likes: LikeOnPost[];
+
 
 }

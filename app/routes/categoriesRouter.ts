@@ -1,6 +1,6 @@
 'use strict';
 import {Router, Request, Response, NextFunction} from 'express';
-import {Categories} from "../orm/entities/Categories";
+import {Category} from "../orm/entities/Category";
 import {getRepository} from "typeorm";
 import {validate} from "class-validator";
 const awilix = require('awilix');
@@ -22,7 +22,7 @@ export class CategoriesRouter {
     //Get all categories from the database
     public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            let results = await getRepository(Categories).find();
+            let results = await getRepository(Category).find();
             res.status(200).send(results);
         } catch(error) {
             res.status(400).send({"message": "Couldn't get the data"});
@@ -38,14 +38,14 @@ export class CategoriesRouter {
     public async create(req: Request, res: Response, next: NextFunction) {
         let validateErrors;
         try {  
-            let category = new Categories();
+            let category = new Category();
             category.name = req.body.name;
             category.description = req.body.description;
             validateErrors = await validate(category);
             if(validateErrors.length > 0) {
                 throw 400;
             }
-            let categoryRepository = getRepository(Categories);
+            let categoryRepository = getRepository(Category);
             let sqlErrors = await categoryRepository.save(category);
             console.log(sqlErrors);
             res.status(200).send(category);
@@ -79,7 +79,7 @@ export class CategoriesRouter {
 
 container.register({
     CategoriesController: awilix.asClass(CategoriesRouter),
-    Categories: awilix.asClass(Categories)
+    Categories: awilix.asClass(Category)
 })
 
 const categoriesRouter = new CategoriesRouter();

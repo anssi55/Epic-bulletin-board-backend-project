@@ -1,8 +1,9 @@
-import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
 import {IsInt, Length, MinLength, MaxLength} from "class-validator";
+import { Post } from './Post';
 
 @Entity()
-export class Categories {
+export class Category {
     @Length(1, 11)
     @IsInt()
     @PrimaryGeneratedColumn()
@@ -26,4 +27,6 @@ export class Categories {
     @Column()
     description: string;
 
+    @OneToMany(type => Post, post => post.categories)
+    posts: Post[];
 }

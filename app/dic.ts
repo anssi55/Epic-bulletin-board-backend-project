@@ -1,5 +1,5 @@
 import PostsRouter from "./routes/postsRouter";
-import { Posts } from "./orm/entities/Posts";
+import { Post } from "./orm/entities/Post";
 
 import awilix = require('awilix');
 
@@ -10,7 +10,7 @@ const container = awilix.createContainer({
 
 container.register({
   postsController: awilix.asClass(PostsRouter),
-  Posts: awilix.asClass(Posts)
+  Posts: awilix.asClass(Post)
 })
 
 export default container
