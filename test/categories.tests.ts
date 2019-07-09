@@ -1,4 +1,4 @@
-import app from '../app/app';
+import {App} from '../app/app';
 import * as mocha from 'mocha';
 let chai = require("chai");
 import chaiHttp = require('chai-http');
@@ -25,7 +25,7 @@ describe('GET api/v1/categories', function()  {
 describe('POST api/v1/categories', function()  {
   
   it('responds with JSON array', async function()  {
-    return await chai.request(app).post('/categories')
+    return await chai.request(App).post('/categories')
     .set('content-type', 'application/json')
     .send(examples.tests[0])
       .then(res => {
@@ -35,7 +35,7 @@ describe('POST api/v1/categories', function()  {
   });
 
   it('Bad request: It should return 400 error', function()  {
-    return chai.request(app).post('/categories')
+    return chai.request(App).post('/categories')
     .set('content-type', 'application/categories')
     .send(examples.tests[1])
       .then(res => {
@@ -47,7 +47,7 @@ describe('POST api/v1/categories', function()  {
   describe('PUT api/v1/posts', function() {
   
     it('responds with JSON array', async function()  {
-      return await chai.request(app).put('/categories/1')
+      return await chai.request(App).put('/categories/1')
       .set('content-type', 'application/json')
       .send(examples.tests[0])
         .then(res => {
@@ -60,7 +60,7 @@ describe('POST api/v1/categories', function()  {
   describe('DELETE api/v1/posts', function() {
   
     it('responds with JSON array', async function()  {
-      return await chai.request(app).delete('/categories/1')
+      return await chai.request(App).delete('/categories/1')
       .set('content-type', 'application/json')
       .send(examples.tests[0])
         .then(res => {
