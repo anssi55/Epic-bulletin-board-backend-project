@@ -45,4 +45,3 @@ app.init();
 
 
 
-export default new App();
