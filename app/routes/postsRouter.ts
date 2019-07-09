@@ -1,9 +1,9 @@
 'use strict';
-import {Router, Request, Response, NextFunction} from 'express';
-import {Post} from "../orm/entities/Post";
-import {getRepository} from "typeorm";
-import {validate, IsInt, ValidationError} from "class-validator";
+import { validate, ValidationError } from "class-validator";
+import { NextFunction, Request, Response } from 'express';
+import { getRepository } from "typeorm";
 import ErrorHandler from '../middleware/errorhandler';
+import { Post } from "../orm/entities/Post";
 
 
 //Router to route /posts-route
