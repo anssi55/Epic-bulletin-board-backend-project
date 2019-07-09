@@ -8,13 +8,7 @@ import ErrorHandler from '../middleware/errorhandler';
 
 //Router to route /posts-route
 class PostsRouter {
-    router: Router
-    
 
-    constructor() {
-        this.router = Router();
-        
-    }
 
     //get all posts from database
     public async getAll(req: Request, res: Response, next: NextFunction) {
@@ -51,7 +45,7 @@ class PostsRouter {
                 throw 400;
             }
             let postRepository = getRepository(Post);
-            let sqlErrors = await postRepository.save(post);
+            await postRepository.save(post);
             
             res.status(200).send(post);
         } catch(error) {
