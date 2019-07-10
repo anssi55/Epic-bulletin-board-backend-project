@@ -1,0 +1,21 @@
+{
+    "tests": [
+        {
+        "pass": { 
+            "topic": "I like chocolate bunnies",
+            "post": "I like those bunnies because it's like eating a really bunny!",
+            "pinned": false,
+            "category": "1"
+
+        }
+    },
+    {
+        "fail": {
+            "topic": "I like chocolate bunnies",
+            "post": "I like those bunnies because it's like eating a really bunny!",
+            "pinned": "false",
+            "category": "1"
+        }
+    }
+    ]
+}

@@ -1,19 +1,43 @@
 'use strict'
-import {createConnection} from "typeorm";
+import {createConnection, getConnection} from "typeorm";
 import Index from './routes/index';
+import express = require("express");
+import * as bodyParser from "body-parser";
+import cors = require('cors');
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const app = express();
 
-createConnection().then(connection => {
-    app.use(cors());
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
+export class App {
+    public app: express.Application;
+    
 
-    app.use('/', Index);
+    constructor() {
+        this.app = express();
+        this.middleware();
+    }
+    //Adding middleware to app
+    private middleware(): void {
+        this.app.use(cors());
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(bodyParser.json());
+    }
+    //Making connection to database
+    private makeConnection():void {
+        createConnection().then(async connection => {
+                this.app.use('/', Index.router);
+                this.app.listen(3000);
+                console.log("Server running on: http://localhost:" + 3000 + "/");
+        }).catch(error => console.log(error));
+    }
 
-    app.listen(3000);
-    console.log("Server running on: http://localhost:" + 3000 + "/");
-}).catch(error => console.log(error));
+    
+
+    init() {
+        this.makeConnection();
+    }
+
+}
+const app = new App();
+app.init();
+
+
+

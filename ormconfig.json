@@ -8,17 +8,17 @@
    "synchronize": true,
    "logging": false,
    "entities": [
-      "build/orm/entities/*.js"
+      "build/app/orm/entities/*.js"
    ],
    "migrations": [
-      "build/orm/migration/**/*.js"
+      "build/app/orm/migration/**/*.js"
    ],
    "subscribers": [
-      "build/orm/subscriber/**/*.js"
+      "build/app/orm/subscriber/**/*.js"
    ],
    "cli": {
-      "entitiesDir": "build/orm/entities",
-      "migrationsDir": "build/orm/migration",
-      "subscribersDir": "build/orm/subscriber"
+      "entitiesDir": "build/app/orm/entities",
+      "migrationsDir": "build/app/orm/migration",
+      "subscribersDir": "build/app/orm/subscriber"
    }
 }
