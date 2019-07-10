@@ -25,20 +25,20 @@ export class Reply {
     datetime: Date;
 
     
-    @ManyToOne(type => User, users => users.replies)
+    @ManyToOne(type => User, user => user.replies)
     user: User;
 
     
-    @ManyToMany(type => Reply, replies => replies.replyto)
+    @ManyToMany(type => Reply, reply => reply.replyto)
     @JoinTable()
     replyto: Reply[];
 
     
 
-    @ManyToOne(type => Post, posts => posts.replies)
+    @ManyToOne(type => Post, post => post.replies)
     post: Post;
 
-    @OneToMany(type => LikeOnReply, likesonreplies => likesonreplies.reply)
+    @OneToMany(type => LikeOnReply, likeonreply => likeonreply.reply)
     likes: LikeOnReply[];
 
 }

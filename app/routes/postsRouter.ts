@@ -7,27 +7,27 @@ import { Post } from '../orm/entities/Post';
 
 //Router to route /posts-route
 class PostsRouter {
-    private postRepo: Repository<Post>
+  private postRepo: Repository<Post>;
   constructor(opts) {
     this.postRepo = opts.postRepo;
   }
 
   //get all posts from database
-  public getAll = async(req: Request, res: Response, next: NextFunction) => {
+  public getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let results = await this.postRepo.find();
       res.status(200).send(results);
     } catch (error) {
-        console.log(error);
+      console.log(error);
       res.status(400).send({ message: "Couldn't get the data", Error: error });
     }
-  }
+  };
   //get specific post from database
   public getOne(req: Request, res: Response, next: NextFunction) {
     res.send('Nothing');
   }
   //Add new post to database
-  public async create(req: Request, res: Response, next: NextFunction) {
+  public create = async(req: Request, res: Response, next: NextFunction) => {
     let ehandler = new ErrorHandler();
     let errors;
     try {
@@ -35,7 +35,7 @@ class PostsRouter {
       post.topic = req.body.topic;
       post.post = req.body.post;
       post.datetime = new Date(Date.now());
-      post.categories = req.body.categoryId;
+      post.category = req.body.categoryId;
       post.pinned = req.body.pinned;
 
       let validateErrors: ValidationError[] = await validate(post);
@@ -55,7 +55,7 @@ class PostsRouter {
         res.status(400).send({ message: "Couldn't save the data", Error: error.message });
       }
     }
-  }
+  };
   //Modify a post in database
   public update(req: Request, res: Response, next: NextFunction) {
     res.send('Nothing');

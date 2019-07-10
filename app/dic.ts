@@ -5,6 +5,7 @@ import awilix = require('awilix');
 import { createConnection } from 'typeorm';
 import { App } from './app';
 import { Index } from './routes';
+import { QueryValidator } from './middleware/queryValidator';
 
 const container = awilix.createContainer({
   injectionMode: awilix.InjectionMode.PROXY
@@ -14,9 +15,10 @@ export function configcontainer() {
   return createConnection().then(async connection => {
     container.register({
       postRepo: awilix.asValue(connection.getRepository(Post)),
-      postsController: awilix.asClass(PostsRouter),
+      postsRouter: awilix.asClass(PostsRouter),
       app: awilix.asClass(App),
-      index: awilix.asClass(Index)
+      index: awilix.asClass(Index),
+      queryValidator: awilix.asClass(QueryValidator)
     });
     return container;
   });

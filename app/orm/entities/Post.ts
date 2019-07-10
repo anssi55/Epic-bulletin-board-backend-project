@@ -13,7 +13,7 @@ export class Post {
     id: number;
     
     @IsString()
-    @MinLength(10, {
+    @MinLength(5, {
         message: "Topic is too short"
     })
     @MaxLength(50, {
@@ -48,10 +48,10 @@ export class Post {
     @IsInt( {
         message: "Category must be an integer number"
     })
-    @ManyToOne(type => Category, categories => categories.posts)
-    categories: Category;
+    @ManyToOne(type => Category, category => category.posts)
+    category: Category;
 
-    @OneToMany(type => Reply, replies => replies.post)
+    @OneToMany(type => Reply, reply => reply.post)
     replies: Reply[];
 
     @OneToMany(type => LikeOnPost, likesonposts => likesonposts.post)
