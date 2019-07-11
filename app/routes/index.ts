@@ -1,30 +1,28 @@
-'use strict';
 import { Router, Request, Response, NextFunction } from 'express';
 //TODO. Routers not ready yet
 //import authRouter from './authRouter';
 //import repliesRouter from './repliesRouter';
 //import userRouter from './userRouter';
-import categoriesRouter from './categoriesRouter';
-import PostsRouter from './postsRouter';
-import { QueryValidator } from '../middleware/Queryvalidator';
+import categoriesRouter from './categoryRouter';
+import PostRouter from './postRouter';
+import QueryValidator from '../middleware/queryvalidator';
 import { Category } from '../orm/entities/Category';
 import { validate, ValidationError } from 'class-validator';
 import { Post } from '../orm/entities/Post';
 import ErrorHandler from '../middleware/errorhandler';
 
-
 // class to route all the REST-api paths
 
 export class Index {
   router: Router;
-  postsRouter: PostsRouter;
+  postsRouter: PostRouter;
   validator: QueryValidator;
-  
+
   constructor(opts) {
     this.postsRouter = opts.postsRouter;
+    this.validator = opts.queryValidator;
     this.router = Router();
     this.init();
-    this.validator = opts.queryValidator;
   }
 
   // Root path response
@@ -37,41 +35,14 @@ export class Index {
     res.status(404).send({ message: 'Path not found' });
   }
   public routePosts() {
-    this.router
-      .post('/api/v1/posts', [this.createPost], this.postsRouter.create);
-      //.get(this.postsRouter.getAll)
-     
+    this.router.post('/api/v1/posts', [this.validator.createPost], this.postsRouter.create);
+    //.get(this.postsRouter.getAll)
+
     this.router
       .route('/api/v1/posts/:id')
       .get(this.postsRouter.getOne)
       .put(this.postsRouter.update)
       .delete(this.postsRouter.delete);
-  }
-
-  public  createPost = async(req: Request, res: Response, next: NextFunction) =>{
-    let ehandler = new ErrorHandler();
-    let errors;
-    let post = new Post();
-    post.id = req.body.id;
-    post.topic = req.body.topic;
-    post.post = req.body.post;
-    post.pinned = req.body.pinned;
-    post.category = req.body.category;
-
-    try {
-      let validateErrors: ValidationError[] = await validate(post);
-
-      if (validateErrors.length > 0) {
-        errors = ehandler.handleValidationErrors(validateErrors);
-        throw 400;
-      } 
-      next();
-      
-      
-    } catch {
-     
-      res.status(400).send(errors);
-    }
   }
 
   //Routing all the addresses to right path

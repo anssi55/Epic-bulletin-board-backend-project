@@ -8,10 +8,10 @@ import { LikeOnPost } from '../orm/entities/LikeOnPost';
 import { LikeOnReply } from '../orm/entities/LikeOnReply';
 import ErrorHandler from './errorhandler';
 
-export class QueryValidator {
+class QueryValidator {
   ehandler: ErrorHandler;
-  constructor() {
-    this.ehandler = new ErrorHandler();
+  constructor(opts) {
+    this.ehandler = opts.errorhandler;
   }
 
   public createPost = async (req: Request, res: Response, next: NextFunction) => {
@@ -139,3 +139,4 @@ export class QueryValidator {
     }
   };
 }
+export default QueryValidator;

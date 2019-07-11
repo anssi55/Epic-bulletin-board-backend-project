@@ -1,61 +1,72 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { Category } from './Category';
 import { User } from './User';
-import {IsOptional, IsInt, IsDate, MinLength, MaxLength, IsBoolean, IsString} from "class-validator";
+import {
+  IsOptional,
+  IsInt,
+  IsDate,
+  MinLength,
+  MaxLength,
+  IsBoolean,
+  IsString
+} from 'class-validator';
 import { Reply } from './Reply';
 import { LikeOnPost } from './LikeOnPost';
 
 @Entity()
 export class Post {
-    @IsOptional()
-    @IsInt()
-    @PrimaryGeneratedColumn()
-    id: number;
-    
-    @IsString()
-    @MinLength(5, {
-        message: "Topic is too short"
-    })
-    @MaxLength(50, {
-        message: "Topic is too long"
-    })
-    @Column()
-    topic: string;
-    
-    @IsString()
-    @MinLength(10, {
-        message: "Post is too short, min: 10"
-    })
-    @MaxLength(255, {
-        message: "Post is too long, max: 255"
-    })
-    @Column()
-    post: string;
-    
-    @IsDate( {
-        message: "Invalid date"
-    })
-    @Column()
-    datetime: Date;
+  @IsOptional()
+  @IsInt()
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @IsBoolean()
-    @Column()
-    pinned: Boolean;
-    
-    @ManyToOne(type => User, user => user.replies)
-    user: User;
+  @IsString()
+  @MinLength(5, {
+    message: 'Topic is too short'
+  })
+  @MaxLength(50, {
+    message: 'Topic is too long'
+  })
+  @Column()
+  topic: string;
 
-    @IsInt( {
-        message: "Category must be an integer number"
-    })
-    @ManyToOne(type => Category, category => category.posts)
-    category: Category;
+  @IsString()
+  @MinLength(10, {
+    message: 'Post is too short, min: 10'
+  })
+  @MaxLength(255, {
+    message: 'Post is too long, max: 255'
+  })
+  @Column()
+  post: string;
+  @IsOptional()
+  @IsDate({
+    message: 'Invalid date'
+  })
+  @IsOptional()
+  @Column()
+  datetime: Date;
 
-    @OneToMany(type => Reply, reply => reply.post)
-    replies: Reply[];
+  @IsBoolean()
+  @Column()
+  pinned: Boolean;
 
-    @OneToMany(type => LikeOnPost, likesonposts => likesonposts.post)
-    likes: LikeOnPost[];
+  @IsDate()
+  @Column()
+  modified: Date;
 
+  @ManyToOne(type => User, user => user.replies)
+  user: User;
 
+  @IsInt({
+    message: 'Category must be an integer number'
+  })
+  @ManyToOne(type => Category, category => category.posts)
+  category: Category;
+
+  @OneToMany(type => Reply, reply => reply.post)
+  replies: Reply[];
+
+  @OneToMany(type => LikeOnPost, likesonposts => likesonposts.post)
+  likes: LikeOnPost[];
 }
