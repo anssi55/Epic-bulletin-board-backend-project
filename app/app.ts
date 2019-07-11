@@ -1,43 +1,38 @@
-'use strict'
-import {createConnection, getConnection} from "typeorm";
-import Index from './routes/index';
-import express = require("express");
-import * as bodyParser from "body-parser";
-import cors = require('cors');
+import Index from './routes/Index';
+import express = require('express');
+import * as bodyParser from 'body-parser';
+import cors from 'cors';
+import { Dependencies } from './Types';
 
+class App {
+  public app: express.Application;
+  private index: Index;
+  constructor(opts: Dependencies) {
+    this.index = opts.index;
 
-export class App {
-    public app: express.Application;
-    
+    this.app = express();
+  }
+  //Adding middleware to app
+  private middleware(): void {
+    this.app.use(cors());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(bodyParser.json());
+  }
+  private routes(): void {
+    this.index.init();
+    this.app.use('/', this.index.router);
+  }
 
-    constructor() {
-        this.app = express();
-        this.middleware();
-    }
-    //Adding middleware to app
-    private middleware(): void {
-        this.app.use(cors());
-        this.app.use(bodyParser.urlencoded({ extended: true }));
-        this.app.use(bodyParser.json());
-    }
-    //Making connection to database
-    private makeConnection():void {
-        createConnection().then(async connection => {
-                this.app.use('/', Index.router);
-                this.app.listen(3000);
-                console.log("Server running on: http://localhost:" + 3000 + "/");
-        }).catch(error => console.log(error));
-    }
+  private startServer(): void {
+    this.app.listen(3000, function() {
+      console.log('Server running on: http://localhost:' + 3000 + '/');
+    });
+  }
 
-    
-
-    init() {
-        this.makeConnection();
-    }
-
+  init() {
+    this.middleware();
+    this.routes();
+    this.startServer();
+  }
 }
-const app = new App();
-app.init();
-
-
-
+export default App;

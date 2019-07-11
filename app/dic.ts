@@ -1,16 +1,23 @@
-import PostsRouter from "./routes/postsRouter";
-import { Post } from "./orm/entities/Post";
+import PostsRouter from './routes/PostsRouter';
+import Post from './orm/entities/Post';
 
 import awilix = require('awilix');
-
+import { createConnection } from 'typeorm';
+import App from './App';
+import Index from './routes/Index';
 
 const container = awilix.createContainer({
   injectionMode: awilix.InjectionMode.PROXY
-})
+});
 
-container.register({
-  postsController: awilix.asClass(PostsRouter),
-  Posts: awilix.asClass(Post)
-})
-
-export default container
+export function configcontainer() {
+  return createConnection().then(connection => {
+    container.register({
+      postRepo: awilix.asValue(connection.getRepository(Post)),
+      postsController: awilix.asClass(PostsRouter),
+      app: awilix.asClass(App),
+      index: awilix.asClass(Index)
+    });
+    return container;
+  });
+}
