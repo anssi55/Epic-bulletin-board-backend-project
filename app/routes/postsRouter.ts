@@ -3,25 +3,26 @@ import { validate, ValidationError } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 import { Repository } from 'typeorm';
 import ErrorHandler from '../middleware/errorhandler';
-import { Post } from '../orm/entities/Post';
+import Post from '../orm/entities/Post';
+import { Dependencies } from '../Types';
 
 //Router to route /posts-route
 class PostsRouter {
-    private postRepo: Repository<Post>
-  constructor(opts) {
+  private postRepo: Repository<Post>;
+  constructor(opts: Dependencies) {
     this.postRepo = opts.postRepo;
   }
 
   //get all posts from database
-  public getAll = async(req: Request, res: Response, next: NextFunction) => {
+  public getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let results = await this.postRepo.find();
       res.status(200).send(results);
     } catch (error) {
-        console.log(error);
+      console.log(error);
       res.status(400).send({ message: "Couldn't get the data", Error: error });
     }
-  }
+  };
   //get specific post from database
   public getOne(req: Request, res: Response, next: NextFunction) {
     res.send('Nothing');

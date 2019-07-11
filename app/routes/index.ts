@@ -4,15 +4,16 @@ import { Router, Request, Response, NextFunction } from 'express';
 //import authRouter from './authRouter';
 //import repliesRouter from './repliesRouter';
 //import userRouter from './userRouter';
-import categoriesRouter from './categoriesRouter';
-import PostsRouter from './postsRouter';
+//import CategoriesRouter from './categoriesRouter';
+import PostsRouter from './PostsRouter';
+import { Dependencies } from '../Types';
 
 // class to route all the REST-api paths
 
-export class Index {
+class Index {
   router: Router;
   postsController: PostsRouter;
-  constructor(opts) {
+  constructor(opts: Dependencies) {
     this.postsController = opts.postsController;
     this.router = Router();
     this.init();
@@ -43,10 +44,11 @@ export class Index {
   init() {
     this.router.get('/', this.rootPath);
     this.routePosts();
-    this.router.use('/api/v1/categories', categoriesRouter);
+    //this.router.use('/api/v1/categories', CategoriesRouter.);
     // this.router.use('/api/v1/replies', repliesRouter);
     // this.router.use('/api/v1/auth', authRouter);
     // this.router.use('/api/v1/users', usersRouter);
     this.router.all('*', this.notFound);
   }
 }
+export default Index;

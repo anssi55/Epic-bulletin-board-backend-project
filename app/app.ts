@@ -1,12 +1,13 @@
-import { Index } from './routes/index';
+import Index from './routes/Index';
 import express = require('express');
 import * as bodyParser from 'body-parser';
-import cors = require('cors');
+import cors from 'cors';
+import { Dependencies } from './Types';
 
-export class App {
+class App {
   public app: express.Application;
   private index: Index;
-  constructor(opts) {
+  constructor(opts: Dependencies) {
     this.index = opts.index;
 
     this.app = express();
@@ -34,3 +35,4 @@ export class App {
     this.startServer();
   }
 }
+export default App;
