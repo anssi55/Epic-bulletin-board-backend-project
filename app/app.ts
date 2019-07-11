@@ -3,6 +3,7 @@ import express = require('express');
 import * as bodyParser from 'body-parser';
 import cors = require('cors');
 
+
 export class App {
   public app: express.Application;
   private index: Index;
@@ -16,6 +17,7 @@ export class App {
     this.app.use(cors());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
+   
   }
   private routes(): void {
     this.index.init();

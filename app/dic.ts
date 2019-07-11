@@ -15,10 +15,11 @@ export function configcontainer() {
   return createConnection().then(async connection => {
     container.register({
       postRepo: awilix.asValue(connection.getRepository(Post)),
+      queryValidator: awilix.asClass(QueryValidator),
       postsRouter: awilix.asClass(PostsRouter),
       app: awilix.asClass(App),
       index: awilix.asClass(Index),
-      queryValidator: awilix.asClass(QueryValidator)
+      
     });
     return container;
   });

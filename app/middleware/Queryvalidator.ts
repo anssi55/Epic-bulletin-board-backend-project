@@ -6,9 +6,16 @@ import { User } from '../orm/entities/User';
 import { Reply } from '../orm/entities/Reply';
 import { LikeOnPost } from '../orm/entities/LikeOnPost';
 import { LikeOnReply } from '../orm/entities/LikeOnReply';
+import ErrorHandler from './errorhandler';
 
 export class QueryValidator {
-  public async createPost(req: Request, res: Response, next: NextFunction) {
+  ehandler: ErrorHandler;
+  constructor() {
+    this.ehandler = new ErrorHandler();
+  }
+
+  public createPost = async (req: Request, res: Response, next: NextFunction) => {
+    let errors;
     let post = new Post();
     post.id = req.body.id;
     post.topic = req.body.topic;
@@ -17,13 +24,18 @@ export class QueryValidator {
     post.category = req.body.category;
 
     try {
-      await validate(post);
+      let validateErrors: ValidationError[] = await validate(post);
+
+      if (validateErrors.length > 0) {
+        errors = this.ehandler.handleValidationErrors(validateErrors);
+        throw 400;
+      }
       next();
-    } catch (error) {
-      res.status(400).send(error);
+    } catch {
+      res.status(400).send(errors);
     }
-  }
-  public async id(req: Request, res: Response, next: NextFunction) {
+  };
+  public id = async (req: Request, res: Response, next: NextFunction) => {
     const validator = new Validator();
     const id = req.params.id;
     try {
@@ -31,69 +43,99 @@ export class QueryValidator {
       validator.isPositive(id);
       next();
     } catch {
-      res.status(400).send({ topic: 'Validation error', message: 'Not valid Id' });
+      res.status(400).send({ type: 'Validation error', 'invalid-param': 'Not valid Id' });
     }
-  }
-  public async createCategory(req: Request, res: Response, next: NextFunction) {
+  };
+  public createCategory = async (req: Request, res: Response, next: NextFunction) => {
+    let errors;
+
     const category = new Category();
     category.name = req.body.name;
     category.description = req.body.description;
     try {
-      await validate(category);
+      let validateErrors: ValidationError[] = await validate(category);
+
+      if (validateErrors.length > 0) {
+        errors = this.ehandler.handleValidationErrors(validateErrors);
+        throw 400;
+      }
       next();
-    } catch (error) {
-      res.status(400).send(error);
+    } catch {
+      res.status(400).send(errors);
     }
-  }
-  public async createUser(req: Request, res: Response, next: NextFunction) {
+  };
+  public createUser = async (req: Request, res: Response, next: NextFunction) => {
+    let errors;
     const user = new User();
     user.username = req.body.username;
     user.email = req.body.email;
     user.password = req.body.password;
     user.avatar = req.body.avatar;
     try {
-      await validate(user);
+      let validateErrors: ValidationError[] = await validate(user);
+
+      if (validateErrors.length > 0) {
+        errors = this.ehandler.handleValidationErrors(validateErrors);
+        throw 400;
+      }
       next();
-    } catch (error) {
-      res.status(400).send(error);
+    } catch {
+      res.status(400).send(errors);
     }
-  }
-  public async createReply(req: Request, res: Response, next: NextFunction) {
+  };
+  public createReply = async (req: Request, res: Response, next: NextFunction) => {
+    let errors;
     const reply = new Reply();
     reply.reply = req.body.reply;
     reply.post = req.body.post;
     reply.replyto = req.body.replyto;
     reply.user = req.body.user;
     try {
-      await validate(reply);
+      let validateErrors: ValidationError[] = await validate(reply);
+
+      if (validateErrors.length > 0) {
+        errors = this.ehandler.handleValidationErrors(validateErrors);
+        throw 400;
+      }
       next();
-    } catch (error) {
-      res.status(400).send(error);
+    } catch {
+      res.status(400).send(errors);
     }
-  }
-  public async createLikeonPost(req: Request, res: Response, next: NextFunction) {
+  };
+  public createLikeonPost = async (req: Request, res: Response, next: NextFunction) => {
+    let errors;
     const likeonPost = new LikeOnPost();
     likeonPost.like = req.body.like;
     likeonPost.post = req.body.post;
     likeonPost.user = req.body.user;
     try {
-      await validate(likeonPost);
+      let validateErrors: ValidationError[] = await validate(likeonPost);
+
+      if (validateErrors.length > 0) {
+        errors = this.ehandler.handleValidationErrors(validateErrors);
+        throw 400;
+      }
       next();
-    } catch (error) {
-      res.status(400).send(error);
+    } catch {
+      res.status(400).send(errors);
     }
-  }
-  public async createLikeonReply(req: Request, res: Response, next: NextFunction) {
+  };
+  public createLikeonReply = async (req: Request, res: Response, next: NextFunction) => {
+    let errors;
     const likeonReply = new LikeOnReply();
     likeonReply.like = req.body.like;
     likeonReply.reply = req.body.post;
     likeonReply.user = req.body.user;
     try {
-      await validate(likeonReply);
-      next();
-    } catch (error) {
-      res.status(400).send(error);
-    }
-  }
+      let validateErrors: ValidationError[] = await validate(likeonReply);
 
+      if (validateErrors.length > 0) {
+        errors = this.ehandler.handleValidationErrors(validateErrors);
+        throw 400;
+      }
+      next();
+    } catch {
+      res.status(400).send(errors);
+    }
+  };
 }

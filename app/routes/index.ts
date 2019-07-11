@@ -7,6 +7,10 @@ import { Router, Request, Response, NextFunction } from 'express';
 import categoriesRouter from './categoriesRouter';
 import PostsRouter from './postsRouter';
 import { QueryValidator } from '../middleware/Queryvalidator';
+import { Category } from '../orm/entities/Category';
+import { validate, ValidationError } from 'class-validator';
+import { Post } from '../orm/entities/Post';
+import ErrorHandler from '../middleware/errorhandler';
 
 
 // class to route all the REST-api paths
@@ -34,7 +38,7 @@ export class Index {
   }
   public routePosts() {
     this.router
-      .post('/api/v1/posts', this.validator.createPost, this.postsRouter.create);
+      .post('/api/v1/posts', [this.createPost], this.postsRouter.create);
       //.get(this.postsRouter.getAll)
      
     this.router
@@ -42,6 +46,32 @@ export class Index {
       .get(this.postsRouter.getOne)
       .put(this.postsRouter.update)
       .delete(this.postsRouter.delete);
+  }
+
+  public  createPost = async(req: Request, res: Response, next: NextFunction) =>{
+    let ehandler = new ErrorHandler();
+    let errors;
+    let post = new Post();
+    post.id = req.body.id;
+    post.topic = req.body.topic;
+    post.post = req.body.post;
+    post.pinned = req.body.pinned;
+    post.category = req.body.category;
+
+    try {
+      let validateErrors: ValidationError[] = await validate(post);
+
+      if (validateErrors.length > 0) {
+        errors = ehandler.handleValidationErrors(validateErrors);
+        throw 400;
+      } 
+      next();
+      
+      
+    } catch {
+     
+      res.status(400).send(errors);
+    }
   }
 
   //Routing all the addresses to right path

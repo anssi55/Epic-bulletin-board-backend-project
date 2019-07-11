@@ -42,7 +42,7 @@ class PostsRouter {
 
       if (validateErrors.length > 0) {
         errors = ehandler.handleValidationErrors(validateErrors);
-        throw 400;
+        throw 404;
       }
       let postRepository = this.postRepo;
       await postRepository.save(post);
