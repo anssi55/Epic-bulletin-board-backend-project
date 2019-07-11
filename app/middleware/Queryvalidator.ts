@@ -1,17 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
-import { Post } from '../orm/entities/Post';
 import { Validator, validate, ValidationError } from 'class-validator';
-import { Category } from '../orm/entities/Category';
-import { User } from '../orm/entities/User';
-import { Reply } from '../orm/entities/Reply';
-import { LikeOnPost } from '../orm/entities/LikeOnPost';
-import { LikeOnReply } from '../orm/entities/LikeOnReply';
+import Post from '../orm/entities/Post';
+import Category from '../orm/entities/Category';
+import User from '../orm/entities/User';
+import Reply from '../orm/entities/Reply';
+import LikeOnPost from '../orm/entities/LikeOnPost';
+import LikeOnReply from '../orm/entities/LikeOnReply';
 import ErrorHandler from './errorhandler';
+import { Dependencies } from '../Types';
 
 class QueryValidator {
-  ehandler: ErrorHandler;
-  constructor(opts) {
-    this.ehandler = opts.errorhandler;
+  private errorHandler: ErrorHandler;
+  constructor(opts: Dependencies) {
+    this.errorHandler = opts.errorHandler;
   }
 
   public createPost = async (req: Request, res: Response, next: NextFunction) => {
@@ -27,7 +28,7 @@ class QueryValidator {
       let validateErrors: ValidationError[] = await validate(post);
 
       if (validateErrors.length > 0) {
-        errors = this.ehandler.handleValidationErrors(validateErrors);
+        errors = this.errorHandler.handleValidationErrors(validateErrors);
         throw 400;
       }
       next();
@@ -56,7 +57,7 @@ class QueryValidator {
       let validateErrors: ValidationError[] = await validate(category);
 
       if (validateErrors.length > 0) {
-        errors = this.ehandler.handleValidationErrors(validateErrors);
+        errors = this.errorHandler.handleValidationErrors(validateErrors);
         throw 400;
       }
       next();
@@ -75,7 +76,7 @@ class QueryValidator {
       let validateErrors: ValidationError[] = await validate(user);
 
       if (validateErrors.length > 0) {
-        errors = this.ehandler.handleValidationErrors(validateErrors);
+        errors = this.errorHandler.handleValidationErrors(validateErrors);
         throw 400;
       }
       next();
@@ -94,7 +95,7 @@ class QueryValidator {
       let validateErrors: ValidationError[] = await validate(reply);
 
       if (validateErrors.length > 0) {
-        errors = this.ehandler.handleValidationErrors(validateErrors);
+        errors = this.errorHandler.handleValidationErrors(validateErrors);
         throw 400;
       }
       next();
@@ -112,7 +113,7 @@ class QueryValidator {
       let validateErrors: ValidationError[] = await validate(likeonPost);
 
       if (validateErrors.length > 0) {
-        errors = this.ehandler.handleValidationErrors(validateErrors);
+        errors = this.errorHandler.handleValidationErrors(validateErrors);
         throw 400;
       }
       next();
@@ -130,7 +131,7 @@ class QueryValidator {
       let validateErrors: ValidationError[] = await validate(likeonReply);
 
       if (validateErrors.length > 0) {
-        errors = this.ehandler.handleValidationErrors(validateErrors);
+        errors = this.errorHandler.handleValidationErrors(validateErrors);
         throw 400;
       }
       next();

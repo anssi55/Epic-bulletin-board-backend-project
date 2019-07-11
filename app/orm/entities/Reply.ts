@@ -8,15 +8,15 @@ import {
   OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
-import { LikeOnReply } from './LikeOnReply';
-import { Post } from './Post';
-import { User } from './User';
+import LikeOnReply from './LikeOnReply';
+import Post from './Post';
+import User from './User';
 
 @Entity()
-export class Reply {
+class Reply {
   @IsInt()
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @IsString()
   @MinLength(2, {
@@ -26,22 +26,23 @@ export class Reply {
     message: 'Topic is too long'
   })
   @Column()
-  reply: string;
+  reply!: string;
 
   @IsDate()
   @Column()
-  datetime: Date;
+  datetime!: Date;
 
   @ManyToOne(type => User, user => user.replies)
-  user: User;
+  user!: User;
 
   @ManyToMany(type => Reply, reply => reply.replyto)
   @JoinTable()
-  replyto: Reply[];
+  replyto!: Reply[];
 
   @ManyToOne(type => Post, post => post.replies)
-  post: Post;
+  post!: Post;
 
   @OneToMany(type => LikeOnReply, likeonreply => likeonreply.reply)
-  likes: LikeOnReply[];
+  likes!: LikeOnReply[];
 }
+export default Reply;

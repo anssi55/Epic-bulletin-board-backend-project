@@ -1,5 +1,5 @@
-import { configcontainer } from './dic';
-import { App } from './app';
+import { configcontainer } from './Dic';
+import App from './App';
 
 configcontainer()
   .then(function(container) {

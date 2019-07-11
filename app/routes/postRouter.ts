@@ -2,13 +2,13 @@
 import { validate, ValidationError } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 import { Repository } from 'typeorm';
-import ErrorHandler from '../middleware/errorhandler';
-import { Post } from '../orm/entities/Post';
+import Post from '../orm/entities/Post';
+import { Dependencies } from '../Types';
 
 //Router to route /posts-route
 class PostRouter {
   private postRepo: Repository<Post>;
-  constructor(opts) {
+  constructor(opts: Dependencies) {
     this.postRepo = opts.postRepo;
   }
 

@@ -1,15 +1,15 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { IsInt, IsString, MinLength, MaxLength, IsEmail } from 'class-validator';
-import { Reply } from './Reply';
-import { Post } from './Post';
-import { LikeOnPost } from './LikeOnPost';
-import { LikeOnReply } from './LikeOnReply';
+import Reply from './Reply';
+import Post from './Post';
+import LikeOnPost from './LikeOnPost';
+import LikeOnReply from './LikeOnReply';
 
 @Entity()
-export class User {
+class User {
   @IsInt()
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @IsString()
   @MinLength(3, {
@@ -19,29 +19,30 @@ export class User {
     message: 'Name is too long'
   })
   @Column()
-  username: string;
+  username!: string;
 
   @IsEmail()
   @Column()
-  email: string;
+  email!: string;
 
   @IsString()
   @Column()
-  password: string;
+  password!: string;
 
   @IsString()
   @Column()
-  avatar: string;
+  avatar!: string;
 
   @OneToMany(type => Reply, reply => reply.user)
-  replies: Reply[];
+  replies!: Reply[];
 
   @OneToMany(type => Post, post => post.user)
-  posts: Post[];
+  posts!: Post[];
 
   @OneToMany(type => LikeOnReply, likeOnReply => likeOnReply.user)
-  replylikes: LikeOnReply[];
+  replylikes!: LikeOnReply[];
 
   @OneToMany(type => LikeOnPost, like => like.user)
-  postlikes: LikeOnPost[];
+  postlikes!: LikeOnPost[];
 }
+export default User;

@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { IsInt, Length, MinLength, MaxLength } from 'class-validator';
-import { Post } from './Post';
+import Post from './Post';
 
 @Entity()
-export class Category {
+class Category {
   @Length(1, 11)
   @IsInt()
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @MinLength(2, {
     message: 'Title is too short'
@@ -16,7 +16,7 @@ export class Category {
     message: 'Title is too long'
   })
   @Column()
-  name: string;
+  name!: string;
 
   @MinLength(10, {
     message: 'Description is too short'
@@ -25,8 +25,9 @@ export class Category {
     message: 'Description is too long'
   })
   @Column()
-  description: string;
+  description!: string;
 
   @OneToMany(type => Post, post => post.category)
-  posts: Post[];
+  posts!: Post[];
 }
+export default Category;

@@ -1,13 +1,12 @@
-import PostRouter from './routes/postRouter';
-import { Post } from './orm/entities/Post';
-
 import awilix = require('awilix');
 import { createConnection } from 'typeorm';
-import { App } from './app';
-import { Index } from './routes';
-import QueryValidator from './middleware/queryvalidator';
-import Errorhandler from './middleware/errorhandler';
 
+import App from './App';
+import Index from './routes/Index';
+import QueryValidator from './middleware/queryvalidator';
+import ErrorHandler from './middleware/errorhandler';
+import PostRouter from './routes/PostRouter';
+import Post from './orm/entities/Post';
 const container = awilix.createContainer({
   injectionMode: awilix.InjectionMode.PROXY
 });
@@ -16,7 +15,7 @@ export function configcontainer() {
   return createConnection().then(async connection => {
     container.register({
       postRepo: awilix.asValue(connection.getRepository(Post)),
-      errorhandler: awilix.asClass(Errorhandler),
+      errorHandler: awilix.asClass(ErrorHandler),
       queryValidator: awilix.asClass(QueryValidator),
       postsRouter: awilix.asClass(PostRouter),
       app: awilix.asClass(App),

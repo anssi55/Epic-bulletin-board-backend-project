@@ -1,6 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { Category } from './Category';
-import { User } from './User';
 import {
   IsOptional,
   IsInt,
@@ -10,15 +8,17 @@ import {
   IsBoolean,
   IsString
 } from 'class-validator';
-import { Reply } from './Reply';
-import { LikeOnPost } from './LikeOnPost';
+import Reply from './Reply';
+import LikeOnPost from './LikeOnPost';
+import Category from './Category';
+import User from './User';
 
 @Entity()
-export class Post {
+class Post {
   @IsOptional()
   @IsInt()
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @IsString()
   @MinLength(5, {
@@ -28,7 +28,7 @@ export class Post {
     message: 'Topic is too long'
   })
   @Column()
-  topic: string;
+  topic!: string;
 
   @IsString()
   @MinLength(10, {
@@ -38,35 +38,36 @@ export class Post {
     message: 'Post is too long, max: 255'
   })
   @Column()
-  post: string;
+  post!: string;
   @IsOptional()
   @IsDate({
     message: 'Invalid date'
   })
   @IsOptional()
   @Column()
-  datetime: Date;
+  datetime!: Date;
 
   @IsBoolean()
   @Column()
-  pinned: Boolean;
+  pinned!: Boolean;
 
   @IsDate()
   @Column()
-  modified: Date;
+  modified!: Date;
 
   @ManyToOne(type => User, user => user.replies)
-  user: User;
+  user!: User;
 
   @IsInt({
     message: 'Category must be an integer number'
   })
   @ManyToOne(type => Category, category => category.posts)
-  category: Category;
+  category!: Category;
 
   @OneToMany(type => Reply, reply => reply.post)
-  replies: Reply[];
+  replies!: Reply[];
 
-  @OneToMany(type => LikeOnPost, likesonposts => likesonposts.post)
-  likes: LikeOnPost[];
+  @OneToMany(type => LikeOnPost, likeonpost => likeonpost.post)
+  likes!: LikeOnPost[];
 }
+export default Post;

@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {
+      "pass": {
+        "name": "Chocolate bunnies",
+        "description": "Place to talk about bunnies"
+      }
+    },
+    {
+      "fail": {
+        "name": 1,
+        "description": "Place to talk about bunnies"
+      }
+    }
+  ]
+}

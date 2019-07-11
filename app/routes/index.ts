@@ -3,23 +3,24 @@ import { Router, Request, Response, NextFunction } from 'express';
 //import authRouter from './authRouter';
 //import repliesRouter from './repliesRouter';
 //import userRouter from './userRouter';
-import categoriesRouter from './categoryRouter';
+import categoriesRouter from './CategoryRouter';
 import PostRouter from './postRouter';
-import QueryValidator from '../middleware/queryvalidator';
-import { Category } from '../orm/entities/Category';
+import QueryValidator from '../middleware/QueryValidator';
+import Category from '../orm/entities/Category';
 import { validate, ValidationError } from 'class-validator';
-import { Post } from '../orm/entities/Post';
+import Post from '../orm/entities/Post';
 import ErrorHandler from '../middleware/errorhandler';
+import { Dependencies } from '../Types';
 
 // class to route all the REST-api paths
 
-export class Index {
+class Index {
   router: Router;
   postsRouter: PostRouter;
   validator: QueryValidator;
 
-  constructor(opts) {
-    this.postsRouter = opts.postsRouter;
+  constructor(opts: Dependencies) {
+    this.postsRouter = opts.postRouter;
     this.validator = opts.queryValidator;
     this.router = Router();
     this.init();
@@ -56,3 +57,4 @@ export class Index {
     this.router.all('*', this.notFound);
   }
 }
+export default Index;
