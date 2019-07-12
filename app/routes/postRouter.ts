@@ -2,21 +2,23 @@
 import { validate, ValidationError } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 import { Repository } from 'typeorm';
-import Post from '../orm/entities/Post';
 import { Dependencies } from '../Types';
+import Category from '../orm/entities/Category';
+import Post from '../orm/entities/Post';
 
-//Router to route /posts-route
 class PostRouter {
   private postRepo: Repository<Post>;
+  private categoryRepo: Repository<Category>;
   constructor(opts: Dependencies) {
     this.postRepo = opts.postRepo;
+    this.categoryRepo = opts.categoryRepo;
   }
 
   //get all posts from database
   public getAll = async (res: Response, next: NextFunction) => {
     try {
-      let results = await this.postRepo.find();
-      res.status(200).send(results);
+      let posts = await this.postRepo.find();
+      res.status(200).send(posts);
     } catch (error) {
       console.log(error);
       res.status(400).send({ message: "Couldn't get the data", Error: error });
@@ -24,10 +26,9 @@ class PostRouter {
   };
   //get specific post from database
   public getOne = async (req: Request, res: Response, next: NextFunction) => {
-    let post = new Post();
     const id = req.params.id;
     try {
-      post = await this.postRepo.findOne(id);
+      const post = await this.postRepo.findOne(id);
       res.status(200).send(post);
     } catch (error) {
       console.log(error);
@@ -40,14 +41,19 @@ class PostRouter {
     post.topic = req.body.topic;
     post.post = req.body.post;
     post.datetime = new Date(Date.now());
-    const category = req.body.categoryId;
+    const categoryId = req.body.categoryId;
     post.pinned = req.body.pinned;
 
     let postRepository = this.postRepo;
     try {
-      await postRepository.save(post);
-
-      res.status(200).send(post);
+      const category = await this.categoryRepo.findOne(categoryId);
+      if (category !== undefined) {
+        post.category = category;
+        await this.postRepo.save(post);
+        res.status(200).send(post);
+      } else {
+        throw 400;
+      }
     } catch (error) {
       res.status(400).send({ message: "Couldn't save the data", Error: error.message });
     }
@@ -58,22 +64,32 @@ class PostRouter {
     post.topic = req.body.topic;
     post.post = req.body.post;
     post.modified = new Date(Date.now());
-    const category = req.body.categoryId;
+    const categoryId = req.body.categoryId;
     post.pinned = req.body.pinned;
-
-    let postRepository = this.postRepo;
     try {
-      await postRepository.save(post);
-
-      res.status(200).send(post);
+      const category = await this.categoryRepo.findOne(categoryId);
+      if (category !== undefined) {
+        post.category = category;
+        await this.postRepo.save(post);
+        res.status(200).send(post);
+      } else {
+        throw 400;
+      }
     } catch (error) {
       res.status(400).send({ message: "Couldn't save the data", Error: error.message });
     }
   };
   //Delete a post from database
-  public delete(req: Request, res: Response, next: NextFunction) {
-    res.send('Nothing');
-  }
+  public delete = async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    try {
+      const post = await this.postRepo.delete(id);
+      res.status(200).send(post);
+    } catch (error) {
+      console.log(error);
+      res.status(400).send({ message: "Couldn't delete the data", error: error });
+    }
+  };
 }
 
 export default PostRouter;
