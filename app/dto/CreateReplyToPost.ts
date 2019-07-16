@@ -1,4 +1,4 @@
-import { IsString, MinLength, MaxLength, IsBoolean, IsInt } from 'class-validator';
+import { IsString, MinLength, MaxLength, IsInt } from 'class-validator';
 
 class CreateReplyToPostDto {
   @IsString()

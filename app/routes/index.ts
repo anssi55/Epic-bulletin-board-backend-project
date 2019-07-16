@@ -14,11 +14,10 @@ import CreatePostDto from '../dto/createPost';
 class Index {
   router: Router;
   postRouter: PostRouter;
-  //validator: any;
-  //validator: ValidationMiddleware;
+  validator: typeof validate;
   constructor(opts: Dependencies) {
     this.postRouter = opts.postRouter;
-    //this.validator = opts.validator;
+    this.validator = opts.validator;
     this.router = Router();
     this.init();
   }
@@ -33,7 +32,7 @@ class Index {
     res.status(404).send({ message: 'Path not found' });
   }
   public routePosts() {
-    this.router.post('/api/v1/posts', validate(CreatePostDto), this.postRouter.create);
+    this.router.post('/api/v1/posts', this.validator(CreatePostDto), this.postRouter.create);
     this.router.get('/api/v1/posts', this.postRouter.getAll);
     //.get(this.postsRouter.getAll)
 

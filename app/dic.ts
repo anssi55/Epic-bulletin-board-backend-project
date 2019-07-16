@@ -19,6 +19,7 @@ export function configcontainer() {
       categoryRepo: awilix.asValue(connection.getRepository(Category)),
       postRouter: awilix.asClass(PostRouter),
       validator: awilix.asValue(ValidationMiddleware),
+
       app: awilix.asClass(App),
       index: awilix.asClass(Index)
     });
