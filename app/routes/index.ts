@@ -6,16 +6,19 @@ import { Router, Request, Response, NextFunction } from 'express';
 import categoriesRouter from './CategoryRouter';
 import PostRouter from './postRouter';
 import { Dependencies } from '../Types';
+import validate from '../middleware/validation.middleware';
+import CreatePostDto from '../dto/createPost';
 
 // class to route all the REST-api paths
 
 class Index {
   router: Router;
   postRouter: PostRouter;
-
+  //validator: any;
+  //validator: ValidationMiddleware;
   constructor(opts: Dependencies) {
     this.postRouter = opts.postRouter;
-
+    //this.validator = opts.validator;
     this.router = Router();
     this.init();
   }
@@ -30,7 +33,8 @@ class Index {
     res.status(404).send({ message: 'Path not found' });
   }
   public routePosts() {
-    this.router.post('/api/v1/posts', this.postRouter.create);
+    this.router.post('/api/v1/posts', validate(CreatePostDto), this.postRouter.create);
+    this.router.get('/api/v1/posts', this.postRouter.getAll);
     //.get(this.postsRouter.getAll)
 
     this.router

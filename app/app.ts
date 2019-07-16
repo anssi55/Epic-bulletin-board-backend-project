@@ -4,6 +4,7 @@ const cors = require('cors');
 
 import Index from './routes/Index';
 import { Dependencies } from './Types';
+import errorMiddleware from './middleware/error.middleware';
 
 class App {
   public app: express.Application;
@@ -23,6 +24,9 @@ class App {
     this.index.init();
     this.app.use('/', this.index.router);
   }
+  private initializeErrorHandling() {
+    this.app.use(errorMiddleware);
+  }
 
   private startServer(): void {
     this.app.listen(3000, function() {
@@ -33,6 +37,7 @@ class App {
   init() {
     this.middleware();
     this.routes();
+    this.initializeErrorHandling();
     this.startServer();
   }
 }

@@ -8,7 +8,7 @@ class CreatePostDto {
   @MaxLength(50, {
     message: 'Topic is too long'
   })
-  public post!: string;
+  public topic!: string;
 
   @IsString()
   @IsString()
@@ -18,7 +18,7 @@ class CreatePostDto {
   @MaxLength(255, {
     message: 'Post is too long, max: 255'
   })
-  public topic!: string;
+  public post!: string;
 
   @IsBoolean()
   public pinned!: string;

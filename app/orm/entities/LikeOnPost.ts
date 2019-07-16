@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { IsInt, Length, IsBoolean } from 'class-validator';
 import User from './User';
 import Post from './Post';
 
