@@ -5,12 +5,9 @@ import Post from './Post';
 
 @Entity()
 class LikeOnPost {
-  @Length(1, 11)
-  @IsInt()
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @IsBoolean()
   @Column()
   like!: boolean;
 

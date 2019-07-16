@@ -1,6 +1,6 @@
 import express = require('express');
 import * as bodyParser from 'body-parser';
-import cors = require('cors');
+const cors = require('cors');
 
 import Index from './routes/Index';
 import { Dependencies } from './Types';

@@ -25,6 +25,7 @@
    "homepage": "https://github.com/anssi55/Epic-bulletin-board-backend-project#readme",
    "dependencies": {
       "awilix": "^4.2.2",
+      "class-transformer": "^0.2.3",
       "class-validator": "^0.9.1",
       "cors": "^2.8.5",
       "express": "^4.17.1",

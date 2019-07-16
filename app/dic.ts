@@ -3,7 +3,6 @@ import { createConnection } from 'typeorm';
 
 import App from './App';
 import Index from './routes/Index';
-import QueryValidator from './middleware/queryvalidator';
 import ErrorHandler from './middleware/errorhandler';
 import PostRouter from './routes/PostRouter';
 import Post from './orm/entities/Post';
@@ -19,8 +18,7 @@ export function configcontainer() {
       postRepo: awilix.asValue(connection.getRepository(Post)),
       categoryRepo: awilix.asValue(connection.getRepository(Category)),
       errorHandler: awilix.asClass(ErrorHandler),
-      queryValidator: awilix.asClass(QueryValidator),
-      postsRouter: awilix.asClass(PostRouter),
+      postRouter: awilix.asClass(PostRouter),
       app: awilix.asClass(App),
       index: awilix.asClass(Index)
     });

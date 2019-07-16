@@ -1,4 +1,3 @@
-import { IsDate, IsInt, IsString, MaxLength, MinLength } from 'class-validator';
 import {
   Column,
   Entity,
@@ -14,21 +13,12 @@ import User from './User';
 
 @Entity()
 class Reply {
-  @IsInt()
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @IsString()
-  @MinLength(2, {
-    message: 'Topic is too short'
-  })
-  @MaxLength(255, {
-    message: 'Topic is too long'
-  })
   @Column()
   reply!: string;
 
-  @IsDate()
   @Column()
   datetime!: Date;
 

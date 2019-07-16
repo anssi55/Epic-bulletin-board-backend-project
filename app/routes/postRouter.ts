@@ -1,4 +1,3 @@
-'use strict';
 import { validate, ValidationError } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 import { Repository } from 'typeorm';
@@ -20,7 +19,6 @@ class PostRouter {
       let posts = await this.postRepo.find();
       res.status(200).send(posts);
     } catch (error) {
-      console.log(error);
       res.status(400).send({ message: "Couldn't get the data", Error: error });
     }
   };
@@ -31,7 +29,6 @@ class PostRouter {
       const post = await this.postRepo.findOne(id);
       res.status(200).send(post);
     } catch (error) {
-      console.log(error);
       res.status(400).send({ message: "Couldn't get the data", error: error });
     }
   };
@@ -43,8 +40,6 @@ class PostRouter {
     post.datetime = new Date(Date.now());
     const categoryId = req.body.categoryId;
     post.pinned = req.body.pinned;
-
-    let postRepository = this.postRepo;
     try {
       const category = await this.categoryRepo.findOne(categoryId);
       if (category !== undefined) {
@@ -61,6 +56,8 @@ class PostRouter {
   //Modify a post in database
   public update = async (req: Request, res: Response, next: NextFunction) => {
     let post = new Post();
+    console.log(req.params[0]);
+    post.id = req.params.id;
     post.topic = req.body.topic;
     post.post = req.body.post;
     post.modified = new Date(Date.now());
