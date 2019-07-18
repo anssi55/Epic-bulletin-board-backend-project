@@ -1,5 +1,6 @@
 import { configcontainer } from './Dic';
 import App from './App';
+import { AwilixContainer } from 'awilix';
 
 configcontainer()
   .then(function(container) {
