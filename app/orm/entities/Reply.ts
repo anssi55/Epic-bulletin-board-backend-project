@@ -1,4 +1,3 @@
-import { IsDate, IsInt, IsString, MaxLength, MinLength } from 'class-validator';
 import {
   Column,
   Entity,
@@ -14,35 +13,26 @@ import User from './User';
 
 @Entity()
 class Reply {
-  @IsInt()
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @IsString()
-  @MinLength(2, {
-    message: 'Topic is too short'
-  })
-  @MaxLength(255, {
-    message: 'Topic is too long'
-  })
   @Column()
   reply!: string;
 
-  @IsDate()
   @Column()
   datetime!: Date;
 
-  @ManyToOne(type => User, users => users.replies)
+  @ManyToOne(type => User, user => user.replies)
   user!: User;
 
-  @ManyToMany(type => Reply, replies => replies.replyto)
+  @ManyToMany(type => Reply, reply => reply.replyto)
   @JoinTable()
   replyto!: Reply[];
 
-  @ManyToOne(type => Post, posts => posts.replies)
+  @ManyToOne(type => Post, post => post.replies)
   post!: Post;
 
-  @OneToMany(type => LikeOnReply, likesonreplies => likesonreplies.reply)
+  @OneToMany(type => LikeOnReply, likeonreply => likeonreply.reply)
   likes!: LikeOnReply[];
 }
 export default Reply;

@@ -1,4 +1,4 @@
-import { configcontainer } from './dic';
+import { configcontainer } from './Dic';
 import App from './App';
 
 configcontainer()
