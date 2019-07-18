@@ -3,12 +3,12 @@ import { Router, Request, Response, NextFunction } from 'express';
 //import authRouter from './authRouter';
 //import repliesRouter from './repliesRouter';
 //import userRouter from './userRouter';
-import CategoryRouter from './CategoryRouters';
-import PostRouter from './PostRouters';
+import CategoryRouter from './CategoryRouter';
+import PostRouter from './PostRouter';
 import { Dependencies } from '../Types';
 import bodyValidator from '../middleware/validation.middleware';
 import CreatePostDto from '../dto/createPost';
-import CategoriesRouter from './CategoryRouters';
+import CategoriesRouter from './CategoryRouter';
 import CreateCategoryDto from '../dto/CreateCategory';
 import UpdateCategoryDto from '../dto/UpdateCategory';
 

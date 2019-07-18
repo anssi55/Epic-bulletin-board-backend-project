@@ -1,7 +1,7 @@
 import HttpException from './HttpException';
 
 class NotFoundException extends HttpException {
-  constructor(type: String, id: String) {
+  constructor(type: string, id: string) {
     super(404, `${type} with id ${id} not found`);
   }
 }

@@ -1,7 +1,7 @@
 import express = require('express');
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
-import Index from './routes/Indexs';
+import Index from './routes/Index';
 import { Dependencies } from './Types';
 import errorMiddleware from './middleware/error.middleware';
 

@@ -1,4 +1,4 @@
-import App from '../app/Apps';
+import App from '../app/App';
 import postExamples from './testJson/postsExamples.json';
 let chai = require('chai');
 import chaiHttp = require('chai-http');

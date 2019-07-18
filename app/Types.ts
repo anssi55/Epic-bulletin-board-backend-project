@@ -1,6 +1,6 @@
-import Index from './routes/Indexs';
-import PostRouter from './routes/PostRouters';
-import CategoryRouter from './routes/CategoryRouters';
+import Index from './routes/Index';
+import PostRouter from './routes/PostRouter';
+import CategoryRouter from './routes/CategoryRouter';
 import Post from './orm/entities/Post';
 import { Repository } from 'typeorm';
 import Category from './orm/entities/Category';
