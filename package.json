@@ -2,11 +2,11 @@
   "name": "epic-bulletin-board-backend-project",
   "version": "1.0.0",
   "description": "bulleting board project",
-  "main": "index.js",
+  "main": "startApp.js",
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "tsc": "tsc",
-    "start": "ts-node build/app/startApp.js"
+    "start": "node build/app/startApp.js"
   },
   "repository": {
     "type": "git",
