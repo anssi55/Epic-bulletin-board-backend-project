@@ -3,13 +3,13 @@ import { validate, ValidationError } from 'class-validator';
 import * as express from 'express';
 import HttpException from '../exceptions/HttpException';
 
-function validationMiddleware<T>(type: any): express.RequestHandler {
+function bodyValidationMiddleware<T>(type: any): express.RequestHandler {
   return (req, res, next) => {
-    validate(plainToClass(type, req.body)).then((errors: ValidationError[]) => {
+    validate(plainToClass(type, req.body)).then(errors => {
       if (errors.length > 0) {
         const message =
           'Validation error(s): ' +
-          errors.map((error: ValidationError) => Object.values(error.constraints)).join(', ');
+          errors.map(error => Object.values(error.constraints)).join(', ');
         next(new HttpException(400, message));
       } else {
         next();
@@ -18,4 +18,4 @@ function validationMiddleware<T>(type: any): express.RequestHandler {
   };
 }
 
-export default validationMiddleware;
+export default bodyValidationMiddleware;

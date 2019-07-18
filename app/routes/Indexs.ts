@@ -3,12 +3,12 @@ import { Router, Request, Response, NextFunction } from 'express';
 //import authRouter from './authRouter';
 //import repliesRouter from './repliesRouter';
 //import userRouter from './userRouter';
-import CategoryRouter from './CategoryRouter';
-import PostRouter from './postRouter';
+import CategoryRouter from './CategoryRouters';
+import PostRouter from './PostRouters';
 import { Dependencies } from '../Types';
-import validate from '../middleware/validation.middleware';
+import bodyValidator from '../middleware/validation.middleware';
 import CreatePostDto from '../dto/createPost';
-import CategoriesRouter from './CategoryRouter';
+import CategoriesRouter from './CategoryRouters';
 import CreateCategoryDto from '../dto/CreateCategory';
 import UpdateCategoryDto from '../dto/UpdateCategory';
 
@@ -17,12 +17,12 @@ import UpdateCategoryDto from '../dto/UpdateCategory';
 class Index {
   router: Router;
   postRouter: PostRouter;
-  validator: typeof validate;
+  bodyValidator: typeof bodyValidator;
   categoryRouter: CategoryRouter;
   constructor(opts: Dependencies) {
     this.postRouter = opts.postRouter;
     this.categoryRouter = opts.categoryRouter;
-    this.validator = opts.validator;
+    this.bodyValidator = opts.bodyValidator;
     this.router = Router();
     this.init();
   }
@@ -37,7 +37,7 @@ class Index {
     res.status(404).send({ message: 'Path not found' });
   }
   private routePosts() {
-    this.router.post('/api/v1/posts', this.validator(CreatePostDto), this.postRouter.create);
+    this.router.post('/api/v1/posts', this.bodyValidator(CreatePostDto), this.postRouter.create);
     this.router.get('/api/v1/posts', this.postRouter.getAll);
     this.router
       .route('/api/v1/posts/:id')
@@ -48,7 +48,7 @@ class Index {
   private routeCategory() {
     this.router.post(
       '/api/v1/posts',
-      this.validator(CreateCategoryDto),
+      this.bodyValidator(CreateCategoryDto),
       this.categoryRouter.create
     );
     this.router.get('/api/v1/posts', this.categoryRouter.getAll);
@@ -56,7 +56,7 @@ class Index {
     this.router
       .route('/api/v1/posts/:id')
       .get(this.categoryRouter.getOne)
-      .put(this.validator(UpdateCategoryDto), this.categoryRouter.update)
+      .put(this.bodyValidator(UpdateCategoryDto), this.categoryRouter.update)
       .delete(this.categoryRouter.delete);
   }
 

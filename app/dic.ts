@@ -1,10 +1,10 @@
 import awilix = require('awilix');
 import { createConnection } from 'typeorm';
 
-import App from './App';
-import Index from './routes/Index';
-import PostRouter from './routes/PostRouter';
-import CategoryRouter from './routes/CategoryRouter';
+import App from './Apps';
+import Index from './routes/Indexs';
+import PostRouter from './routes/PostRouters';
+import CategoryRouter from './routes/CategoryRouters';
 import Post from './orm/entities/Post';
 import Category from './orm/entities/Category';
 import ValidationMiddleware from './middleware/validation.middleware';
@@ -21,7 +21,7 @@ export function configcontainer() {
       categoryRepo: awilix.asValue(connection.getRepository(Category)),
       postRouter: awilix.asClass(PostRouter),
       categoryRouter: awilix.asClass(CategoryRouter),
-      validator: awilix.asValue(ValidationMiddleware),
+      bodyValidator: awilix.asValue(ValidationMiddleware),
       errorMiddleware: awilix.asValue(errorMiddleware),
       app: awilix.asClass(App),
       index: awilix.asClass(Index)
