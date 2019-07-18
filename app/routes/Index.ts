@@ -7,7 +7,7 @@ import CategoryRouter from './CategoryRouter';
 import PostRouter from './PostRouter';
 import { Dependencies } from '../Types';
 import bodyValidator from '../middleware/validation.middleware';
-import CreatePostDto from '../dto/createPost';
+import CreatePostDto from '../dto/CreatePost';
 import CategoriesRouter from './CategoryRouter';
 import CreateCategoryDto from '../dto/CreateCategory';
 import UpdateCategoryDto from '../dto/UpdateCategory';
