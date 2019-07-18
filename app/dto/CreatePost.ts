@@ -20,7 +20,7 @@ class CreatePostDto {
   public post!: string;
 
   @IsBoolean()
-  public pinned!: string;
+  public pinned!: boolean;
 
   @IsInt()
   public categoryId!: number;

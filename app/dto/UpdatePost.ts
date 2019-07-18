@@ -1,8 +1,6 @@
 import { IsString, MinLength, MaxLength, IsBoolean, IsInt } from 'class-validator';
 
 class UpdatePostDto {
-  @IsInt()
-  id!: number;
   @IsString()
   @MinLength(5, {
     message: 'Topic is too short'
@@ -23,7 +21,7 @@ class UpdatePostDto {
   public post!: string;
 
   @IsBoolean()
-  public pinned!: string;
+  public pinned!: boolean;
 }
 
 export default UpdatePostDto;

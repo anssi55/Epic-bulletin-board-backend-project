@@ -1,8 +1,6 @@
 import { IsString, MinLength, MaxLength, IsInt } from 'class-validator';
 
 class UpdateReplyDto {
-  @IsInt()
-  id!: number;
   @IsString()
   @MinLength(2, {
     message: 'Topic is too short'

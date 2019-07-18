@@ -6,12 +6,7 @@ import { validate } from 'class-validator';
 
 //Router to handle all category REST-api calls
 class CategoriesRouter {
-  router: Router;
-
-  constructor() {
-    this.router = Router();
-    this.init();
-  }
+  constructor() {}
 
   //Get all categories from the database
   public async getAll(req: Request, res: Response, next: NextFunction) {
@@ -56,16 +51,6 @@ class CategoriesRouter {
   public delete(req: Request, res: Response, next: NextFunction) {
     res.send('Nothing');
   }
-  init() {
-    this.router.get('/', this.getAll);
-    this.router.get('/:id', this.getOne);
-    this.router.post('/', this.create);
-    this.router.delete('/:id', this.delete);
-    this.router.put('/:id', this.update);
-  }
 }
 
-const categoriesRouter = new CategoriesRouter();
-categoriesRouter.init();
-
-export default categoriesRouter.router;
+export default CategoriesRouter;

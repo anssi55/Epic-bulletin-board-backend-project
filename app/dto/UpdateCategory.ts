@@ -1,9 +1,6 @@
 import { IsString, MinLength, MaxLength, IsInt, Length } from 'class-validator';
 
 class UpdateCategoryDto {
-  @Length(1, 11)
-  @IsInt()
-  id!: number;
   @IsString()
   @MinLength(2, {
     message: 'Name is too short'
