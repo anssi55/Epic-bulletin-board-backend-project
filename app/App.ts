@@ -14,7 +14,7 @@ class App {
     this.errorMiddleware = opts.errorMiddleware;
     this.app = express();
   }
-  //Adding middleware to app
+  //Adding middleware to apps
   private middleware(): void {
     this.app.use(cors());
     this.app.use(bodyParser.urlencoded({ extended: true }));
