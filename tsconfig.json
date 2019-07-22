@@ -10,6 +10,8 @@
     "outDir": "./build",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true
-  }
+    "sourceMap": true,
+    "typeRoots": ["../../typings", "../../node_modules/@types"]
+  },
+  "exclude": ["../../node_modules", "../../typings"]
 }
