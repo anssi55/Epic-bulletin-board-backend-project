@@ -15,7 +15,14 @@ const container = awilix.createContainer({
 });
 
 export function configcontainer() {
-  return createConnection().then(connection => {
+  let config;
+  if (process.env.JAWSDB_URL !== undefined) {
+    config = process.env.JAWSDB_URL;
+  } else {
+    config = 'default';
+  }
+
+  return createConnection(config).then(connection => {
     container.register({
       postRepo: awilix.asValue(connection.getRepository(Post)),
       categoryRepo: awilix.asValue(connection.getRepository(Category)),
