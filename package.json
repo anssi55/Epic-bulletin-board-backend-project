@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "tsc": "tsc",
-    "start": "cd .. && node /build/app/startApp.js",
+    "start": "npm run tsc && node /build/app/startApp.js",
     "postinstall": "npm run tsc"
   },
   "repository": {
