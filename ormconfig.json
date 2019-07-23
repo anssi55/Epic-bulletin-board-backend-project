@@ -7,12 +7,12 @@
   "database": "bulletinboard2",
   "synchronize": true,
   "logging": false,
-  "entities": ["build/app/orm/entities/*.js"],
-  "migrations": ["build/app/orm/migration/**/*.js"],
-  "subscribers": ["build/app/orm/subscriber/**/*.js"],
+  "entities": ["build/orm/entities/*.js"],
+  "migrations": ["build/orm/migration/**/*.js"],
+  "subscribers": ["build/orm/subscriber/**/*.js"],
   "cli": {
-    "entitiesDir": "build/app/orm/entities",
-    "migrationsDir": "build/app/orm/migration",
-    "subscribersDir": "build/app/orm/subscriber"
+    "entitiesDir": "build/orm/entities",
+    "migrationsDir": "build/orm/migration",
+    "subscribersDir": "build/orm/subscriber"
   }
 }
