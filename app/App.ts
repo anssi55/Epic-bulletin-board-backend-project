@@ -30,6 +30,7 @@ class App {
 
   private startServer(): void {
     const port = process.env.PORT || 3000;
+    console.log(port);
     this.app.listen(port, function() {
       console.log('Server running on: http://localhost:' + port + '/');
     });
