@@ -11,7 +11,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "typeRoots": ["../../typings", "../../node_modules/@types"]
+    "typeRoots": ["../../node_modules/@types"]
   },
-  "exclude": ["../../node_modules", "../../typings"]
+  "exclude": ["../../node_modules"]
 }
