@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "tsc": "tsc",
-    "start": "node ../../build/app/startApp.js",
+    "build": "npm run tsc",
+    "start": "npm run build  && node ../../build/app/startApp.js",
     "postinstall": "npm run tsc"
   },
   "repository": {
@@ -47,5 +48,9 @@
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
     "ts-node": "^3.3.0"
+  },
+  "engines": {
+    "node": "12.5.0",
+    "npm": "6.10.0"
   }
 }
