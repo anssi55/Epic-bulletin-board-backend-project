@@ -25,7 +25,9 @@
   },
   "homepage": "https://github.com/anssi55/Epic-bulletin-board-backend-project#readme",
   "dependencies": {
+    "@types/boom": "^7.2.1",
     "awilix": "^4.2.2",
+    "boom": "^7.3.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.9.1",
     "cors": "^2.8.5",
@@ -50,6 +52,6 @@
   },
   "engines": {
     "node": "12.5.0",
-    "npm": "6.10.0"
+    "npm": "6.10.2"
   }
 }

@@ -5,6 +5,7 @@ import Category from '../orm/entities/Category';
 import Post from '../orm/entities/Post';
 import NotFoundException from '../exceptions/NotFoundException';
 import CouldNotSaveException from '../exceptions/CouldNotSaveException';
+import Boom, { boomify } from 'boom';
 
 class PostRouter {
   private postRepo: Repository<Post>;
@@ -17,10 +18,15 @@ class PostRouter {
   //get all posts from database
   public getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let posts = await this.postRepo.find();
-      res.status(200).send(posts);
-    } catch {
-      next(new NotFoundException('Post', 'any'));
+      const posts = await this.postRepo.find();
+      if (posts.length > 0) {
+        res.status(200).send(posts);
+      } else {
+        res.status(404).send(Boom.notFound('Posts not found'));
+      }
+    } catch (error) {
+      const boom = Boom.boomify(error).output;
+      res.status(boom.statusCode).send(boom.payload);
     }
   };
   //get specific post from database
@@ -28,9 +34,14 @@ class PostRouter {
     const id = req.params.id;
     try {
       const post = await this.postRepo.findOne(id);
-      res.status(200).send(post);
+      if (post) {
+        res.status(200).send(post);
+      } else {
+        res.status(404).send(Boom.notFound('Post not found').output.payload);
+      }
     } catch (error) {
-      next(new CouldNotSaveException());
+      const boom = Boom.boomify(error).output;
+      res.status(boom.statusCode).send(boom.payload);
     }
   };
   //Add new post to database
@@ -44,8 +55,9 @@ class PostRouter {
     try {
       await this.postRepo.save(post);
       res.status(200).send(post);
-    } catch {
-      next(new CouldNotSaveException());
+    } catch (error) {
+      const boom = Boom.boomify(error);
+      res.status(boom.output.statusCode).send(boom.output.payload);
     }
   };
   //Modify a post in database

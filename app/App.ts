@@ -39,7 +39,7 @@ class App {
   init() {
     this.middleware();
     this.routes();
-    this.initializeErrorHandling();
+    //this.initializeErrorHandling();
     this.startServer();
   }
 }
