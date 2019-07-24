@@ -3,20 +3,24 @@ commands:
   update-npm:
     steps:
       -run:
-        command: 'sudo npm install -g npm@latest'
+        name: 'Update npm to latest verison'
+        command: sudo npm install -g npm@latest
   install-npm-wee:
     steps:
       -run:
-        command: 'npm ci'
+        name: 'install dependencies'
+        command: npm ci
   build:
     steps:
       -run:
-        command: 'npm run tsc'
-  deploy-Master-to-Heroku:
+        name: 'build app'
+        command: npm run tsc
+  deploy-master-to-heroku:
     steps:
       -run:
-        command: '|
-          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master'
+        name: 'Deploy master to Heroku'
+        command: |
+          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 jobs:
   build:
     working_directory: ~/EPIC-BULLETIN-BOARD-PROJECT
@@ -24,10 +28,10 @@ jobs:
       - image: circleci/node:12.5.0
     steps:
       - checkout
-      - Update-npm
+      - update-npm
       - install-npm-wee
       - build
-      - deploy-Master-to-Heroku
+      - deploy-master-to-heroku
 
 workflows:
   build-deploy:
