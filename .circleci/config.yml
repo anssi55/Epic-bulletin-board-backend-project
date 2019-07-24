@@ -2,22 +2,22 @@ version: 2.1
 commands:
   update-npm:
     steps:
-      -run:
+      - run:
         name: 'Update npm to latest verison'
         command: sudo npm install -g npm@latest
   install-npm-wee:
     steps:
-      -run:
+      - run:
         name: 'install dependencies'
         command: npm ci
   build:
     steps:
-      -run:
+      - run:
         name: 'build app'
         command: npm run tsc
   deploy-master-to-heroku:
     steps:
-      -run:
+      - run:
         name: 'Deploy master to Heroku'
         command: |
           git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
