@@ -23,12 +23,17 @@ jobs:
       - update-npm
       - install-npm-wee
       - build
+  deploy:
+    docker:
+      - image: buildpack-deps:trusty
+    steps:
+      - checkout
       - deploy-master-to-heroku
-
 workflows:
   build-deploy:
     jobs:
       - build
+      - deploy:
           filters:
             branches:
               only: master
