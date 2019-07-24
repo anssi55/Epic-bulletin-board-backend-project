@@ -1,9 +1,8 @@
 import { configcontainer } from './dic';
 import App from './App';
-import { AwilixContainer } from 'awilix';
 
 configcontainer()
-  .then(function(container: AwilixContainer) {
+  .then(function(container) {
     container.resolve<App>('app').init();
   })
   .catch(function() {

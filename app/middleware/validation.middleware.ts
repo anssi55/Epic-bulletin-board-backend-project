@@ -2,10 +2,9 @@ import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
 import * as express from 'express';
 import HttpException from '../exceptions/HttpException';
-import { NextFunction, Request, Response } from 'express';
 
 function bodyValidationMiddleware<T>(type: any): express.RequestHandler {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req, res, next) => {
     validate(plainToClass(type, req.body)).then(errors => {
       if (errors.length > 0) {
         const message =
