@@ -4,15 +4,18 @@ import cors from 'cors';
 import Index from './routes/Index';
 import { Dependencies } from './Types';
 import errorMiddleware from './middleware/error.middleware';
+import EnvVariables from './dto/EnvVariables';
 
 class App {
   public app: express.Application;
   private index: Index;
   private errorMiddleware: typeof errorMiddleware;
+  private envVariables: EnvVariables;
   constructor(opts: Dependencies) {
     this.index = opts.index;
     this.errorMiddleware = opts.errorMiddleware;
     this.app = express();
+    this.envVariables = opts.envVariables;
   }
   //Adding middleware to apps
   private middleware(): void {
@@ -29,7 +32,7 @@ class App {
   }
 
   private startServer(): void {
-    const port = process.env.PORT || 3000;
+    const port = this.envVariables.PORT;
 
     this.app.listen(port, function() {
       console.log('Server running on: http://localhost:' + port + '/');

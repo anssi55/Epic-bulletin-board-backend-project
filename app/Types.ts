@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import Category from './orm/entities/Category';
 import validationMiddleWare from './middleware/validation.middleware';
 import errorMiddleware from './middleware/error.middleware';
+import EnvVariables from './dto/EnvVariables';
 
 export type Dependencies = {
   index: Index;
@@ -15,4 +16,5 @@ export type Dependencies = {
   categoryRepo: Repository<Category>;
   bodyValidator: typeof validationMiddleWare;
   errorMiddleware: typeof errorMiddleware;
+  envVariables: EnvVariables;
 };

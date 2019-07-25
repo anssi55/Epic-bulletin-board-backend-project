@@ -1,13 +1,17 @@
 import { configcontainer } from './dic';
 import App from './App';
-import validateEnvVariables from './middleware/EnvValidator';
+import validateEnvVariables from './envValidator';
 
-validateEnvVariables();
-
-configcontainer()
-  .then(function(container) {
-    container.resolve<App>('app').init();
+validateEnvVariables()
+  .then(function(envVariables) {
+    configcontainer(envVariables)
+      .then(function(container) {
+        container.resolve<App>('app').init();
+      })
+      .catch(function(errors) {
+        console.log('Launch failed: ' + errors);
+      });
   })
-  .catch(function() {
-    console.log('fail');
+  .catch(function(errors) {
+    console.log(errors);
   });
