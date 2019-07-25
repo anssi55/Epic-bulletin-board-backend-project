@@ -1,49 +1,54 @@
 'use strict';
-import { Router, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { Repository } from 'typeorm';
+import { Dependencies } from '../Types';
 import Category from '../orm/entities/Category';
-import { getRepository } from 'typeorm';
-import { validate } from 'class-validator';
+import Boom from 'boom';
 
-//Router to handle all category REST-api calls
 class CategoriesRouter {
-  constructor() {}
+  private categoryRepo: Repository<Category>;
+  constructor(opts: Dependencies) {
+    this.categoryRepo = opts.categoryRepo;
+  }
 
-  //Get all categories from the database
-  public async getAll(req: Request, res: Response, next: NextFunction) {
+  public getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let results = await getRepository(Category).find();
+      let results = await this.categoryRepo.find();
       res.status(200).send(results);
     } catch (error) {
-      res.status(400).send({ message: "Couldn't get the data" });
+      const boom = Boom.boomify(error).output;
+      res.status(boom.statusCode).send(boom.payload);
     }
-  }
+  };
   //Get one category spesified by id
-  public getOne(req: Request, res: Response, next: NextFunction) {
-    res.send('Nothing');
-  }
-  //Create one new category to database
-  public async create(req: Request, res: Response, next: NextFunction) {
-    let validateErrors;
+  public getOne = async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
     try {
-      let category = new Category();
-      category.name = req.body.name;
-      category.description = req.body.description;
-      validateErrors = await validate(category);
-      if (validateErrors.length > 0) {
-        throw 400;
+      const category = await this.categoryRepo.findOne(id);
+      if (category) {
+        res.status(200).send(category);
+      } else {
+        res.status(404).send(Boom.notFound('Category not found').output.payload);
       }
-      let categoryRepository = getRepository(Category);
-      let sqlErrors = await categoryRepository.save(category);
-      console.log(sqlErrors);
+    } catch (error) {
+      const boom = Boom.boomify(error).output;
+      res.status(boom.statusCode).send(boom.payload);
+    }
+  };
+  //Create one new category to database
+  public create = async (req: Request, res: Response, next: NextFunction) => {
+    let category = new Category();
+    category.name = req.body.name;
+    category.description = req.body.description;
+    try {
+      await this.categoryRepo.save(category);
+
       res.status(200).send(category);
     } catch (error) {
-      if (error === 400) {
-        res.status(400).send({ errors: validateErrors });
-      } else {
-        res.status(400).send({ message: "Couldn't save the data", Error: error.message });
-      }
+      const boom = Boom.boomify(error).output;
+      res.status(boom.statusCode).send(boom.payload);
     }
-  }
+  };
   //Update one category in database
   public update(req: Request, res: Response, next: NextFunction) {
     res.send('Nothing');

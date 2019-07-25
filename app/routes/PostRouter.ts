@@ -3,9 +3,7 @@ import { Repository } from 'typeorm';
 import { Dependencies } from '../Types';
 import Category from '../orm/entities/Category';
 import Post from '../orm/entities/Post';
-import NotFoundException from '../exceptions/NotFoundException';
-import CouldNotSaveException from '../exceptions/CouldNotSaveException';
-import Boom, { boomify } from 'boom';
+import Boom from 'boom';
 
 class PostRouter {
   private postRepo: Repository<Post>;
@@ -15,7 +13,6 @@ class PostRouter {
     this.categoryRepo = opts.categoryRepo;
   }
 
-  //get all posts from database
   public getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const posts = await this.postRepo.find();
@@ -29,7 +26,7 @@ class PostRouter {
       res.status(boom.statusCode).send(boom.payload);
     }
   };
-  //get specific post from database
+
   public getOne = async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     try {
@@ -44,7 +41,7 @@ class PostRouter {
       res.status(boom.statusCode).send(boom.payload);
     }
   };
-  //Add new post to database
+
   public create = async (req: Request, res: Response, next: NextFunction) => {
     let post = new Post();
     post.topic = req.body.topic;
@@ -60,7 +57,7 @@ class PostRouter {
       res.status(boom.output.statusCode).send(boom.output.payload);
     }
   };
-  //Modify a post in database
+
   public update = async (req: Request, res: Response, next: NextFunction) => {
     const id = req.body.id;
     const categoryId = req.body.categoryId;
@@ -79,18 +76,20 @@ class PostRouter {
         await this.postRepo.save(post);
         res.status(200).send(post);
       }
-    } catch {
-      next(new NotFoundException('Post', req.params.id));
+    } catch (error) {
+      const boom = Boom.boomify(error);
+      res.status(boom.output.statusCode).send(boom.output.payload);
     }
   };
-  //Delete a post from database
+
   public delete = async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     try {
       const post = await this.postRepo.delete(id);
       res.status(200).send(post);
-    } catch {
-      next(new NotFoundException('Post', req.params.id));
+    } catch (error) {
+      const boom = Boom.boomify(error);
+      res.status(boom.output.statusCode).send(boom.output.payload);
     }
   };
 }
