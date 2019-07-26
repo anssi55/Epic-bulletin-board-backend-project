@@ -1,4 +1,8 @@
 version: 2.1
+executors:
+  default:
+    docker:
+      - image: circleci/node:12.5.0
 commands:
   update-npm:
     steps:
@@ -16,16 +20,14 @@ commands:
 jobs:
   build:
     working_directory: ~/EPIC-BULLETIN-BOARD-PROJECT
-    docker:
-      - image: circleci/node:12.5.0
+    executor: default
     steps:
       - checkout
       - update-npm
       - install-npm-wee
       - build
   deploy:
-    docker:
-      - image: buildpack-deps:trusty
+    executor: default
     steps:
       - checkout
       - deploy-master-to-heroku
