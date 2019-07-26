@@ -1,4 +1,4 @@
-import { IsString, MinLength, MaxLength, IsBoolean, IsInt } from 'class-validator';
+import { IsString, MinLength, MaxLength, IsBoolean } from 'class-validator';
 
 class UpdatePostDto {
   @IsString()
@@ -8,7 +8,7 @@ class UpdatePostDto {
   @MaxLength(50, {
     message: 'Topic is too long'
   })
-  public topic!: string;
+  topic!: string;
 
   @IsString()
   @IsString()
@@ -18,10 +18,10 @@ class UpdatePostDto {
   @MaxLength(255, {
     message: 'Post is too long, max: 255'
   })
-  public post!: string;
+  post!: string;
 
   @IsBoolean()
-  public pinned!: boolean;
+  pinned!: boolean;
 }
 
 export default UpdatePostDto;

@@ -8,7 +8,7 @@ class UpdateCategoryDto {
   @MaxLength(50, {
     message: 'Name is too long'
   })
-  public name!: string;
+  name!: string;
 
   @IsString()
   @MinLength(10, {
@@ -17,7 +17,7 @@ class UpdateCategoryDto {
   @MaxLength(50, {
     message: 'Description is too long'
   })
-  public description!: string;
+  description!: string;
 }
 
 export default UpdateCategoryDto;
