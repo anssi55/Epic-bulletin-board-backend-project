@@ -1,5 +1,5 @@
 import { IsString, IsBoolean, IsInt, IsUrl, Contains, IsNotEmpty } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Type, Transform, TransformClassToClass } from 'class-transformer';
 
 class EnvVariables {
   @IsNotEmpty()
@@ -24,9 +24,10 @@ class EnvVariables {
   @IsInt()
   DB_PORT!: number;
 
-  @Type(() => Boolean)
   @IsNotEmpty()
   @IsBoolean()
+  @Type(() => Boolean)
+  @Transform(value => value == 'true')
   DB_SYNC!: boolean;
 
   @Type(() => Number)

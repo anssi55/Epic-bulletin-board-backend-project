@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 function validateEnvVariables() {
   const result = dotenv.config();
   const variables = plainToClass(EnvVariables, result.parsed);
-  console.log(variables.DB_SYNC + ' ' + variables.PORT);
   return validate(variables).then(errors => {
     if (errors.length > 0) {
       const message =
