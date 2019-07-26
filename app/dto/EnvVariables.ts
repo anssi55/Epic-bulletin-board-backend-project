@@ -26,7 +26,6 @@ class EnvVariables {
 
   @IsNotEmpty()
   @IsBoolean()
-  @Type(() => Boolean)
   @Transform(value => value == 'true')
   DB_SYNC!: boolean;
 
