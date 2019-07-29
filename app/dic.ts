@@ -16,24 +16,7 @@ const container = awilix.createContainer({
 });
 
 export function configcontainer(envVariables: EnvVariables) {
-  return createConnection({
-    type: 'mysql',
-    host: envVariables.DB_HOST,
-    port: envVariables.DB_PORT,
-    username: envVariables.DB_USERNAME,
-    password: envVariables.DB_PASSWORD,
-    database: envVariables.DB_DATABASE,
-    synchronize: envVariables.DB_SYNC,
-    logging: false,
-    entities: ['build/orm/entities/*.js'],
-    migrations: ['build/orm/migration/**/*.js'],
-    subscribers: ['build/orm/subscriber/**/*.js'],
-    cli: {
-      entitiesDir: 'build/orm/entities',
-      migrationsDir: 'build/orm/migration',
-      subscribersDir: 'build/orm/subscriber'
-    }
-  }).then(connection => {
+  return createDBConnection(envVariables).then(connection => {
     container.register({
       postRepo: awilix.asValue(connection.getRepository(Post)),
       categoryRepo: awilix.asValue(connection.getRepository(Category)),
@@ -46,5 +29,18 @@ export function configcontainer(envVariables: EnvVariables) {
       index: awilix.asClass(Index)
     });
     return container;
+  });
+}
+function createDBConnection(envVariables: EnvVariables) {
+  return createConnection({
+    type: 'mysql',
+    host: envVariables.DB_HOST,
+    port: envVariables.DB_PORT,
+    username: envVariables.DB_USERNAME,
+    password: envVariables.DB_PASSWORD,
+    database: envVariables.DB_DATABASE,
+    synchronize: envVariables.DB_SYNC,
+    logging: false,
+    entities: ['build/orm/entities/*.js']
   });
 }
