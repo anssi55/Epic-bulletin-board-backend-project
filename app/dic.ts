@@ -1,6 +1,5 @@
 import awilix = require('awilix');
-import { createConnection } from 'typeorm';
-
+import createDBConnection from './databaseConnection';
 import App from './App';
 import Index from './routes/Index';
 import PostRouter from './routes/PostRouter';
@@ -29,18 +28,5 @@ export function configcontainer(envVariables: EnvVariables) {
       index: awilix.asClass(Index)
     });
     return container;
-  });
-}
-function createDBConnection(envVariables: EnvVariables) {
-  return createConnection({
-    type: 'mysql',
-    host: envVariables.DB_HOST,
-    port: envVariables.DB_PORT,
-    username: envVariables.DB_USERNAME,
-    password: envVariables.DB_PASSWORD,
-    database: envVariables.DB_DATABASE,
-    synchronize: envVariables.DB_SYNC,
-    logging: false,
-    entities: ['build/orm/entities/*.js']
   });
 }

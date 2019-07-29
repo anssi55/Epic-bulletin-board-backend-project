@@ -35,7 +35,7 @@ class Index {
 
   // Catching api-calls with bad address
   public notFound(req: Request, res: Response, next: NextFunction) {
-    res.status(404).send(Boom.notFound('Path not found').output.payload);
+    next(Boom.notFound('Path not found'));
   }
   private routePost() {
     this.router.post('/api/v1/post', this.bodyValidator(CreatePostDto), this.postRouter.create);
