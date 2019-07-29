@@ -16,8 +16,7 @@ class CategoriesRouter {
       let results = await this.categoryRepo.find();
       res.status(200).send(results);
     } catch (error) {
-      const boom = Boom.boomify(error).output;
-      res.status(boom.statusCode).send(boom.payload);
+      next(error);
     }
   };
 
@@ -28,11 +27,10 @@ class CategoriesRouter {
       if (category) {
         res.status(200).send(category);
       } else {
-        res.status(404).send(Boom.notFound('Category not found').output.payload);
+        next(Boom.notFound('Category not found'));
       }
     } catch (error) {
-      const boom = Boom.boomify(error).output;
-      res.status(boom.statusCode).send(boom.payload);
+      next(error);
     }
   };
 
@@ -44,8 +42,7 @@ class CategoriesRouter {
       const result = await this.categoryRepo.save(category);
       res.status(200).send(result);
     } catch (error) {
-      const boom = Boom.boomify(error).output;
-      res.status(boom.statusCode).send(boom.payload);
+      next(error);
     }
   };
 
@@ -59,11 +56,10 @@ class CategoriesRouter {
         const result = await this.categoryRepo.save(category);
         res.status(200).send(result);
       } else {
-        res.status(404).send(Boom.notFound('Category not found').output.payload);
+        next(Boom.notFound('Category not found'));
       }
     } catch (error) {
-      const boom = Boom.boomify(error).output;
-      res.status(boom.statusCode).send(boom.payload);
+      next(error);
     }
   };
 
@@ -75,11 +71,10 @@ class CategoriesRouter {
         const result = await this.categoryRepo.delete(category);
         res.status(200).send('Deleted category: ' + JSON.stringify(category));
       } else {
-        res.status(404).send(Boom.notFound('Category not found').output.payload);
+        next(Boom.notFound('Category not found'));
       }
     } catch (error) {
-      const boom = Boom.boomify(error).output;
-      res.status(boom.statusCode).send(boom.payload);
+      next(error);
     }
   };
 }

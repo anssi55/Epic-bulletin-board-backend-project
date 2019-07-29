@@ -19,11 +19,10 @@ class PostRouter {
       if (posts.length > 0) {
         res.status(200).send(posts);
       } else {
-        res.status(404).send(Boom.notFound('Posts not found').output.payload);
+        next(Boom.notFound('Post not found'));
       }
     } catch (error) {
-      const boom = Boom.boomify(error).output;
-      res.status(boom.statusCode).send(boom.payload);
+      next(error);
     }
   };
 
@@ -34,11 +33,10 @@ class PostRouter {
       if (post) {
         res.status(200).send(post);
       } else {
-        res.status(404).send(Boom.notFound('Post not found').output.payload);
+        next(Boom.notFound('Post not found'));
       }
     } catch (error) {
-      const boom = Boom.boomify(error).output;
-      res.status(boom.statusCode).send(boom.payload);
+      next(error);
     }
   };
 
@@ -56,11 +54,10 @@ class PostRouter {
         const result = await this.postRepo.save(post);
         res.status(200).send(result);
       } else {
-        res.status(404).send(Boom.notFound('Category not found').output.payload);
+        next(Boom.notFound('Category not found'));
       }
     } catch (error) {
-      const boom = Boom.boomify(error);
-      res.status(boom.output.statusCode).send(boom.output.payload);
+      next(error);
     }
   };
 
@@ -79,16 +76,15 @@ class PostRouter {
         if (category) {
           post.category = category;
         } else {
-          res.status(404).send(Boom.notFound('Category not found').output.payload);
+          next(Boom.notFound('Category not found'));
         }
         const result = await this.postRepo.save(post);
         res.status(200).send(result);
       } else {
-        res.status(404).send(Boom.notFound('Post not found').output.payload);
+        next(Boom.notFound('Post not found'));
       }
     } catch (error) {
-      const boom = Boom.boomify(error);
-      res.status(boom.output.statusCode).send(boom.output.payload);
+      next(error);
     }
   };
 
@@ -100,12 +96,11 @@ class PostRouter {
         await this.postRepo.delete(post);
         res.status(200).send('Deleted post:' + JSON.stringify(post));
       } else {
-        res.status(404).send('Post not found');
+        next(Boom.notFound('Post not found'));
       }
       res.status(200).send(post);
     } catch (error) {
-      const boom = Boom.boomify(error);
-      res.status(boom.output.statusCode).send(boom.output.payload);
+      next(error);
     }
   };
 }
