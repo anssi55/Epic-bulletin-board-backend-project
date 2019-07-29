@@ -1,6 +1,7 @@
-import { IsString, MinLength, MaxLength, IsInt, Length } from 'class-validator';
+import { IsString, MinLength, MaxLength, IsNotEmpty } from 'class-validator';
 
 class UpdateCategoryDto {
+  @IsNotEmpty()
   @IsString()
   @MinLength(2, {
     message: 'Name is too short'
@@ -10,6 +11,7 @@ class UpdateCategoryDto {
   })
   name!: string;
 
+  @IsNotEmpty()
   @IsString()
   @MinLength(10, {
     message: 'Description is too short'
