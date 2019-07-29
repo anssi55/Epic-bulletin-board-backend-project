@@ -1,4 +1,4 @@
-import { IsString, IsBoolean, IsInt, IsUrl, Contains, IsNotEmpty } from 'class-validator';
+import { IsString, IsBoolean, IsInt, IsUrl, IsNotEmpty } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 
 class EnvVariables {

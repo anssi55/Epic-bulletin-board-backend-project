@@ -1,4 +1,4 @@
-import { IsString, MinLength, MaxLength, IsBoolean, IsInt, IsNotEmpty } from 'class-validator';
+import { IsString, MinLength, MaxLength, IsInt, IsNotEmpty } from 'class-validator';
 
 class CreateReplyToReplyDto {
   @IsNotEmpty()

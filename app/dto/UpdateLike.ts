@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsNotEmpty } from 'class-validator';
 
 class UpdateLikeDto {
   @IsNotEmpty()
