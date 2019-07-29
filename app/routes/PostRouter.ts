@@ -3,8 +3,7 @@ import { Repository } from 'typeorm';
 import { Dependencies } from '../Types';
 import Category from '../orm/entities/Category';
 import Post from '../orm/entities/Post';
-import NotFoundException from '../exceptions/NotFoundException';
-import CouldNotSaveException from '../exceptions/CouldNotSaveException';
+import Boom from 'boom';
 
 class PostRouter {
   private postRepo: Repository<Post>;
@@ -14,41 +13,54 @@ class PostRouter {
     this.categoryRepo = opts.categoryRepo;
   }
 
-  //get all posts from database
   public getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let posts = await this.postRepo.find();
-      res.status(200).send(posts);
-    } catch {
-      next(new NotFoundException('Post', 'any'));
+      const posts = await this.postRepo.find();
+      if (posts.length > 0) {
+        res.status(200).send(posts);
+      } else {
+        next(Boom.notFound('Post not found'));
+      }
+    } catch (error) {
+      next(error);
     }
   };
-  //get specific post from database
+
   public getOne = async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     try {
       const post = await this.postRepo.findOne(id);
-      res.status(200).send(post);
+      if (post) {
+        res.status(200).send(post);
+      } else {
+        next(Boom.notFound('Post not found'));
+      }
     } catch (error) {
-      next(new CouldNotSaveException());
+      next(error);
     }
   };
-  //Add new post to database
+
   public create = async (req: Request, res: Response, next: NextFunction) => {
     let post = new Post();
     post.topic = req.body.topic;
     post.post = req.body.post;
     post.datetime = new Date(Date.now());
-    post.category = req.body.categoryId;
+    let categoryId = req.body.categoryId;
     post.pinned = req.body.pinned;
     try {
-      await this.postRepo.save(post);
-      res.status(200).send(post);
-    } catch {
-      next(new CouldNotSaveException());
+      const category = await this.categoryRepo.findOne(categoryId);
+      if (category) {
+        post.category = category;
+        const result = await this.postRepo.save(post);
+        res.status(200).send(result);
+      } else {
+        next(Boom.notFound('Category not found'));
+      }
+    } catch (error) {
+      next(error);
     }
   };
-  //Modify a post in database
+
   public update = async (req: Request, res: Response, next: NextFunction) => {
     const id = req.body.id;
     const categoryId = req.body.categoryId;
@@ -56,29 +68,39 @@ class PostRouter {
     try {
       const post = await this.postRepo.findOne(id);
       const category = await this.categoryRepo.findOne(categoryId);
-      if (post !== undefined) {
+      if (post) {
         post.topic = req.body.topic;
         post.post = req.body.post;
         post.modified = new Date(Date.now());
         post.pinned = req.body.pinned;
-        if (category !== undefined) {
+        if (category) {
           post.category = category;
+        } else {
+          next(Boom.notFound('Category not found'));
         }
-        await this.postRepo.save(post);
-        res.status(200).send(post);
+        const result = await this.postRepo.save(post);
+        res.status(200).send(result);
+      } else {
+        next(Boom.notFound('Post not found'));
       }
-    } catch {
-      next(new NotFoundException('Post', req.params.id));
+    } catch (error) {
+      next(error);
     }
   };
-  //Delete a post from database
+
   public delete = async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     try {
-      const post = await this.postRepo.delete(id);
+      const post = await this.postRepo.findOne(id);
+      if (post) {
+        await this.postRepo.delete(post);
+        res.status(200).send('Deleted post:' + JSON.stringify(post));
+      } else {
+        next(Boom.notFound('Post not found'));
+      }
       res.status(200).send(post);
-    } catch {
-      next(new NotFoundException('Post', req.params.id));
+    } catch (error) {
+      next(error);
     }
   };
 }

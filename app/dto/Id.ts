@@ -1,6 +1,7 @@
-import { IsInt } from 'class-validator';
+import { IsInt, IsNotEmpty } from 'class-validator';
 
 class IdDto {
+  @IsNotEmpty()
   @IsInt()
   id!: number;
 }

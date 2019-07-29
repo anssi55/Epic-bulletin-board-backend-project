@@ -25,7 +25,7 @@ class App {
   }
   private routes(): void {
     this.index.init();
-    this.app.use('/', this.index.router);
+    this.app.use('/', this.index.router)
   }
   private initializeErrorHandling() {
     this.app.use(this.errorMiddleware);

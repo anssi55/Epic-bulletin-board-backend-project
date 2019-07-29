@@ -1,6 +1,5 @@
 import awilix = require('awilix');
-import { createConnection } from 'typeorm';
-
+import createDBConnection from './databaseConnection';
 import App from './App';
 import Index from './routes/Index';
 import PostRouter from './routes/PostRouter';
@@ -16,7 +15,7 @@ const container = awilix.createContainer({
 });
 
 export function configcontainer(envVariables: EnvVariables) {
-  return createConnection().then(connection => {
+  return createDBConnection(envVariables).then(connection => {
     container.register({
       postRepo: awilix.asValue(connection.getRepository(Post)),
       categoryRepo: awilix.asValue(connection.getRepository(Category)),

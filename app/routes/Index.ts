@@ -1,11 +1,12 @@
 import { Router, Request, Response, NextFunction } from 'express';
+import { Dependencies } from '../Types';
+import Boom from 'boom';
 //TODO. Routers not ready yet
 //import authRouter from './authRouter';
 //import repliesRouter from './repliesRouter';
 //import userRouter from './userRouter';
 import CategoryRouter from './CategoryRouter';
 import PostRouter from './PostRouter';
-import { Dependencies } from '../Types';
 import bodyValidator from '../middleware/validation.middleware';
 import CreatePostDto from '../dto/CreatePost';
 import CategoriesRouter from './CategoryRouter';
@@ -16,9 +17,9 @@ import UpdateCategoryDto from '../dto/UpdateCategory';
 
 class Index {
   router: Router;
-  postRouter: PostRouter;
-  bodyValidator: typeof bodyValidator;
-  categoryRouter: CategoryRouter;
+  private postRouter: PostRouter;
+  private bodyValidator: typeof bodyValidator;
+  private categoryRouter: CategoryRouter;
   constructor(opts: Dependencies) {
     this.postRouter = opts.postRouter;
     this.categoryRouter = opts.categoryRouter;
@@ -29,32 +30,32 @@ class Index {
 
   // Root path response
   public rootPath(req: Request, res: Response, next: NextFunction) {
-    res.send({ message: 'Server is up and running' });
+    res.status(200).send({ message: 'Server is up and running' });
   }
 
   // Catching api-calls with bad address
   public notFound(req: Request, res: Response, next: NextFunction) {
-    res.status(404).send({ message: 'Path not found' });
+    next(Boom.notFound('Path not found'));
   }
-  private routePosts() {
-    this.router.post('/api/v1/posts', this.bodyValidator(CreatePostDto), this.postRouter.create);
-    this.router.get('/api/v1/posts', this.postRouter.getAll);
+  private routePost() {
+    this.router.post('/api/v1/post', this.bodyValidator(CreatePostDto), this.postRouter.create);
+    this.router.get('/api/v1/post', this.postRouter.getAll);
     this.router
-      .route('/api/v1/posts/:id')
+      .route('/api/v1/post/:id')
       .get(this.postRouter.getOne)
       .put(this.postRouter.update)
       .delete(this.postRouter.delete);
   }
   private routeCategory() {
     this.router.post(
-      '/api/v1/posts',
+      '/api/v1/category',
       this.bodyValidator(CreateCategoryDto),
       this.categoryRouter.create
     );
-    this.router.get('/api/v1/posts', this.categoryRouter.getAll);
+    this.router.get('/api/v1/category', this.categoryRouter.getAll);
 
     this.router
-      .route('/api/v1/posts/:id')
+      .route('/api/v1/category/:id')
       .get(this.categoryRouter.getOne)
       .put(this.bodyValidator(UpdateCategoryDto), this.categoryRouter.update)
       .delete(this.categoryRouter.delete);
@@ -63,7 +64,7 @@ class Index {
   //Routing all the addresses to right path
   init() {
     this.router.get('/', this.rootPath);
-    this.routePosts();
+    this.routePost();
     this.routeCategory();
     // this.router.use('/api/v1/replies', repliesRouter);
     // this.router.use('/api/v1/auth', authRouter);

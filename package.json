@@ -1,7 +1,7 @@
 {
   "name": "epic-bulletin-board-backend-project",
   "version": "1.0.0",
-  "description": "bulleting board project",
+  "description": "bulletin board project",
   "main": "startApp",
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.test.ts",
@@ -26,10 +26,11 @@
   "homepage": "https://github.com/anssi55/Epic-bulletin-board-backend-project#readme",
   "dependencies": {
     "awilix": "^4.2.2",
+    "boom": "^7.3.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.9.1",
-    "cors": "^2.8.5",
     "dotenv": "^8.0.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "mysql": "^2.17.1",
     "pg": "^7.11.0",
@@ -38,6 +39,7 @@
     "typescript": "^3.5.2"
   },
   "devDependencies": {
+    "@types/boom": "^7.2.1",
     "@types/dotenv": "^6.1.1",
     "@types/cors": "^2.8.5",
     "@types/express": "^4.17.0",
@@ -48,6 +50,6 @@
   },
   "engines": {
     "node": "12.5.0",
-    "npm": "6.10.0"
+    "npm": "6.10.2"
   }
 }

@@ -1,6 +1,7 @@
-import { IsString, MinLength, MaxLength } from 'class-validator';
+import { IsString, MinLength, MaxLength, IsNotEmpty } from 'class-validator';
 
 class CreateCategoryDto {
+  @IsNotEmpty()
   @IsString()
   @MinLength(2, {
     message: 'Name is too short'
@@ -8,8 +9,9 @@ class CreateCategoryDto {
   @MaxLength(50, {
     message: 'Name is too long'
   })
-  public name!: string;
+  name!: string;
 
+  @IsNotEmpty()
   @IsString()
   @MinLength(10, {
     message: 'Description is too short'
@@ -17,7 +19,7 @@ class CreateCategoryDto {
   @MaxLength(50, {
     message: 'Description is too long'
   })
-  public description!: string;
+  description!: string;
 }
 
 export default CreateCategoryDto;

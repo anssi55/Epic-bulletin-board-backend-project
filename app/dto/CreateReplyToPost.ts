@@ -1,6 +1,7 @@
-import { IsString, MinLength, MaxLength, IsInt } from 'class-validator';
+import { IsString, MinLength, MaxLength, IsInt, IsNotEmpty } from 'class-validator';
 
 class CreateReplyToPostDto {
+  @IsNotEmpty()
   @IsString()
   @MinLength(2, {
     message: 'Topic is too short'
@@ -10,9 +11,11 @@ class CreateReplyToPostDto {
   })
   reply!: string;
 
+  @IsNotEmpty()
   @IsInt()
   userId!: number;
 
+  @IsNotEmpty()
   @IsInt()
   postId!: number;
 }

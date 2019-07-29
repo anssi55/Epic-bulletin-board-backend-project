@@ -21,7 +21,7 @@ class Post {
   @Column()
   pinned!: Boolean;
 
-  @Column()
+  @Column({ nullable: true })
   modified!: Date;
 
   @ManyToOne(type => User, user => user.replies)
