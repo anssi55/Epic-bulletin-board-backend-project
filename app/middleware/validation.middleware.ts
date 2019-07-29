@@ -11,7 +11,7 @@ function bodyValidationMiddleware<T>(type: any): express.RequestHandler {
         const message =
           'Validation error(s): ' +
           errors.map(error => Object.values(error.constraints)).join(', ');
-        res.status(400).send(Boom.badRequest(message).output.payload);
+        next(Boom.badRequest(message));
       } else {
         next();
       }
