@@ -51,4 +51,5 @@ class PostModel {
       return Boom.serverUnavailable('Something wrong with the database connection');
     }
   };
+  public modifyPost = async (post: Post) => {};
 }
