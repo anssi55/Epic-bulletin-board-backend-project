@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 function validateEnvVariables() {
   const result = dotenv.config();
+  console.log(result);
   const variables = plainToClass(EnvVariables, result.parsed);
   return validate(variables).then(errors => {
     if (errors.length > 0) {
