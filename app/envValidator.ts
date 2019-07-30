@@ -4,9 +4,14 @@ import { validate } from 'class-validator';
 import dotenv from 'dotenv';
 
 function validateEnvVariables() {
+  let result2;
   const result = dotenv.config();
-  console.log(result);
-  const variables = plainToClass(EnvVariables, result.parsed);
+  if (result.error != null) {
+    result2 = result.parsed;
+  } else {
+    result2 = process.env;
+  }
+  const variables = plainToClass(EnvVariables, result2);
   return validate(variables).then(errors => {
     if (errors.length > 0) {
       const message =
