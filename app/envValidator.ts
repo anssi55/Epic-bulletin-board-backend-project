@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 function validateEnvVariables() {
   let result2;
   const result = dotenv.config();
-  if (result.error != null) {
+  if (result.error === undefined) {
     result2 = result.parsed;
   } else {
     result2 = process.env;
