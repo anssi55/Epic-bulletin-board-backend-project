@@ -1,17 +1,12 @@
-'use strict';
 import { Request, Response, NextFunction } from 'express';
-import { Repository } from 'typeorm';
 import { Dependencies } from '../Types';
 import Category from '../orm/entities/Category';
-import Boom from 'boom';
 import CategoryModel from '../models/CategoryModel';
 import { plainToClass } from 'class-transformer';
 
 class CategoryController {
-  private categoryRepo: Repository<Category>;
   private categoryModel: CategoryModel;
   constructor(opts: Dependencies) {
-    this.categoryRepo = opts.categoryRepo;
     this.categoryModel = opts.categoryModel;
   }
 

@@ -1,19 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import { Repository } from 'typeorm';
 import { Dependencies } from '../Types';
-import Category from '../orm/entities/Category';
 import Post from '../orm/entities/Post';
-import Boom from 'boom';
 import PostModel from '../models/PostModel';
 import { plainToClass } from 'class-transformer';
 
 class PostController {
-  private postRepo: Repository<Post>;
-  private categoryRepo: Repository<Category>;
   private postModel: PostModel;
   constructor(opts: Dependencies) {
-    this.postRepo = opts.postRepo;
-    this.categoryRepo = opts.categoryRepo;
     this.postModel = opts.postModel;
   }
 
@@ -29,12 +22,8 @@ class PostController {
   public getOne = async (req: Request, res: Response, next: NextFunction) => {
     const PostId = req.params.id;
     try {
-      const post = await this.postRepo.findOne(PostId);
-      if (post) {
-        res.status(200).send(post);
-      } else {
-        next(Boom.notFound('Post not found'));
-      }
+      const post = await this.postModel.getOnePost(PostId);
+      res.status(200).send(post);
     } catch (error) {
       next(error);
     }
