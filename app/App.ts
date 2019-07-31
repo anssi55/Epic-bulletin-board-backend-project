@@ -1,7 +1,7 @@
 import express = require('express');
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
-import Index from './routes/Index';
+import Index from './routers/Index';
 import { Dependencies } from './Types';
 import errorMiddleware from './middleware/error.middleware';
 import EnvVariables from './dto/EnvVariables';
@@ -25,7 +25,7 @@ class App {
   }
   private routes(): void {
     this.index.init();
-    this.app.use('/', this.index.router)
+    this.app.use('/', this.index.router);
   }
   private initializeErrorHandling() {
     this.app.use(this.errorMiddleware);
