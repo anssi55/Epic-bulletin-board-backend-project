@@ -7,7 +7,6 @@ import User from './User';
 
 @Entity()
 class Post {
-  @Expose()
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -19,7 +18,6 @@ class Post {
   @Column()
   post!: string;
 
-  @Expose()
   @Column()
   datetime!: Date;
 
@@ -27,23 +25,18 @@ class Post {
   @Column()
   pinned!: Boolean;
 
-  @Expose()
   @Column({ nullable: true })
   modified!: Date;
 
-  @Expose()
   @ManyToOne(type => User, user => user.replies)
   user!: User;
 
-  @Expose()
   @ManyToOne(type => Category, category => category.posts)
   category!: Category;
 
-  @Expose()
   @OneToMany(type => Reply, reply => reply.post)
   replies!: Reply[];
 
-  @Expose()
   @OneToMany(type => LikeOnPost, likeonpost => likeonpost.post)
   likes!: LikeOnPost[];
 }
