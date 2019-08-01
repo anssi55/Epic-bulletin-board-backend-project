@@ -24,7 +24,7 @@ class PostModel {
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.serverUnavailable('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection');
     }
   };
 
@@ -39,7 +39,7 @@ class PostModel {
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.serverUnavailable('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection');
     }
   };
 
@@ -57,7 +57,7 @@ class PostModel {
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.serverUnavailable('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection');
     }
   };
 
@@ -83,7 +83,7 @@ class PostModel {
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.serverUnavailable('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection');
     }
   };
 
@@ -91,15 +91,14 @@ class PostModel {
     try {
       const post = await this.postRepo.findOne(postId);
       if (post) {
-        const result = await this.postRepo.save(post);
-        return result;
+        await this.postRepo.save(post);
       } else {
         throw Boom.notFound('Post not found');
       }
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.serverUnavailable('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection');
     }
   };
 }

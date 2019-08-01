@@ -21,7 +21,7 @@ class CategoryModel {
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.serverUnavailable('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection');
     }
   };
 
@@ -36,7 +36,7 @@ class CategoryModel {
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.serverUnavailable('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection');
     }
   };
 
@@ -47,7 +47,7 @@ class CategoryModel {
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.serverUnavailable('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection');
     }
   };
 
@@ -65,7 +65,7 @@ class CategoryModel {
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.serverUnavailable('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection');
     }
   };
 
@@ -73,15 +73,14 @@ class CategoryModel {
     try {
       const categoryToDelete = await this.categoryRepo.findOne(categoryId);
       if (categoryToDelete) {
-        const result = await this.categoryRepo.save(categoryToDelete);
-        return result;
+        await this.categoryRepo.save(categoryToDelete);
       } else {
         throw Boom.notFound('Category not found');
       }
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.serverUnavailable('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection');
     }
   };
 }

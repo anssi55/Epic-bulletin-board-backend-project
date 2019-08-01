@@ -3,21 +3,26 @@ import { Dependencies } from '../Types';
 import Boom from 'boom';
 import CategoryController from '../controllers/CategoryController';
 import PostController from '../controllers/PostController';
-import bodyValidator from '../middleware/validation.middleware';
+import BodyValidatorMiddleware from '../middleware/bodyValidation.middleware';
+import UrlValidatorMiddleware from '../middleware/urlValidation.middleware';
 import CreatePostDto from '../dto/CreatePost';
+import UpdatePostDto from '../dto/CreatePost';
 import CreateCategoryDto from '../dto/CreateCategory';
 import UpdateCategoryDto from '../dto/UpdateCategory';
+import IdDto from '../dto/Id';
 
 class Index {
   router: Router;
   private postController: PostController;
-  private bodyValidator: typeof bodyValidator;
+  private bodyValidator: typeof BodyValidatorMiddleware;
   private categoryController: CategoryController;
+  private urlValidator: typeof UrlValidatorMiddleware;
 
   constructor(opts: Dependencies) {
     this.postController = opts.postController;
     this.categoryController = opts.categoryController;
     this.bodyValidator = opts.bodyValidator;
+    this.urlValidator = opts.urlValidator;
     this.router = Router();
     this.init();
   }
@@ -38,9 +43,9 @@ class Index {
     this.router.get('/api/v1/posts', this.postController.getAll);
     this.router
       .route('/api/v1/posts/:id')
-      .get(this.postController.getOne)
-      .put(this.postController.update)
-      .delete(this.postController.delete);
+      .get(this.urlValidator(IdDto), this.postController.getOne)
+      .put(this.urlValidator(IdDto), this.bodyValidator(UpdatePostDto), this.postController.update)
+      .delete(this.urlValidator(IdDto), this.postController.delete);
   }
   private routeCategories() {
     this.router.post(
@@ -52,9 +57,13 @@ class Index {
 
     this.router
       .route('/api/v1/categories/:id')
-      .get(this.categoryController.getOne)
-      .put(this.bodyValidator(UpdateCategoryDto), this.categoryController.update)
-      .delete(this.categoryController.delete);
+      .get(this.urlValidator(IdDto), this.categoryController.getOne)
+      .put(
+        this.urlValidator(IdDto),
+        this.bodyValidator(UpdateCategoryDto),
+        this.categoryController.update
+      )
+      .delete(this.urlValidator(IdDto), this.categoryController.delete);
   }
 
   init() {

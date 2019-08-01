@@ -6,11 +6,12 @@ import PostController from './controllers/PostController';
 import CategoryController from './controllers/CategoryController';
 import Post from './orm/entities/Post';
 import Category from './orm/entities/Category';
-import ValidationMiddleware from './middleware/validation.middleware';
+import BodyValidationMiddleware from './middleware/bodyValidation.middleware';
 import errorMiddleware from './middleware/error.middleware';
 import EnvVariables from './dto/EnvVariables';
 import PostModel from './models/PostModel';
 import CategoryModel from './models/CategoryModel';
+import UrlValidationMiddleware from './middleware/urlValidation.middleware';
 
 const container = awilix.createContainer({
   injectionMode: awilix.InjectionMode.PROXY
@@ -25,7 +26,8 @@ export function configcontainer(envVariables: EnvVariables) {
       postController: awilix.asClass(PostController),
       categoryController: awilix.asClass(CategoryController),
 
-      bodyValidator: awilix.asValue(ValidationMiddleware),
+      urlValidator: awilix.asValue(UrlValidationMiddleware),
+      bodyValidator: awilix.asValue(BodyValidationMiddleware),
       errorMiddleware: awilix.asValue(errorMiddleware),
 
       envVariables: awilix.asValue(envVariables),
