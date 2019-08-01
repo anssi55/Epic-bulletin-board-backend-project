@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Expose } from 'class-transformer';
 import Reply from './Reply';
 import LikeOnPost from './LikeOnPost';
 import Category from './Category';
@@ -9,15 +10,18 @@ class Post {
   @PrimaryGeneratedColumn()
   id!: number;
 
+  @Expose()
   @Column()
   topic!: string;
 
+  @Expose()
   @Column()
   post!: string;
 
   @Column()
   datetime!: Date;
 
+  @Expose()
   @Column()
   pinned!: Boolean;
 
