@@ -3,8 +3,7 @@ import { Dependencies } from '../Types';
 import Boom from 'boom';
 import CategoryController from '../controllers/CategoryController';
 import PostController from '../controllers/PostController';
-import BodyValidatorMiddleware from '../middleware/bodyValidation.middleware';
-import UrlValidatorMiddleware from '../middleware/urlValidation.middleware';
+import ValidatorMiddleware from '../middleware/ValidationMiddleware';
 import CreatePostDto from '../dto/CreatePost';
 import UpdatePostDto from '../dto/CreatePost';
 import CreateCategoryDto from '../dto/CreateCategory';
@@ -14,15 +13,13 @@ import IdDto from '../dto/Id';
 class Index {
   router: Router;
   private postController: PostController;
-  private bodyValidator: typeof BodyValidatorMiddleware;
   private categoryController: CategoryController;
-  private urlValidator: typeof UrlValidatorMiddleware;
+  private validator: ValidatorMiddleware;
 
   constructor(opts: Dependencies) {
     this.postController = opts.postController;
     this.categoryController = opts.categoryController;
-    this.bodyValidator = opts.bodyValidator;
-    this.urlValidator = opts.urlValidator;
+    this.validator = opts.validator;
     this.router = Router();
     this.init();
   }
@@ -37,33 +34,37 @@ class Index {
   private routePosts() {
     this.router.post(
       '/api/v1/posts',
-      this.bodyValidator(CreatePostDto),
+      this.validator.validateBody(CreatePostDto),
       this.postController.create
     );
     this.router.get('/api/v1/posts', this.postController.getAll);
     this.router
       .route('/api/v1/posts/:id')
-      .get(this.urlValidator(IdDto), this.postController.getOne)
-      .put(this.urlValidator(IdDto), this.bodyValidator(UpdatePostDto), this.postController.update)
-      .delete(this.urlValidator(IdDto), this.postController.delete);
+      .get(this.validator.validateUrl(IdDto), this.postController.getOne)
+      .put(
+        this.validator.validateUrl(IdDto),
+        this.validator.validateBody(UpdatePostDto),
+        this.postController.update
+      )
+      .delete(this.validator.validateUrl(IdDto), this.postController.delete);
   }
   private routeCategories() {
     this.router.post(
       '/api/v1/categories',
-      this.bodyValidator(CreateCategoryDto),
+      this.validator.validateBody(CreateCategoryDto),
       this.categoryController.create
     );
     this.router.get('/api/v1/categories', this.categoryController.getAll);
 
     this.router
       .route('/api/v1/categories/:id')
-      .get(this.urlValidator(IdDto), this.categoryController.getOne)
+      .get(this.validator.validateUrl(IdDto), this.categoryController.getOne)
       .put(
-        this.urlValidator(IdDto),
-        this.bodyValidator(UpdateCategoryDto),
+        this.validator.validateUrl(IdDto),
+        this.validator.validateBody(UpdateCategoryDto),
         this.categoryController.update
       )
-      .delete(this.urlValidator(IdDto), this.categoryController.delete);
+      .delete(this.validator.validateUrl(IdDto), this.categoryController.delete);
   }
 
   init() {
