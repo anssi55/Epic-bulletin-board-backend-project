@@ -11,15 +11,15 @@
 The Epic Bulletin board is bulletin board which allows to make posts, comment post and like posts and comments.
 You can also make categories for the posts and have account so will be able to follow the conversation easier.
 
-## Installation and starting the app
+## Installation and running the app
 
 ### Installation
 
-Install application by running `npm install` script.
+`> npm install`
 
 ### Running the application
 
-Run the application by running `npm start` script.
+`> npm start`
 
 ## Technologies used
 

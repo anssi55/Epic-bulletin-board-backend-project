@@ -73,7 +73,7 @@ class CategoryModel {
     try {
       const categoryToDelete = await this.categoryRepo.findOne(categoryId);
       if (categoryToDelete) {
-        await this.categoryRepo.save(categoryToDelete);
+        return await this.categoryRepo.remove(categoryToDelete);
       } else {
         throw Boom.notFound('Category not found');
       }

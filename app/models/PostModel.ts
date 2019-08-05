@@ -91,7 +91,7 @@ class PostModel {
     try {
       const post = await this.postRepo.findOne(postId);
       if (post) {
-        await this.postRepo.save(post);
+        return await this.postRepo.remove(post);
       } else {
         throw Boom.notFound('Post not found');
       }
