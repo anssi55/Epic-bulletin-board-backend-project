@@ -42,8 +42,7 @@ class CategoryModel {
 
   public createCategory = async (newCategory: Category) => {
     try {
-      const result = await this.categoryRepo.save(newCategory);
-      return result;
+      return await this.categoryRepo.save(newCategory);
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
@@ -55,10 +54,9 @@ class CategoryModel {
     try {
       let originalCategory = await this.categoryRepo.findOne(modifiedCategory.id);
       if (originalCategory) {
-        originalCategory.name = originalCategory.name;
-        originalCategory.description = originalCategory.description;
-        const result = await this.categoryRepo.save(originalCategory);
-        return result;
+        originalCategory.name = modifiedCategory.name;
+        originalCategory.description = modifiedCategory.description;
+        return await this.categoryRepo.save(originalCategory);
       } else {
         throw Boom.notFound('Category not found');
       }
