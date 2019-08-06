@@ -6,11 +6,6 @@
 - [About](#about)
 - [Setup](#setup)
 - [Technologies used](#technologies-used)
-- [API overview](#api-overview)
-- [Result types](#result-types)
-- [Resource components](#resource-components)
-- [Parameters](#parameters)
-- [Queries](#queries)
 
 <!-- /TOC -->
 

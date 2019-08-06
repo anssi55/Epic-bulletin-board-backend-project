@@ -58,8 +58,9 @@ class PostController {
     const postId = req.params.id;
 
     try {
-      this.postModel.deletePost(postId);
-      res.sendStatus(204);
+      this.postModel.deletePost(postId).then(() => {
+        res.sendStatus(204);
+      });
     } catch (error) {
       next(error);
     }

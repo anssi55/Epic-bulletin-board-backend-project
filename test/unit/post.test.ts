@@ -43,7 +43,7 @@ describe('PostModel unit tests', () => {
 
   test('Get all posts, error test', async () => {
     when(postRepoMock.find()).thenResolve(emptyPosts);
-    await postmodel
+    postmodel
       .getAllPosts()
       .then(() => {
         expect(postmodel.getOnePost(post.id)).toThrowError();
@@ -66,7 +66,7 @@ describe('PostModel unit tests', () => {
 
   test('Get one post, error test', async () => {
     when(postRepoMock.findOne(post.id)).thenResolve(undefined);
-    await postmodel
+    postmodel
       .getOnePost(post.id)
       .then(() => {
         expect(postmodel.getOnePost(post.id)).toThrowError();
@@ -95,7 +95,7 @@ describe('PostModel unit tests', () => {
     when(categoryRepoMock.findOne(category.id)).thenResolve(undefined);
     when(postRepoMock.save(post)).thenResolve(post);
 
-    await postmodel
+    postmodel
       .createPost(post, category.id)
       .then(() => {
         expect(postmodel.createPost(post, category.id)).toThrowError();
@@ -123,7 +123,7 @@ describe('PostModel unit tests', () => {
     when(postRepoMock.findOne(post.id)).thenResolve(undefined);
     when(postRepoMock.remove(post)).thenResolve(post);
 
-    await postmodel
+    postmodel
       .deletePost(post.id)
       .then(() => {
         expect(postmodel.deletePost(post.id)).toThrowError('Post not found');
@@ -133,7 +133,7 @@ describe('PostModel unit tests', () => {
     verify(postRepoMock.remove(post)).never();
   });
 
-  test('Update post', async () => {
+  test('Modify post', async () => {
     let result;
     when(postRepoMock.findOne(post.id)).thenResolve(post);
     when(postRepoMock.save(post)).thenResolve(post);
@@ -149,34 +149,34 @@ describe('PostModel unit tests', () => {
     expect(result).toEqual(post);
   });
 
-  test('Update post, bad category error test', async () => {
+  test('Modify post, bad post error test', async () => {
     when(postRepoMock.findOne(post.id)).thenResolve(undefined);
     when(postRepoMock.save(post)).thenResolve(post);
     when(categoryRepoMock.findOne(category.id)).thenResolve(category);
-    await postmodel
+    postmodel
       .modifyPost(post, category.id)
       .then(() => {
         expect(postmodel.modifyPost(post, category.id)).toThrowError('Category not found');
+        verify(postRepoMock.findOne(post.id)).called();
+        verify(postRepoMock.save(post)).never();
+        verify(categoryRepoMock.findOne(category.id)).called();
       })
       .catch(() => {});
-    verify(postRepoMock.findOne(post.id)).called();
-    verify(postRepoMock.save(post)).never();
-    verify(categoryRepoMock.findOne(category.id)).called();
   });
 
-  test('Update post, bad post error test', async () => {
+  test('Modify post, bad category error test', async () => {
     when(postRepoMock.findOne(post.id)).thenResolve(post);
     when(postRepoMock.save(post)).thenResolve(post);
     when(categoryRepoMock.findOne(category.id)).thenResolve(undefined);
 
-    await postmodel
+    postmodel
       .modifyPost(post, category.id)
       .then(() => {
         expect(postmodel.modifyPost(post, category.id)).toThrowError('Post not found');
+        verify(postRepoMock.findOne(post.id)).called();
+        verify(postRepoMock.save(post)).never();
+        verify(categoryRepoMock.findOne(category.id)).called();
       })
       .catch(() => {});
-    verify(postRepoMock.findOne(post.id)).called();
-    verify(postRepoMock.save(post)).never();
-    verify(categoryRepoMock.findOne(category.id)).called();
   });
 });

@@ -24,105 +24,113 @@ describe('Category Model unit tests', () => {
   });
 
   test('Get all categories', async () => {
+    let result;
     when(categoryRepoMock.find()).thenResolve(categories);
     try {
-      await categoryModel.getAllCategories();
+      result = await categoryModel.getAllCategories();
     } catch (error) {
       console.log(error);
     }
     verify(categoryRepoMock.find()).called();
+    expect(result).toEqual(categories);
   });
 
   test('Get all categories, error test', async () => {
     when(categoryRepoMock.find()).thenResolve(emptyCategories);
-    await categoryModel
+    categoryModel
       .getAllCategories()
       .then(() => {
         expect(categoryModel.getAllCategories()).toThrowError('Categories not found');
+        verify(categoryRepoMock.find()).called();
       })
       .catch(() => {});
-
-    verify(categoryRepoMock.find()).called();
   });
 
   test('Get category', async () => {
+    let result;
     when(categoryRepoMock.findOne(category.id)).thenResolve(category);
     try {
-      await categoryModel.getOneCategory(category.id);
+      result = await categoryModel.getOneCategory(category.id);
     } catch (error) {
       console.log(error);
     }
     verify(categoryRepoMock.findOne(category.id)).called();
+    expect(result).toEqual(category);
   });
 
   test('Get category, error test', async () => {
     when(categoryRepoMock.findOne(category.id)).thenResolve(undefined);
-    await categoryModel
+    categoryModel
       .getOneCategory(category.id)
       .then(() => {
         expect(categoryModel.getOneCategory(category.id)).toThrowError('Category not found');
+        verify(categoryRepoMock.findOne(category.id)).called();
       })
       .catch(() => {});
-    verify(categoryRepoMock.findOne(category.id)).called();
   });
 
   test('Create category', async () => {
+    let result;
     when(categoryRepoMock.save(category)).thenResolve(category);
     try {
-      await categoryModel.createCategory(category);
+      result = await categoryModel.createCategory(category);
     } catch (error) {
       console.log(error);
     }
     verify(categoryRepoMock.save(category)).called();
+    expect(result).toEqual(category);
   });
 
   test('Modify category', async () => {
+    let result;
     when(categoryRepoMock.findOne(category.id)).thenResolve(category);
     when(categoryRepoMock.save(category)).thenResolve(category);
     try {
-      await categoryModel.modifyCategory(category);
+      result = await categoryModel.modifyCategory(category);
     } catch (error) {
       console.log(error);
     }
     verify(categoryRepoMock.findOne(category.id)).called();
     verify(categoryRepoMock.save(category)).called();
+    expect(result).toEqual(category);
   });
 
   test('Modify category, error test', async () => {
     when(categoryRepoMock.findOne(category.id)).thenResolve(undefined);
     when(categoryRepoMock.save(category)).thenResolve(category);
-    await categoryModel
+    categoryModel
       .modifyCategory(category)
       .then(() => {
         expect(categoryModel.modifyCategory(category)).toThrowError('Category not found');
+        verify(categoryRepoMock.findOne(category.id)).called();
+        verify(categoryRepoMock.save(category)).never();
       })
       .catch(() => {});
-
-    verify(categoryRepoMock.findOne(category.id)).called();
-    verify(categoryRepoMock.save(category)).never();
   });
   test('Delete category', async () => {
+    let result;
     when(categoryRepoMock.findOne(category.id)).thenResolve(category);
     when(categoryRepoMock.remove(category)).thenResolve(category);
     try {
-      await categoryModel.deleteCategory(category.id);
+      result = await categoryModel.deleteCategory(category.id);
     } catch (error) {
       console.log(error);
     }
     verify(categoryRepoMock.findOne(category.id)).called();
     verify(categoryRepoMock.remove(category)).called();
+    expect(result).toEqual(category);
   });
 
   test('Delete category, error test', async () => {
     when(categoryRepoMock.findOne(category.id)).thenResolve(undefined);
     when(categoryRepoMock.remove(category)).thenResolve(category);
-    await categoryModel
+    categoryModel
       .deleteCategory(category.id)
       .then(() => {
         expect(categoryModel.deleteCategory(category.id)).toThrowError('Category not found');
+        verify(categoryRepoMock.findOne(category.id)).called();
+        verify(categoryRepoMock.remove(category)).never();
       })
       .catch(() => {});
-    verify(categoryRepoMock.findOne(category.id)).called();
-    verify(categoryRepoMock.remove(category)).never();
   });
 });
