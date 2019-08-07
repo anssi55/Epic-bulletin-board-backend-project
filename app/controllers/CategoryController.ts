@@ -41,9 +41,10 @@ class CategoryController {
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
     const categoryId = req.params.id;
-    const newCategory = plainToClass(Category, req.body, { excludeExtraneousValues: true });
+    const modifiedCategory = plainToClass(Category, req.body, { excludeExtraneousValues: true });
+    modifiedCategory.id = categoryId;
     try {
-      let result = await this.categoryModel.modifyCategory(categoryId);
+      let result = await this.categoryModel.modifyCategory(modifiedCategory);
       res.status(200).send(result);
     } catch (error) {
       next(error);
@@ -53,8 +54,9 @@ class CategoryController {
   public delete = async (req: Request, res: Response, next: NextFunction) => {
     const categoryId = req.params.id;
     try {
-      await this.categoryModel.deleteCategory(categoryId);
-      res.sendStatus(204);
+      this.categoryModel.deleteCategory(categoryId).then(() => {
+        res.sendStatus(204);
+      });
     } catch (error) {
       next(error);
     }

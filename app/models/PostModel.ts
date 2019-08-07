@@ -24,7 +24,7 @@ class PostModel {
     } catch (error) {
       throw Boom.isBoom(error)
         ? error
-        : Boom.badImplementation('Something wrong with the database connection');
+        : Boom.badImplementation('Something wrong with the database connection' + error);
     }
   };
 
@@ -49,8 +49,7 @@ class PostModel {
       const category = await this.categoryRepo.findOne(categoryId);
       if (category) {
         newPost.category = category;
-        const result = await this.postRepo.save(newPost);
-        return result;
+        return await this.postRepo.save(newPost);
       } else {
         throw Boom.notFound('Category not found');
       }
@@ -64,19 +63,18 @@ class PostModel {
   public modifyPost = async (modifiedPost: Post, categoryId: number) => {
     try {
       let originalPost = await this.postRepo.findOne(modifiedPost.id);
-      const originalCategory = await this.categoryRepo.findOne(categoryId);
+      const newCategory = await this.categoryRepo.findOne(categoryId);
       if (originalPost) {
         originalPost.topic = modifiedPost.topic;
         originalPost.post = modifiedPost.post;
         originalPost.modified = new Date(Date.now());
         originalPost.pinned = modifiedPost.pinned;
-        if (originalCategory) {
-          originalPost.category = originalCategory;
+        if (newCategory) {
+          originalPost.category = newCategory;
         } else {
           throw Boom.notFound('Category not found');
         }
-        const result = await this.postRepo.save(originalPost);
-        return result;
+        return await this.postRepo.save(originalPost);
       } else {
         throw Boom.notFound('Post not found');
       }
@@ -91,7 +89,7 @@ class PostModel {
     try {
       const post = await this.postRepo.findOne(postId);
       if (post) {
-        await this.postRepo.save(post);
+        return await this.postRepo.remove(post);
       } else {
         throw Boom.notFound('Post not found');
       }

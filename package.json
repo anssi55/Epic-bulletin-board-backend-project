@@ -4,9 +4,9 @@
   "description": "bulletin board project",
   "main": "startApp",
   "scripts": {
-    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "test": "jest test.ts",
     "tsc": "tsc",
-    "start": "node build/startApp.js",
+    "start": "node build/app/startApp.js",
     "postinstall": "npm run tsc"
   },
   "repository": {
@@ -29,8 +29,8 @@
     "boom": "^7.3.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.9.1",
-    "dotenv": "^8.0.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "mysql": "^2.17.1",
     "pg": "^7.11.0",
@@ -40,12 +40,16 @@
   },
   "devDependencies": {
     "@types/boom": "^7.2.1",
-    "@types/dotenv": "^6.1.1",
     "@types/cors": "^2.8.5",
+    "@types/dotenv": "^6.1.1",
     "@types/express": "^4.17.0",
     "@types/glob": "^7.1.1",
+    "@types/jest": "^24.0.16",
     "@types/node": "^8.10.51",
     "@types/pg": "^7.4.14",
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "ts-mockito": "^2.4.2",
     "ts-node": "^3.3.0"
   },
   "engines": {
