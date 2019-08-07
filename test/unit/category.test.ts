@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import Category from '../../app/orm/entities/Category';
 import { Dependencies } from '../../app/Types';
 import CategoryModel from '../../app/models/CategoryModel';
+import Boom from 'boom';
 
 describe('Category Model unit tests', () => {
   const categoryRepoMock = <Repository<Category>>(<unknown>mock(Repository));
@@ -31,12 +32,10 @@ describe('Category Model unit tests', () => {
   test('Get all categories, error test', async () => {
     expect.assertions(1);
     when(categoryRepoMock.find()).thenResolve(emptyCategories);
-    try {
-      await categoryModel.getAllCategories();
-    } catch (error) {
-      expect('' + error + '').toEqual('Error: Categories not found');
-      verify(categoryRepoMock.find()).called();
-    }
+    await expect(categoryModel.getAllCategories()).rejects.toEqual(
+      Boom.notFound('Categories not found')
+    );
+    verify(categoryRepoMock.find()).called();
   });
 
   test('Get category', async () => {
@@ -49,12 +48,10 @@ describe('Category Model unit tests', () => {
   test('Get category, error test', async () => {
     expect.assertions(1);
     when(categoryRepoMock.findOne(category.id)).thenResolve(undefined);
-    try {
-      await categoryModel.getOneCategory(category.id);
-    } catch (error) {
-      expect('' + error + '').toEqual('Error: Category not found');
-      verify(categoryRepoMock.findOne(category.id)).called();
-    }
+    await expect(categoryModel.getOneCategory(category.id)).rejects.toEqual(
+      Boom.notFound('Category not found')
+    );
+    verify(categoryRepoMock.findOne(category.id)).called();
   });
 
   test('Create category', async () => {
@@ -77,13 +74,11 @@ describe('Category Model unit tests', () => {
     expect.assertions(1);
     when(categoryRepoMock.findOne(category.id)).thenResolve(undefined);
     when(categoryRepoMock.save(category)).thenResolve(category);
-    try {
-      await categoryModel.modifyCategory(category);
-    } catch (error) {
-      expect('' + error + '').toEqual('Error: Category not found');
-      verify(categoryRepoMock.findOne(category.id)).called();
-      verify(categoryRepoMock.save(category)).never();
-    }
+    await expect(categoryModel.modifyCategory(category)).rejects.toEqual(
+      Boom.notFound('Category not found')
+    );
+    verify(categoryRepoMock.findOne(category.id)).called();
+    verify(categoryRepoMock.save(category)).never();
   });
   test('Delete category', async () => {
     expect.assertions(1);
@@ -97,12 +92,10 @@ describe('Category Model unit tests', () => {
   test('Delete category, error test', async () => {
     when(categoryRepoMock.findOne(category.id)).thenResolve(undefined);
     when(categoryRepoMock.remove(category)).thenResolve(category);
-    try {
-      await categoryModel.deleteCategory(category.id);
-    } catch (error) {
-      expect('' + error + '').toEqual('Error: Category not found');
-      verify(categoryRepoMock.findOne(category.id)).called();
-      verify(categoryRepoMock.remove(category)).never();
-    }
+    await expect(categoryModel.deleteCategory(category.id)).rejects.toEqual(
+      Boom.notFound('Category not found')
+    );
+    verify(categoryRepoMock.findOne(category.id)).called();
+    verify(categoryRepoMock.remove(category)).never();
   });
 });

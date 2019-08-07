@@ -4,7 +4,7 @@
   "description": "bulletin board project",
   "main": "startApp",
   "scripts": {
-    "test": "jest",
+    "test": "jest test.ts",
     "tsc": "tsc",
     "start": "node build/startApp.js",
     "postinstall": "npm run tsc"
