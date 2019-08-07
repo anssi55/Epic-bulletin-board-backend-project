@@ -7,8 +7,8 @@ import { Dependencies } from '../../app/Types';
 import Boom from 'boom';
 
 describe('PostModel unit tests', () => {
-  const postRepoMock = <Repository<Post>>(<unknown>mock(Repository));
-  const categoryRepoMock = <Repository<Category>>(<unknown>mock(Repository));
+  const postRepoMock = <Repository<Post>>mock(Repository);
+  const categoryRepoMock = <Repository<Category>>mock(Repository);
   const postRepoMockInstance = instance(postRepoMock);
   const categoryRepoMockInstance = instance(categoryRepoMock);
   const postModel = new PostModel(<Dependencies>{

@@ -6,7 +6,7 @@ import CategoryModel from '../../app/models/CategoryModel';
 import Boom from 'boom';
 
 describe('Category Model unit tests', () => {
-  const categoryRepoMock = <Repository<Category>>(<unknown>mock(Repository));
+  const categoryRepoMock = <Repository<Category>>mock(Repository);
   const categoryRepoMockInstance = instance(categoryRepoMock);
   const categoryModel = new CategoryModel(<Dependencies>{
     categoryRepo: categoryRepoMockInstance
