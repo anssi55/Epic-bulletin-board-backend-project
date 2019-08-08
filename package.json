@@ -4,9 +4,9 @@
   "description": "bulletin board project",
   "main": "startApp",
   "scripts": {
-    "test": "jest",
+    "test": "jest test.ts",
     "tsc": "tsc",
-    "start": "node build/startApp.js",
+    "start": "node build/app/startApp.js",
     "postinstall": "npm run tsc"
   },
   "repository": {

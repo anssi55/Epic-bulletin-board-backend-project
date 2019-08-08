@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  web-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: board app
+    volumes:
+      - ./app:/home/app/app
+      - ./package.json:/home/app/package.json
+    expose:
+      - '4000'
+    ports:
+      - '4000:4000'
+    command: npm start
