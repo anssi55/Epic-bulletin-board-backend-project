@@ -1,16 +1,44 @@
-version: '3.8'
+version: '3.7'
 
 services:
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: board_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '!asdasd!123'
+      MYSQL_DATABASE: bulletinboard
+      MYSQL_USER: bulletin
+      MYSQL_PASSWORD: board
+    volumes:
+      - database:/var/lib/mysql
+    ports:
+      - '3306:3306'
   web-server:
+    depends_on:
+      - db
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: board app
+    container_name: board_App
     volumes:
-      - ./app:/home/app/app
-      - ./package.json:/home/app/package.json
+      - 'app:/var/lib/app'
     expose:
       - '4000'
     ports:
       - '4000:4000'
+    environment:
+      WAIT_HOSTS: db:3306
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USERNAME: bulletin
+      DB_PASSWORD: board
+      DB_DATABASE: bulletinboard
+      DB_SYNC: 'true'
+      PORT: 4000
+
     command: npm start
+volumes:
+  database:
+  app:

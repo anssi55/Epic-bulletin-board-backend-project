@@ -1,0 +1,7 @@
+DB_HOST=0.0.0.0
+DB_PORT=3306
+DB_USERNAME=bulletin
+DB_PASSWORD=board
+DB_DATABASE=bulletinboard
+DB_SYNC=true
+PORT=4000
