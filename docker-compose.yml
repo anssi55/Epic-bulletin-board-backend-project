@@ -37,8 +37,6 @@ services:
       DB_DATABASE: bulletinboard
       DB_SYNC: 'true'
       PORT: 4000
-
-    command: npm start
 volumes:
   database:
   app:
