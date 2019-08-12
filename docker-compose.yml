@@ -21,11 +21,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: board_App
+    container_name: board_app
     volumes:
       - 'app:/var/lib/app'
-    expose:
-      - '4000'
     ports:
       - '4000:4000'
     environment:
