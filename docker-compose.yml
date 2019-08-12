@@ -21,9 +21,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: npm run build
     container_name: board_app
     volumes:
-      - 'app:/var/lib/app'
+      - .:/usr/app/
+      - /usr/node_modules
     ports:
       - '4000:4000'
     environment:

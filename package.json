@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest test.ts",
     "tsc": "tsc",
+    "build": "tsc-watch -p . --onSuccess \"node build/app/startApp.js\"",
     "start": "node build/app/startApp.js",
     "postinstall": "npm run tsc"
   },
@@ -50,7 +51,8 @@
     "jest": "^24.8.0",
     "ts-jest": "^24.0.2",
     "ts-mockito": "^2.4.2",
-    "ts-node": "^3.3.0"
+    "ts-node": "^3.3.0",
+    "tsc-watch": "^2.4.0"
   },
   "engines": {
     "node": "12.5.0",
