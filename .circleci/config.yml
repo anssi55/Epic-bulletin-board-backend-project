@@ -33,6 +33,14 @@ commands:
           docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
           docker tag anssi/bulletinboard:$CIRCLE_SHA1 registry.heroku.com/$HEROKU_APP_NAME/web
           docker push registry.heroku.com/$HEROKU_APP_NAME/web
+  install-docker-client:
+    steps:
+      - run: |
+          set -x
+          VER="17.03.0-ce"
+          curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+          ar -xz -C /tmp -f /tmp/docker-$VER.tgz
+          mv /tmp/docker/* /usr/bin
 
 jobs:
   build:
@@ -47,6 +55,9 @@ jobs:
     executor: default
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - install-docker-client
       - create-docker-img
       - push-latest-docker-img
       - deploy-docker-to-heroku
