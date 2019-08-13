@@ -3,6 +3,7 @@ executors:
   default:
     docker:
       - image: circleci/node:12.5.0
+    
 commands:
   update-npm:
     steps:
@@ -17,6 +18,22 @@ commands:
     steps:
       - run: |
           git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+  create-docker-img:
+    steps:
+      -run: |
+          docker build -t anssi/bulletinboard:$CIRCLE_SHA1 .
+  push-latest-docker-img:
+    steps:    
+      -run: |
+      docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASS" 
+      docker push anssi/bulletinboard:$CIRCLE_SHA1
+  deploy-docker-to-heroku:
+    steps:
+      -run: |
+      docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
+      docker tag anssi/bulletinboard:$CIRCLE_SHA1 registry.heroku.com/$HEROKU_APP_NAME/web
+      docker push registry.heroku.com/$HEROKU_APP_NAME/web
+      
 jobs:
   build:
     working_directory: ~/EPIC-BULLETIN-BOARD-PROJECT
@@ -30,12 +47,16 @@ jobs:
     executor: default
     steps:
       - checkout
-      - deploy-master-to-heroku
+      - create-docker-img
+      - push-latest-docker-img
+      - deploy-docker-to-heroku
 workflows:
   build-deploy:
     jobs:
       - build
       - deploy:
-          filters:
-            branches:
-              only: master
+        requires:
+          - build
+          #filters:
+           # branches:
+             # only: master
