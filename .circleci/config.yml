@@ -21,18 +21,18 @@ commands:
   create-docker-img:
     steps:
       - run: |
-        docker build -t anssi/bulletinboard:$CIRCLE_SHA1 .
+          docker build -t anssi/bulletinboard:$CIRCLE_SHA1 .
   push-latest-docker-img:
     steps:
       - run: |
-        docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASS" 
-        docker push anssi/bulletinboard:$CIRCLE_SHA1
+          docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASS" 
+          docker push anssi/bulletinboard:$CIRCLE_SHA1
   deploy-docker-to-heroku:
     steps:
       - run: |
-        docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
-        docker tag anssi/bulletinboard:$CIRCLE_SHA1 registry.heroku.com/$HEROKU_APP_NAME/web
-        docker push registry.heroku.com/$HEROKU_APP_NAME/web
+          docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
+          docker tag anssi/bulletinboard:$CIRCLE_SHA1 registry.heroku.com/$HEROKU_APP_NAME/web
+          docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
 jobs:
   build:
