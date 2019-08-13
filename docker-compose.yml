@@ -21,10 +21,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: npm run build
+
+    command: bash -c "/wait && npm run dev_watch"
     container_name: board_app
     volumes:
-      - .:/usr/app/
+      - ./app:/usr/board/app
     ports:
       - '4000:4000'
     environment:
@@ -38,4 +39,3 @@ services:
       PORT: 4000
 volumes:
   database:
-  app:

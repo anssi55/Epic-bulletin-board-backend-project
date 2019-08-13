@@ -26,7 +26,7 @@ You can also make categories for the posts and have account so will be able to f
 
 ### Building and running app in Docker container
 
-`> docker-compose up --build`
+`> docker-compose up`
 
 ## Technologies used
 
