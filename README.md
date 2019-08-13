@@ -24,6 +24,10 @@ You can also make categories for the posts and have account so will be able to f
 
 `> npm start`
 
+### Building and running app in Docker container
+
+`> docker-compose up`
+
 ## Technologies used
 
 ### Language

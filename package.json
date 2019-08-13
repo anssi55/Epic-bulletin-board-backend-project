@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest test.ts",
     "tsc": "tsc",
+    "dev_watch": "tsc-watch -p . --onSuccess \"node build/app/startApp.js\"",
     "start": "node build/app/startApp.js",
     "postinstall": "npm run tsc"
   },
@@ -36,7 +37,8 @@
     "pg": "^7.11.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "0.2.18",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.2",
+    "tsc-watch": "^2.4.0"
   },
   "devDependencies": {
     "@types/boom": "^7.2.1",

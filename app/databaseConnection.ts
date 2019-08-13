@@ -11,7 +11,7 @@ function createDBConnection(envVariables: EnvVariables) {
     database: envVariables.DB_DATABASE,
     synchronize: envVariables.DB_SYNC,
     logging: false,
-    entities: ['build/orm/entities/*.js']
+    entities: ['build/app/orm/entities/*.js']
   });
 }
 
