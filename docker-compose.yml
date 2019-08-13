@@ -25,7 +25,6 @@ services:
     container_name: board_app
     volumes:
       - .:/usr/app/
-      - /usr/node_modules
     ports:
       - '4000:4000'
     environment:
