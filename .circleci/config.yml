@@ -54,7 +54,7 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - deploy:
-        filters:
-          branches:
-            only: master
+      - deploy
+        #filters:
+        #branches:
+        #only: master
