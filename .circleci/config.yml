@@ -21,12 +21,12 @@ commands:
   create-docker-img:
     steps:
       - run: |
-          docker build -t anssi/bulletinboard:$CIRCLE_SHA1 .
+          docker build -t epicbulletinboard/bulletinboard:$CIRCLE_SHA1 .
   push-latest-docker-img:
     steps:
       - run: |
           docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASS" 
-          docker push anssi/bulletinboard:$CIRCLE_SHA1
+          docker push epicbulletinboard/bulletinboard:$CIRCLE_SHA1
   deploy-docker-to-heroku:
     steps:
       - run: |
