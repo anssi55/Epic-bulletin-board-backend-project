@@ -8,60 +8,60 @@ commands:
   install:
     steps:
       - run:
-        name: Install latest npm
-        command: sudo npm install -g npm@latest
+          name: Install latest npm
+          command: sudo npm install -g npm@latest
       - run:
-        name: Install dependencies
-        command: npm ci
+          name: Install dependencies
+          command: npm ci
   build:
     steps:
       - run:
-        name: Compile typescript code
-        command: npm run tsc
+          name: Compile typescript code
+          command: npm run tsc
   run-tests:
     steps:
       - run:
-        name: Run tests
-        command: npm run test
+          name: Run tests
+          command: npm run test
   deploy-master-to-heroku:
     steps:
       - run:
-        name: Deploy master to Heroku
-        command: |
-          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+          name: Deploy master to Heroku
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 
   create-docker-img:
     steps:
       - run:
-        name: Create docker image
-        command: |
-          docker build -t epicbulletinboard/bulletinboard:$CIRCLE_SHA1 .
+          name: Create docker image
+          command: |
+            docker build -t epicbulletinboard/bulletinboard:$CIRCLE_SHA1 .
   push-latest-docker-img:
     steps:
       - run:
-        name: Push latest docker image to Dockerhub
-        command: |
-          docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASS" 
-          docker push epicbulletinboard/bulletinboard:$CIRCLE_SHA1
+          name: Push latest docker image to Dockerhub
+          command: |
+            docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASS" 
+            docker push epicbulletinboard/bulletinboard:$CIRCLE_SHA1
   deploy-docker-to-heroku:
     steps:
       - run:
-        name: Push and deploy latest docker image to Heroku
-        command: |
-          docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
-          docker tag epicbulletinboard/bulletinboard:$CIRCLE_SHA1 registry.heroku.com/$HEROKU_APP_NAME/web
-          docker push registry.heroku.com/$HEROKU_APP_NAME/web
-          docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME
+          name: Push and deploy latest docker image to Heroku
+          command: |
+            docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
+            docker tag epicbulletinboard/bulletinboard:$CIRCLE_SHA1 registry.heroku.com/$HEROKU_APP_NAME/web
+            docker push registry.heroku.com/$HEROKU_APP_NAME/web
+            docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME
   install-docker-client:
     steps:
       - run:
-        name: Install Docker client
-        command: |
-          set -x
-          VER="17.03.0-ce"
-          curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
-          tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-          sudo mv /tmp/docker/* /usr/bin
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            sudo mv /tmp/docker/* /usr/bin
 jobs:
   build:
     working_directory: ~/EPIC-BULLETIN-BOARD-PROJECT
