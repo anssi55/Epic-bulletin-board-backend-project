@@ -6,28 +6,39 @@ executors:
 
 commands:
   update-npm:
+    description: 'Install latest npm'
     steps:
       - run: sudo npm install -g npm@latest
   install-npm-wee:
+    description: 'install dependencies'
     steps:
       - run: npm ci
   build:
+    description: 'Compile typescript code'
     steps:
       - run: npm run tsc
+  run-tests:
+    description: 'Run tests'
+    steps:
+      - run: npm run test
   deploy-master-to-heroku:
+    description: 'Deploy master to Heroku'
     steps:
       - run: |
           git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
   create-docker-img:
+    description: 'Create docker image'
     steps:
       - run: |
           docker build -t epicbulletinboard/bulletinboard:$CIRCLE_SHA1 .
   push-latest-docker-img:
+    description: 'Push latest docker image to Dockerhub'
     steps:
       - run: |
           docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASS" 
           docker push epicbulletinboard/bulletinboard:$CIRCLE_SHA1
   deploy-docker-to-heroku:
+    description: 'Push and deploy latest docker image to Heroku'
     steps:
       - run: |
           docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
@@ -35,6 +46,7 @@ commands:
           docker push registry.heroku.com/$HEROKU_APP_NAME/web
           docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME
   install-docker-client:
+    description: 'Install Docker client'
     steps:
       - run: |
           set -x
@@ -62,11 +74,22 @@ jobs:
       - create-docker-img
       - push-latest-docker-img
       - deploy-docker-to-heroku
+  test:
+    executor: default
+    steps:
+      - checkout
+      - run-tests
 workflows:
-  build-deploy:
+  build-test-deploy:
     jobs:
       - build
-      - deploy
-        #filters:
-        #branches:
-        #only: master
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only: master

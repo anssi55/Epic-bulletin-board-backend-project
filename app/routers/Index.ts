@@ -25,7 +25,7 @@ class Index {
   }
 
   public rootPath(req: Request, res: Response, next: NextFunction) {
-    res.status(200).send({ message: 'Serveri is up and running' });
+    res.status(200).send({ message: 'Server is up and running' });
   }
 
   public notFound(req: Request, res: Response, next: NextFunction) {
