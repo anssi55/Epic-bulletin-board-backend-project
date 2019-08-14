@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { IsInt, IsString, MinLength, MaxLength, IsEmail } from 'class-validator';
+import { Expose } from 'class-transformer';
 import Reply from './Reply';
 import Post from './Post';
 import LikeOnPost from './LikeOnPost';
@@ -7,29 +7,28 @@ import LikeOnReply from './LikeOnReply';
 
 @Entity()
 class User {
-  @IsInt()
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @IsString()
-  @MinLength(3, {
-    message: 'Name is too short'
-  })
-  @MaxLength(20, {
-    message: 'Name is too long'
-  })
+  @Expose()
   @Column()
   username!: string;
 
-  @IsEmail()
+  @Expose()
   @Column()
   email!: string;
 
-  @IsString()
+  @Expose()
   @Column()
   password!: string;
 
-  @IsString()
+  @Column()
+  created!: Date;
+
+  @Column()
+  modified!: Date;
+
+  @Expose()
   @Column()
   avatar!: string;
 

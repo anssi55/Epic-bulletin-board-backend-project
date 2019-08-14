@@ -9,6 +9,7 @@ import errorMiddleware from './middleware/error.middleware';
 import EnvVariables from './dto/EnvVariables';
 import PostModel from './models/PostModel';
 import CategoryModel from './models/CategoryModel';
+import User from './orm/entities/User';
 
 export type Dependencies = {
   index: Index;
@@ -16,6 +17,7 @@ export type Dependencies = {
   categoryController: CategoryController;
   postRepo: Repository<Post>;
   categoryRepo: Repository<Category>;
+  userRepo: Repository<User>;
   errorMiddleware: typeof errorMiddleware;
   envVariables: EnvVariables;
   postModel: PostModel;

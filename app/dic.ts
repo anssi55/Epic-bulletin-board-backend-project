@@ -11,6 +11,7 @@ import errorMiddleware from './middleware/error.middleware';
 import EnvVariables from './dto/EnvVariables';
 import PostModel from './models/PostModel';
 import CategoryModel from './models/CategoryModel';
+import User from './orm/entities/User';
 
 const container = awilix.createContainer({
   injectionMode: awilix.InjectionMode.PROXY
@@ -21,6 +22,7 @@ export function configcontainer(envVariables: EnvVariables) {
     container.register({
       postRepo: awilix.asValue(connection.getRepository(Post)),
       categoryRepo: awilix.asValue(connection.getRepository(Category)),
+      userRepo: awilix.asValue(connection.getRepository(User)),
 
       postController: awilix.asClass(PostController),
       categoryController: awilix.asClass(CategoryController),
