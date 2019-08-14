@@ -78,6 +78,8 @@ jobs:
     executor: default
     steps:
       - checkout
+      - update-npm
+      - install-npm-wee
       - run-tests
 workflows:
   build-test-deploy:
