@@ -3,39 +3,85 @@ executors:
   default:
     docker:
       - image: circleci/node:12.5.0
+
 commands:
-  update-npm:
+  install:
     steps:
-      - run: sudo npm install -g npm@latest
-  install-npm-wee:
-    steps:
-      - run: npm ci
+      - run:
+          name: Install latest npm
+          command: sudo npm install -g npm@latest
+      - run:
+          name: Install dependencies
+          command: npm ci
   build:
     steps:
-      - run: npm run tsc
+      - run:
+          name: Compile typescript code
+          command: npm run tsc
+  run-tests:
+    steps:
+      - run:
+          name: Run tests
+          command: npm run test
   deploy-master-to-heroku:
     steps:
-      - run: |
-          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+      - run:
+          name: Deploy master to Heroku
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+  create-docker-img:
+    steps:
+      - run:
+          name: Create docker image
+          command: |
+            docker build -t epicbulletinboard/bulletinboard:$CIRCLE_SHA1 .
+      - run:
+          name: Push latest docker image to Dockerhub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin 
+            docker push epicbulletinboard/bulletinboard:$CIRCLE_SHA1
+  deploy-docker-to-heroku:
+    steps:
+      - run:
+          name: Push and deploy latest docker image to Heroku
+          command: |
+            echo "$HEROKU_API_KEY" | docker login --username=$HEROKU_LOGIN --password-stdin registry.heroku.com
+            docker tag epicbulletinboard/bulletinboard:$CIRCLE_SHA1 registry.heroku.com/$HEROKU_APP_NAME/web
+            docker push registry.heroku.com/$HEROKU_APP_NAME/web
+            docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME    
+
 jobs:
   build:
     working_directory: ~/EPIC-BULLETIN-BOARD-PROJECT
     executor: default
     steps:
       - checkout
-      - update-npm
-      - install-npm-wee
+      - install
       - build
   deploy:
     executor: default
     steps:
       - checkout
-      - deploy-master-to-heroku
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - create-docker-img
+      - deploy-docker-to-heroku
+  test:
+    executor: default
+    steps:
+      - checkout
+      - install
+      - run-tests
 workflows:
-  build-deploy:
+  build-test-deploy:
     jobs:
       - build
+      - test:
+          requires:
+            - build
       - deploy:
+          requires:
+            - test
           filters:
             branches:
               only: master
