@@ -6,7 +6,7 @@ import Category from '../../app/orm/entities/Category';
 import { Dependencies } from '../../app/Types';
 import Boom from 'boom';
 
-describe('PostService unit tests', () => {
+describe('Post Service unit tests', () => {
   const postRepoMock = <Repository<Post>>mock(Repository);
   const categoryRepoMock = <Repository<Category>>mock(Repository);
   const postRepoMockInstance = instance(postRepoMock);

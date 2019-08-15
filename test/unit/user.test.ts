@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { Dependencies } from '../../app/Types';
 import Boom from 'boom';
 
-describe('UserModel unit tests', () => {
+describe('User Service unit tests', () => {
   const userRepoMock = <Repository<User>>mock(Repository);
   const userRepoMockInstance = instance(userRepoMock);
   const userService = new UserService(<Dependencies>{
