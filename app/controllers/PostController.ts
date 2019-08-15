@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { Dependencies } from '../Types';
 import Post from '../orm/entities/Post';
-import PostModel from '../models/PostModel';
+import PostService from '../services/PostService';
 import { plainToClass } from 'class-transformer';
 
 class PostController {
-  private postModel: PostModel;
+  private postModel: PostService;
   constructor(opts: Dependencies) {
-    this.postModel = opts.postModel;
+    this.postModel = opts.postService;
   }
 
   public getAll = async (req: Request, res: Response, next: NextFunction) => {
@@ -20,9 +20,9 @@ class PostController {
   };
 
   public getOne = async (req: Request, res: Response, next: NextFunction) => {
-    const PostId = req.params.id;
+    const postId = req.params.id;
     try {
-      const post = await this.postModel.getOnePost(PostId);
+      const post = await this.postModel.getOnePost(postId);
       res.status(200).send(post);
     } catch (error) {
       next(error);

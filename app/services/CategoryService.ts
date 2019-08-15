@@ -3,7 +3,7 @@ import { Dependencies } from '../Types';
 import Category from '../orm/entities/Category';
 import Boom from 'boom';
 
-class CategoryModel {
+class CategoryService {
   private categoryRepo: Repository<Category>;
 
   constructor(opts: Dependencies) {
@@ -82,4 +82,4 @@ class CategoryModel {
     }
   };
 }
-export default CategoryModel;
+export default CategoryService;

@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { Dependencies } from '../Types';
 import Category from '../orm/entities/Category';
-import CategoryModel from '../models/CategoryModel';
+import CategoryService from '../services/CategoryService';
 import { plainToClass } from 'class-transformer';
 
 class CategoryController {
-  private categoryModel: CategoryModel;
+  private categoryModel: CategoryService;
   constructor(opts: Dependencies) {
-    this.categoryModel = opts.categoryModel;
+    this.categoryModel = opts.categoryService;
   }
 
   public getAll = async (req: Request, res: Response, next: NextFunction) => {

@@ -7,20 +7,24 @@ import Category from './orm/entities/Category';
 import ValidationMiddleWare from './middleware/ValidationMiddleware';
 import errorMiddleware from './middleware/error.middleware';
 import EnvVariables from './dto/EnvVariables';
-import PostModel from './models/PostModel';
-import CategoryModel from './models/CategoryModel';
+import PostService from './services/PostService';
+import CategoryService from './services/CategoryService';
 import User from './orm/entities/User';
+import UserService from './services/UserService';
+import UserController from './controllers/UserController';
 
 export type Dependencies = {
   index: Index;
   postController: PostController;
   categoryController: CategoryController;
+  userController: UserController;
   postRepo: Repository<Post>;
   categoryRepo: Repository<Category>;
   userRepo: Repository<User>;
   errorMiddleware: typeof errorMiddleware;
   envVariables: EnvVariables;
-  postModel: PostModel;
-  categoryModel: CategoryModel;
+  postService: PostService;
+  categoryService: CategoryService;
+  userService: UserService;
   validator: ValidationMiddleWare;
 };

@@ -1,5 +1,5 @@
 import { mock, instance, when, verify, reset } from 'ts-mockito';
-import UserService from '../../app/models/UserService';
+import UserService from '../../app/services/UserService';
 import User from '../../app/orm/entities/User';
 import { Repository } from 'typeorm';
 import { Dependencies } from '../../app/Types';
@@ -67,16 +67,16 @@ describe('UserModel unit tests', () => {
     verify(userRepoMock.remove(user)).called();
   });
 
-  test('Delete post, error test', async () => {
+  test('Delete user, error test', async () => {
     expect.assertions(1);
     when(userRepoMock.findOne(user.id)).thenResolve(undefined);
     when(userRepoMock.remove(user)).thenResolve(user);
-    await expect(userService.deleteUser(user.id)).rejects.toEqual(Boom.notFound('Post not found'));
+    await expect(userService.deleteUser(user.id)).rejects.toEqual(Boom.notFound('User not found'));
     verify(userRepoMock.findOne(user.id)).called();
     verify(userRepoMock.remove(user)).never();
   });
 
-  test('Modify post', async () => {
+  test('Modify user', async () => {
     expect.assertions(1);
     when(userRepoMock.findOne(user.id)).thenResolve(user);
     when(userRepoMock.save(user)).thenResolve(user);
@@ -85,7 +85,7 @@ describe('UserModel unit tests', () => {
     verify(userRepoMock.save(user)).called();
   });
 
-  test('Modify post, error test', async () => {
+  test('Modify user, error test', async () => {
     expect.assertions(1);
     when(userRepoMock.findOne(user.id)).thenResolve(undefined);
     when(userRepoMock.save(user)).thenResolve(user);

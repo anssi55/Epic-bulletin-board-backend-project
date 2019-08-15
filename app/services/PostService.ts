@@ -4,7 +4,7 @@ import Category from '../orm/entities/Category';
 import { Dependencies } from '../Types';
 import Boom from 'boom';
 
-class PostModel {
+class PostService {
   private postRepo: Repository<Post>;
   private categoryRepo: Repository<Category>;
 
@@ -100,4 +100,4 @@ class PostModel {
     }
   };
 }
-export default PostModel;
+export default PostService;
