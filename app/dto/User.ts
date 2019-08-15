@@ -1,4 +1,4 @@
-import { MinLength, IsString, IsNotEmpty, MaxLength, IsEmail } from 'class-validator';
+import { MinLength, IsString, IsNotEmpty, MaxLength, IsEmail, IsOptional } from 'class-validator';
 
 class User {
   @IsNotEmpty()
@@ -25,6 +25,7 @@ class User {
   })
   password!: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(50)

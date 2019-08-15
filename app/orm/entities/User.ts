@@ -25,11 +25,11 @@ class User {
   @Column()
   created!: Date;
 
-  @Column()
+  @Column({ nullable: true })
   modified!: Date;
 
   @Expose()
-  @Column()
+  @Column({ nullable: true })
   avatar!: string;
 
   @OneToMany(type => Reply, reply => reply.user)

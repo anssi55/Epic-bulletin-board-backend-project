@@ -54,9 +54,10 @@ class CategoryController {
   public delete = async (req: Request, res: Response, next: NextFunction) => {
     const categoryId = req.params.id;
     try {
-      this.categoryModel.deleteCategory(categoryId).then(() => {
+      const result = await this.categoryModel.deleteCategory(categoryId);
+      if (result) {
         res.sendStatus(204);
-      });
+      }
     } catch (error) {
       next(error);
     }
