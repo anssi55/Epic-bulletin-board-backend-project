@@ -5,14 +5,14 @@ import CategoryService from '../services/CategoryService';
 import { plainToClass } from 'class-transformer';
 
 class CategoryController {
-  private categoryModel: CategoryService;
+  private categoryService: CategoryService;
   constructor(opts: Dependencies) {
-    this.categoryModel = opts.categoryService;
+    this.categoryService = opts.categoryService;
   }
 
   public getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const results = await this.categoryModel.getAllCategories();
+      const results = await this.categoryService.getAllCategories();
       res.status(200).send(results);
     } catch (error) {
       next(error);
@@ -22,7 +22,7 @@ class CategoryController {
   public getOne = async (req: Request, res: Response, next: NextFunction) => {
     const categoryId = req.params.id;
     try {
-      const result = await this.categoryModel.getOneCategory(categoryId);
+      const result = await this.categoryService.getOneCategory(categoryId);
       res.status(200).send(result);
     } catch (error) {
       next(error);
@@ -32,7 +32,7 @@ class CategoryController {
   public create = async (req: Request, res: Response, next: NextFunction) => {
     const newCategory = plainToClass(Category, req.body, { excludeExtraneousValues: true });
     try {
-      const result = await this.categoryModel.createCategory(newCategory);
+      const result = await this.categoryService.createCategory(newCategory);
       res.status(200).send(result);
     } catch (error) {
       next(error);
@@ -44,7 +44,7 @@ class CategoryController {
     const modifiedCategory = plainToClass(Category, req.body, { excludeExtraneousValues: true });
     modifiedCategory.id = categoryId;
     try {
-      let result = await this.categoryModel.modifyCategory(modifiedCategory);
+      let result = await this.categoryService.modifyCategory(modifiedCategory);
       res.status(200).send(result);
     } catch (error) {
       next(error);
@@ -54,7 +54,7 @@ class CategoryController {
   public delete = async (req: Request, res: Response, next: NextFunction) => {
     const categoryId = req.params.id;
     try {
-      const result = await this.categoryModel.deleteCategory(categoryId);
+      const result = await this.categoryService.deleteCategory(categoryId);
       if (result) {
         res.sendStatus(204);
       }

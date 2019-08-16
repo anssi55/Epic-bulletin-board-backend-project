@@ -5,14 +5,14 @@ import PostService from '../services/PostService';
 import { plainToClass } from 'class-transformer';
 
 class PostController {
-  private postModel: PostService;
+  private postService: PostService;
   constructor(opts: Dependencies) {
-    this.postModel = opts.postService;
+    this.postService = opts.postService;
   }
 
   public getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const posts = await this.postModel.getAllPosts();
+      const posts = await this.postService.getAllPosts();
       res.status(200).send(posts);
     } catch (error) {
       next(error);
@@ -22,7 +22,7 @@ class PostController {
   public getOne = async (req: Request, res: Response, next: NextFunction) => {
     const postId = req.params.id;
     try {
-      const post = await this.postModel.getOnePost(postId);
+      const post = await this.postService.getOnePost(postId);
       res.status(200).send(post);
     } catch (error) {
       next(error);
@@ -34,7 +34,7 @@ class PostController {
     const categoryId = req.body.categoryId;
 
     try {
-      const result = await this.postModel.createPost(postToCreate, categoryId);
+      const result = await this.postService.createPost(postToCreate, categoryId);
       res.status(200).send(result);
     } catch (error) {
       next(error);
@@ -47,7 +47,7 @@ class PostController {
     const categoryId = req.body.categoryId;
 
     try {
-      const result = await this.postModel.modifyPost(modifiedPost, categoryId);
+      const result = await this.postService.modifyPost(modifiedPost, categoryId);
       res.status(200).send(result);
     } catch (error) {
       next(error);
@@ -58,7 +58,7 @@ class PostController {
     const postId = req.params.id;
 
     try {
-      const result = await this.postModel.deletePost(postId);
+      const result = await this.postService.deletePost(postId);
       if (result) {
         res.sendStatus(204);
       }
