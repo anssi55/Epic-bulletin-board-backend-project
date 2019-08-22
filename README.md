@@ -68,7 +68,7 @@ Application is written in typescript.
 
 Application has been deployed to cloud application platform called Heroku.  
 Live demo of this application can be found in:  
-https://epicbulletinboard.herokuapp.com/posts
+https://epicbulletinboard.herokuapp.com/api/v1/posts
 
 ## API
 
