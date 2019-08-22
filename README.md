@@ -2,7 +2,6 @@
 
 <!-- TOC depthFrom:1 depthTo:2 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Bulletin Board REST API](#crossref-rest-api)
 - [About](#about)
 - [Setup and running the app](#Installation-and-running-the-app)
 - [Tests](#Tests)
@@ -63,53 +62,7 @@ https://epicbulletinboard.herokuapp.com/api/v1/posts
 
 ## API
 
-### HTTP Methods
-
-Posts:
-
-| HTTP METHOD | POST            | GET          | PUT                                      | DELETE         |
-| ----------- | --------------- | ------------ | ---------------------------------------- | -------------- |
-| CRUD OP     | CREATE          | READ         | UPDATE                                   | DELETE         |
-| /posts      | Create new post | List posts   | Error                                    | Error          |
-| /posts/13   | Error           | Show post 13 | If exists, update post 13; If not, error | Delete post 13 |
-
-Categories:
-
-| HTTP METHOD    | POST                | GET              | PUT                                          | DELETE             |
-| -------------- | ------------------- | ---------------- | -------------------------------------------- | ------------------ |
-| CRUD OP        | CREATE              | READ             | UPDATE                                       | DELETE             |
-| /categories    | Create new category | List categories  | Error                                        | Error              |
-| /categories/16 | Error               | Show category 16 | If exists, update category 16; If not, error | Delete category 16 |
-
-### Request body
-
 Requests should be made in JSON (application/json) form.
-
-Below are parameters required for post and update calls:
-
-#### Post /posts
-
-topic = string, lenght: 5 to 50  
-post = string, lenght: 10 to 255  
-pinned = boolean  
-categoryId = integer number
-
-#### Put /posts/[id]
-
-topic = string, lenght: 5 to 50  
-post = string, lenght: 10 to 255  
-pinned = boolean  
-categoryId = integer number
-
-#### Post /categories
-
-name = string, lenght: 2 to 50  
-description = string, lenght: 10 to 50
-
-#### Put /categories/[id]
-
-name = string, lenght: 2 to 50  
-description = string, lenght: 10 to 50
 
 ### Request & Response Examples
 
@@ -117,7 +70,6 @@ description = string, lenght: 10 to 50
 
 - [GET /posts](#get-posts)
 - [GET /posts/[id]](#get-postsid)
-- [GET /posts/[id] error](#get-posts-error)
 - [POST /posts](#post-posts)
 - [GET /categories](#get-categories)
 - [GET /categories/[id]](#get-categoriesid)
@@ -167,21 +119,9 @@ Response body:
 }
 ```
 
-## Get /posts/[id] error
-
-Example: https://epicbulletinboard.herokuapp.com/api/v1/posts/2332323
-
-Response body:
-
-```
-{
-    "statusCode":404,
-    "error":"Not Found",
-    "message":"Post not found"
-}
-```
-
 ## Post /posts
+
+Example: https://epicbulletinboard.herokuapp.com/api/v1/posts
 
 Request body:
 
@@ -193,8 +133,6 @@ Request body:
     "categoryId": 1
 }
 ```
-
-Example: https://epicbulletinboard.herokuapp.com/api/v1/posts
 
 Response body:
 
@@ -249,9 +187,9 @@ Response body:
 }
 ```
 
-## Post /categories/
+## Post /categories
 
-Example: https://epicbulletinboard.herokuapp.com/api/v1/categories/
+Example: https://epicbulletinboard.herokuapp.com/api/v1/categories
 
 Request body:
 
