@@ -75,7 +75,7 @@ Requests should be made in JSON (application/json) form.
 - [GET /categories/[id]](#get-categoriesid)
 - [POST /categories](#post-categories)
 
-## Get /posts
+## GET `/posts`
 
 Example: https://epicbulletinboard.herokuapp.com/api/v1/posts
 
@@ -102,7 +102,7 @@ Response body:
 ]
 ```
 
-## Get /posts[id]
+## GET `/posts[id]`
 
 Example: https://epicbulletinboard.herokuapp.com/api/v1/posts/3
 
@@ -119,7 +119,7 @@ Response body:
 }
 ```
 
-## Post /posts
+## POST `/posts`
 
 Example: https://epicbulletinboard.herokuapp.com/api/v1/posts
 
@@ -152,7 +152,7 @@ Response body:
 }
 ```
 
-## Get /categories
+## GET `/categories`
 
 Example: https://epicbulletinboard.herokuapp.com/api/v1/categories
 
@@ -173,7 +173,7 @@ Response body:
 ]
 ```
 
-## Get /categories/[id]
+## GET `/categories/[id]`
 
 Example: https://epicbulletinboard.herokuapp.com/api/v1/categories/3
 
@@ -187,7 +187,7 @@ Response body:
 }
 ```
 
-## Post /categories
+## POST `/categories`
 
 Example: https://epicbulletinboard.herokuapp.com/api/v1/categories
 
