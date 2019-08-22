@@ -33,28 +33,19 @@ Docker version of this applicaton is 19.03.1
 Download Docker from:  
 https://www.docker.com/
 
-If you want to run the application without docker,  
-you need to have separate mysql database:  
-https://www.mysql.com/
-
 ### Installation
 
 `> npm install`
 
 ### Running the application
 
-Before running the application, fill the .envExample with your mysql database information  
-and port you want app to be exposed, and rename the file as .env
-
-`> npm start`
-
-### Building and running app in Docker container
+Building and running app in Docker container:
 
 `> docker-compose up`
 
 ## Tests
 
-Run tests with
+Run tests with:
 
 `> npm run test`
 
