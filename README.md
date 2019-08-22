@@ -89,7 +89,9 @@ Categories:
 
 Requests should be made in JSON (application/json) form.
 
-#### Post & Put /posts
+Below are parameters required for post and update calls:
+
+#### Post /posts
 
 topic = string, lenght: 5 to 50  
 post = string, lenght: 10 to 255  
