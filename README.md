@@ -21,8 +21,6 @@ You can also make categories for the posts and have account so will be able to f
 
 ### Prerequisites
 
-Couple things have to be set up before running the app.
-
 Node.js is needed when running npm commands.  
 This application is using version 12.5.0 of node.js.
 
@@ -35,11 +33,18 @@ Docker version of this applicaton is 19.03.1
 Download Docker from:  
 https://www.docker.com/
 
+If you want to run the application without docker,  
+you need to have separate mysql database:  
+https://www.mysql.com/
+
 ### Installation
 
 `> npm install`
 
 ### Running the application
+
+Before running the application, fill the .envExample with your mysql database information  
+and port you want app to be exposed, and rename the file as .env
 
 `> npm start`
 
@@ -63,7 +68,7 @@ Application is written in typescript.
 
 Application has been deployed to cloud application platform called Heroku.  
 Live demo of this application can be found in:  
-https://epicbulletinboard.herokuapp.com/
+https://epicbulletinboard.herokuapp.com/posts
 
 ## API
 
@@ -121,7 +126,7 @@ description = string, lenght: 10 to 50
 
 - [GET /posts](#get-posts)
 - [GET /posts/[id]](#get-postsid)
-- [GET /posts/ error](#get-posts-error)
+- [GET /posts/[id] error](#get-posts-error)
 - [POST /posts](#post-posts)
 - [GET /categories](#get-categories)
 - [GET /categories/[id]](#get-categoriesid)
@@ -133,76 +138,90 @@ Example: https://epicbulletinboard.herokuapp.com/api/v1/posts
 
 Response body:
 
+```
 [
-{
-"id": 1,
-"topic": "Cool post",
-"post": "This post is really cool",
-"datetime": "2019-08-16T15:57:47.000Z",
-"pinned": true,
-"modified": null
-},
-{
-"id": 2,
-"topic": "Even cooler post",
-"post": "This post is even cooler",
-"datetime": "2019-08-19T09:52:21.000Z",
-"pinned": true,
-"modified": null
-}
+    {
+        "id": 1,
+        "topic": "Cool post",
+        "post": "This post is really cool",
+        "datetime": "2019-08-16T15:57:47.000Z",
+        "pinned": true,
+        "modified": null
+    },
+    {
+        "id": 2,
+        "topic": "Even cooler post",
+        "post": "This post is even cooler",
+        "datetime": "2019-08-19T09:52:21.000Z",
+        "pinned": true,
+        "modified": null
+    }
 ]
+```
 
 ## Get /posts[id]
 
-Example: https://epicbulletinboard.herokuapp.com/api/v1/posts/[id]
+Example: https://epicbulletinboard.herokuapp.com/api/v1/posts/3
 
 Response body:
 
+```
 {
-"id": 56752,
-"topic": "The best post",
-"post": "This post is the best post ever",
-"datetime": "2019-08-29T07:42:51.000Z",
-"pinned": false,
-"modified": null
+    "id": 3,
+    "topic": "The best post",
+    "post": "This post is the best post ever",
+    "datetime": "2019-08-29T07:42:51.000Z",
+    "pinned": false,
+    "modified": null
 }
+```
 
-## Get /posts error
+## Get /posts/[id] error
 
-Example: https://epicbulletinboard.herokuapp.com/api/v1/posts
+Example: https://epicbulletinboard.herokuapp.com/api/v1/posts/2332323
 
 Response body:
 
-{"statusCode":404,"error":"Not Found","message":"Posts not found"}
+```
+{
+    "statusCode":404,
+    "error":"Not Found",
+    "message":"Post not found"
+}
+```
 
 ## Post /posts
 
 Request body:
 
+```
 {
-"post": "Nice post",
-"topic": "This post is nice",
-"pinned": true,
-"categoryId": 1
+    "post": "Nice post",
+    "topic": "This post is nice",
+    "pinned": true,
+    "categoryId": 1
 }
+```
 
 Example: https://epicbulletinboard.herokuapp.com/api/v1/posts
 
 Response body:
 
+```
 {
-"topic": "Nice post",
-"post": "This post is very nice",
-"pinned": true,
-"datetime": "2019-08-20T09:33:52.348Z",
-"category": {
-"id": 1,
-"name": "Nice category",
-"description": "category for nice things"
-},
-"modified": null,
-"id": 5
+    "topic": "Nice post",
+    "post": "This post is very nice",
+    "pinned": true,
+    "datetime": "2019-08-20T09:33:52.348Z",
+    "category": {
+        "id": 1,
+        "name": "Nice category",
+        "description": "category for nice things"
+    },
+    "modified": null,
+    "id": 5
 }
+```
 
 ## Get /categories
 
@@ -210,46 +229,54 @@ Example: https://epicbulletinboard.herokuapp.com/api/v1/categories
 
 Response body:
 
+```
 [
-{
-"id": 1,
-"name": "example category",
-"description": "very cool category"
-},
-{
-"id": 2,
-"name": "another example category",
-"description": "not so cool category"
-}
+    {
+        "id": 1,
+        "name": "example category",
+        "description": "very cool category"
+    },
+    {
+        "id": 2,
+        "name": "another example category",
+        "description": "not so cool category"
+    }
 ]
+```
 
 ## Get /categories/[id]
 
-Example: https://epicbulletinboard.herokuapp.com/api/v1/categories/[id]
+Example: https://epicbulletinboard.herokuapp.com/api/v1/categories/3
 
 Response body:
 
+```
 {
-"id": 2323,
-"name": "the best example category",
-"description": "the coolest category"
+    "id": 3,
+    "name": "the best example category",
+    "description": "the coolest category"
 }
+```
 
-## Post /categories/[id]
+## Post /categories/
 
-Example: https://epicbulletinboard.herokuapp.com/api/v1/categories/[id]
+Example: https://epicbulletinboard.herokuapp.com/api/v1/categories/
 
 Request body:
 
+```
 {
-"name": "category for nice posts",
-"description": "only nice things here"
+    "name": "category for nice posts",
+    "description": "only nice things here"
 }
+```
 
 Response body:
 
+```
 {
-"name": "category for nice posts",
-"description": "only nice things here",
-"id": 3
+    "name": "category for nice posts",
+    "description": "only nice things here",
+    "id": 3
 }
+```

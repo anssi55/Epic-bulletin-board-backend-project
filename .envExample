@@ -1,0 +1,7 @@
+DB_HOST = 
+DB_PORT =  
+DB_USERNAME = 
+DB_PASSWORD = 
+DB_DATABASE = 
+DB_SYNC = (true/false) Indicates if database schema should be auto created on every application launch.
+PORT = port where you want the app to be exposed.
