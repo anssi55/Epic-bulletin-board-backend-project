@@ -81,24 +81,24 @@ Example: https://epicbulletinboard.herokuapp.com/api/v1/posts
 
 Response body:
 
-```
+```json
 [
-    {
-        "id": 1,
-        "topic": "Cool post",
-        "post": "This post is really cool",
-        "datetime": "2019-08-16T15:57:47.000Z",
-        "pinned": true,
-        "modified": null
-    },
-    {
-        "id": 2,
-        "topic": "Even cooler post",
-        "post": "This post is even cooler",
-        "datetime": "2019-08-19T09:52:21.000Z",
-        "pinned": true,
-        "modified": null
-    }
+  {
+    "id": 1,
+    "topic": "Cool post",
+    "post": "This post is really cool",
+    "datetime": "2019-08-16T15:57:47.000Z",
+    "pinned": true,
+    "modified": null
+  },
+  {
+    "id": 2,
+    "topic": "Even cooler post",
+    "post": "This post is even cooler",
+    "datetime": "2019-08-19T09:52:21.000Z",
+    "pinned": true,
+    "modified": null
+  }
 ]
 ```
 
@@ -108,14 +108,14 @@ Example: https://epicbulletinboard.herokuapp.com/api/v1/posts/3
 
 Response body:
 
-```
+```json
 {
-    "id": 3,
-    "topic": "The best post",
-    "post": "This post is the best post ever",
-    "datetime": "2019-08-29T07:42:51.000Z",
-    "pinned": false,
-    "modified": null
+  "id": 3,
+  "topic": "The best post",
+  "post": "This post is the best post ever",
+  "datetime": "2019-08-29T07:42:51.000Z",
+  "pinned": false,
+  "modified": null
 }
 ```
 
@@ -125,30 +125,30 @@ Example: https://epicbulletinboard.herokuapp.com/api/v1/posts
 
 Request body:
 
-```
+```json
 {
-    "post": "Nice post",
-    "topic": "This post is nice",
-    "pinned": true,
-    "categoryId": 1
+  "post": "Nice post",
+  "topic": "This post is nice",
+  "pinned": true,
+  "categoryId": 1
 }
 ```
 
 Response body:
 
-```
+```json
 {
-    "topic": "Nice post",
-    "post": "This post is very nice",
-    "pinned": true,
-    "datetime": "2019-08-20T09:33:52.348Z",
-    "category": {
-        "id": 1,
-        "name": "Nice category",
-        "description": "category for nice things"
-    },
-    "modified": null,
-    "id": 5
+  "topic": "Nice post",
+  "post": "This post is very nice",
+  "pinned": true,
+  "datetime": "2019-08-20T09:33:52.348Z",
+  "category": {
+    "id": 1,
+    "name": "Nice category",
+    "description": "category for nice things"
+  },
+  "modified": null,
+  "id": 5
 }
 ```
 
@@ -158,18 +158,18 @@ Example: https://epicbulletinboard.herokuapp.com/api/v1/categories
 
 Response body:
 
-```
+```json
 [
-    {
-        "id": 1,
-        "name": "example category",
-        "description": "very cool category"
-    },
-    {
-        "id": 2,
-        "name": "another example category",
-        "description": "not so cool category"
-    }
+  {
+    "id": 1,
+    "name": "example category",
+    "description": "very cool category"
+  },
+  {
+    "id": 2,
+    "name": "another example category",
+    "description": "not so cool category"
+  }
 ]
 ```
 
@@ -179,11 +179,11 @@ Example: https://epicbulletinboard.herokuapp.com/api/v1/categories/3
 
 Response body:
 
-```
+```json
 {
-    "id": 3,
-    "name": "the best example category",
-    "description": "the coolest category"
+  "id": 3,
+  "name": "the best example category",
+  "description": "the coolest category"
 }
 ```
 
@@ -193,19 +193,19 @@ Example: https://epicbulletinboard.herokuapp.com/api/v1/categories
 
 Request body:
 
-```
+```json
 {
-    "name": "category for nice posts",
-    "description": "only nice things here"
+  "name": "category for nice posts",
+  "description": "only nice things here"
 }
 ```
 
 Response body:
 
-```
+```json
 {
-    "name": "category for nice posts",
-    "description": "only nice things here",
-    "id": 3
+  "name": "category for nice posts",
+  "description": "only nice things here",
+  "id": 3
 }
 ```
