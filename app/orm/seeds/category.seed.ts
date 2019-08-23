@@ -8,7 +8,7 @@ export const CategorySeed = [
     description: 'If your topic does not fit elsewhere, post it here'
   },
   {
-    name: 'Poltics',
+    name: 'Politics',
     description: 'sophisticated talk about the achievements of our political heroes'
   },
   {

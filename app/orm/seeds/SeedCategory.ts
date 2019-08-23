@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, getRepository } from 'typeorm';
 import { CategorySeed } from './category.seed';
 
-export class SeedCategory1566546392892 implements MigrationInterface {
+export class SeedCategory implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     getRepository('Category')
       .find()
