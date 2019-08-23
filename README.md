@@ -87,17 +87,27 @@ Response body:
     "id": 1,
     "topic": "Cool post",
     "post": "This post is really cool",
-    "datetime": "2019-08-16T15:57:47.000Z",
+    "created": "2019-08-16T15:57:47.000Z",
     "pinned": true,
-    "modified": null
+    "modified": null,
+    "category": {
+      "id": 1,
+      "name": "example category",
+      "description": "very cool category"
+    }
   },
   {
     "id": 2,
     "topic": "Even cooler post",
     "post": "This post is even cooler",
-    "datetime": "2019-08-19T09:52:21.000Z",
+    "created": "2019-08-19T09:52:21.000Z",
     "pinned": true,
-    "modified": null
+    "modified": null,
+    "category": {
+      "id": 1,
+      "name": "example category",
+      "description": "very cool category"
+    }
   }
 ]
 ```
@@ -113,9 +123,14 @@ Response body:
   "id": 3,
   "topic": "The best post",
   "post": "This post is the best post ever",
-  "datetime": "2019-08-29T07:42:51.000Z",
+  "created": "2019-08-29T07:42:51.000Z",
   "pinned": false,
-  "modified": null
+  "modified": null,
+  "category": {
+    "id": 1,
+    "name": "example category",
+    "description": "very cool category"
+  }
 }
 ```
 
@@ -141,7 +156,7 @@ Response body:
   "topic": "Nice post",
   "post": "This post is very nice",
   "pinned": true,
-  "datetime": "2019-08-20T09:33:52.348Z",
+  "created": "2019-08-20T09:33:52.348Z",
   "category": {
     "id": 1,
     "name": "Nice category",

@@ -15,7 +15,7 @@ class PostService {
 
   public getAllPosts = async () => {
     try {
-      const posts = await this.postRepo.find();
+      const posts = await this.postRepo.find({ relations: ['category'] });
       if (posts.length > 0) {
         return posts;
       } else {
@@ -30,7 +30,7 @@ class PostService {
 
   public getOnePost = async (postId: number) => {
     try {
-      const post = await this.postRepo.findOne(postId);
+      const post = await this.postRepo.findOne(postId, { relations: ['category'] });
       if (post) {
         return post;
       } else {
@@ -44,7 +44,7 @@ class PostService {
   };
 
   public createPost = async (newPost: Post, categoryId: number) => {
-    newPost.datetime = new Date(Date.now());
+    newPost.created = new Date(Date.now());
     try {
       const category = await this.categoryRepo.findOne(categoryId);
       if (category) {
@@ -62,7 +62,7 @@ class PostService {
 
   public modifyPost = async (modifiedPost: Post, categoryId: number) => {
     try {
-      let originalPost = await this.postRepo.findOne(modifiedPost.id);
+      let originalPost = await this.postRepo.findOne(modifiedPost.id, { relations: ['category'] });
       const newCategory = await this.categoryRepo.findOne(categoryId);
       if (originalPost) {
         originalPost.topic = modifiedPost.topic;

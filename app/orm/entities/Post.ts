@@ -19,7 +19,7 @@ class Post {
   post!: string;
 
   @Column()
-  datetime!: Date;
+  created!: Date;
 
   @Expose()
   @Column()

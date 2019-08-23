@@ -16,7 +16,7 @@ class CreateCategoryDto {
   @MinLength(10, {
     message: 'Description is too short'
   })
-  @MaxLength(50, {
+  @MaxLength(80, {
     message: 'Description is too long'
   })
   description!: string;
