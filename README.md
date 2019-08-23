@@ -89,12 +89,7 @@ Response body:
     "post": "This post is really cool",
     "created": "2019-08-16T15:57:47.000Z",
     "pinned": true,
-    "modified": null,
-    "category": {
-      "id": 1,
-      "name": "example category",
-      "description": "very cool category"
-    }
+    "modified": null
   },
   {
     "id": 2,
@@ -102,12 +97,7 @@ Response body:
     "post": "This post is even cooler",
     "created": "2019-08-19T09:52:21.000Z",
     "pinned": true,
-    "modified": null,
-    "category": {
-      "id": 1,
-      "name": "example category",
-      "description": "very cool category"
-    }
+    "modified": null
   }
 ]
 ```
@@ -125,12 +115,7 @@ Response body:
   "post": "This post is the best post ever",
   "created": "2019-08-29T07:42:51.000Z",
   "pinned": false,
-  "modified": null,
-  "category": {
-    "id": 1,
-    "name": "example category",
-    "description": "very cool category"
-  }
+  "modified": null
 }
 ```
 

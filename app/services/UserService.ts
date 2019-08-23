@@ -51,15 +51,12 @@ class UserService {
     }
   };
 
-  public modifyUser = async (modifiedUser: User) => {
+  public modifyUser = async (modifiedUser: User, userId: number) => {
     try {
-      let originalUser = await this.userRepo.findOne(modifiedUser.id);
-      if (originalUser) {
-        originalUser.email = modifiedUser.email;
-        originalUser.password = modifiedUser.password;
-        originalUser.modified = new Date(Date.now());
-        originalUser.avatar = modifiedUser.avatar;
-        return await this.userRepo.save(originalUser);
+      await this.userRepo.update(userId, modifiedUser);
+      let user = await this.userRepo.findOne(modifiedUser.id);
+      if (user) {
+        return user;
       } else {
         throw Boom.notFound('User not found');
       }

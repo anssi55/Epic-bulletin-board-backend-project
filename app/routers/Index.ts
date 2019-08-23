@@ -6,7 +6,7 @@ import PostController from '../controllers/PostController';
 import UserController from '../controllers/UserController';
 import ValidatorMiddleware from '../middleware/ValidationMiddleware';
 import CreatePostDto from '../dto/CreatePost';
-import UpdatePostDto from '../dto/CreatePost';
+import UpdatePostDto from '../dto/UpdatePost';
 import CreateCategoryDto from '../dto/CreateCategory';
 import UpdateCategoryDto from '../dto/UpdateCategory';
 import UserDto from '../dto/User';

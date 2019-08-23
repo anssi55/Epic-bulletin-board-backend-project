@@ -1,10 +1,11 @@
-import { mock, instance, when, verify, reset } from 'ts-mockito';
+import { mock, instance, when, verify, reset, anything, anyString, anyOfClass } from 'ts-mockito';
 import PostService from '../../app/services/PostService';
 import Post from '../../app/orm/entities/Post';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import Category from '../../app/orm/entities/Category';
 import { Dependencies } from '../../app/Types';
 import Boom from 'boom';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 describe('Post Service unit tests', () => {
   const postRepoMock = <Repository<Post>>mock(Repository);
@@ -15,15 +16,19 @@ describe('Post Service unit tests', () => {
     postRepo: postRepoMockInstance,
     categoryRepo: categoryRepoMockInstance
   });
+
+  const results = new UpdateResult();
   const post = new Post();
+  const category = new Category();
+  const partial: QueryDeepPartialEntity<Post> = post;
+  category.id = 1;
   post.id = 1;
   post.pinned = true;
   post.topic = 'hello world';
   post.post = 'World is a wonderful place';
+  post.category = category;
   const posts = [post];
   const emptyPosts: Post[] = [];
-  const category = new Category();
-  category.id = 1;
 
   beforeEach(async () => {
     reset(postRepoMock);
@@ -99,37 +104,20 @@ describe('Post Service unit tests', () => {
   test('Modify post', async () => {
     expect.assertions(1);
     when(postRepoMock.findOne(post.id)).thenResolve(post);
-    when(postRepoMock.save(post)).thenResolve(post);
-    when(categoryRepoMock.findOne(category.id)).thenResolve(category);
-    await expect(postService.modifyPost(post, category.id)).resolves.toEqual(post);
+    when(postRepoMock.update(post.id, partial)).thenResolve(results);
+    await expect(postService.modifyPost(post, post.id)).resolves.toEqual(post);
     verify(postRepoMock.findOne(post.id)).called();
-    verify(postRepoMock.save(post)).called();
-    verify(categoryRepoMock.findOne(category.id)).called();
+    verify(postRepoMock.update(post.id, partial)).called();
   });
 
-  test('Modify post, bad post error test', async () => {
+  test('Modify post, error test', async () => {
     expect.assertions(1);
     when(postRepoMock.findOne(post.id)).thenResolve(undefined);
-    when(postRepoMock.save(post)).thenResolve(post);
-    when(categoryRepoMock.findOne(category.id)).thenResolve(category);
-    await expect(postService.modifyPost(post, category.id)).rejects.toEqual(
+    when(postRepoMock.update(post.id, partial)).thenResolve(results);
+    await expect(postService.modifyPost(post, post.id)).rejects.toEqual(
       Boom.notFound('Post not found')
     );
     verify(postRepoMock.findOne(post.id)).called();
-    verify(postRepoMock.save(post)).never();
-    verify(categoryRepoMock.findOne(category.id)).called();
-  });
-
-  test('Modify post, bad category error test', async () => {
-    expect.assertions(1);
-    when(postRepoMock.findOne(post.id)).thenResolve(post);
-    when(postRepoMock.save(post)).thenResolve(post);
-    when(categoryRepoMock.findOne(category.id)).thenResolve(undefined);
-    await expect(postService.modifyPost(post, category.id)).rejects.toEqual(
-      Boom.notFound('Category not found')
-    );
-    verify(postRepoMock.findOne(post.id)).called();
-    verify(postRepoMock.save(post)).never();
-    verify(categoryRepoMock.findOne(category.id)).called();
+    verify(postRepoMock.update(post.id, partial)).called();
   });
 });

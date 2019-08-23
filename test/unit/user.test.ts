@@ -1,9 +1,10 @@
 import { mock, instance, when, verify, reset } from 'ts-mockito';
 import UserService from '../../app/services/UserService';
 import User from '../../app/orm/entities/User';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { Dependencies } from '../../app/Types';
 import Boom from 'boom';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 describe('User Service unit tests', () => {
   const userRepoMock = <Repository<User>>mock(Repository);
@@ -18,7 +19,8 @@ describe('User Service unit tests', () => {
   user.username = 'pera';
   const users = [user];
   const emptyUsers: User[] = [];
-
+  const partial: QueryDeepPartialEntity<User> = user;
+  const results = new UpdateResult();
   beforeEach(async () => {
     reset(userRepoMock);
   });
@@ -78,19 +80,21 @@ describe('User Service unit tests', () => {
 
   test('Modify user', async () => {
     expect.assertions(1);
+    when(userRepoMock.update(user.id, partial)).thenResolve(results);
     when(userRepoMock.findOne(user.id)).thenResolve(user);
-    when(userRepoMock.save(user)).thenResolve(user);
-    await expect(userService.modifyUser(user)).resolves.toEqual(user);
+    await expect(userService.modifyUser(user, user.id)).resolves.toEqual(user);
     verify(userRepoMock.findOne(user.id)).called();
-    verify(userRepoMock.save(user)).called();
+    verify(userRepoMock.update(user.id, partial)).called();
   });
 
   test('Modify user, error test', async () => {
     expect.assertions(1);
     when(userRepoMock.findOne(user.id)).thenResolve(undefined);
-    when(userRepoMock.save(user)).thenResolve(user);
-    await expect(userService.modifyUser(user)).rejects.toEqual(Boom.notFound('User not found'));
-    verify(userRepoMock.findOne(user.id)).called();
+    when(userRepoMock.update(user.id, partial)).thenResolve(results);
+    await expect(userService.modifyUser(user, user.id)).rejects.toEqual(
+      Boom.notFound('User not found')
+    );
+    verify(userRepoMock.update(user.id, partial)).called();
     verify(userRepoMock.save(user)).never();
   });
 });
