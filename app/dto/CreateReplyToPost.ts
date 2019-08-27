@@ -1,12 +1,13 @@
 import { IsString, MinLength, MaxLength, IsInt, IsNotEmpty } from 'class-validator';
+import { replyMinLenght, replyMaxLenght } from '../constants';
 
 class CreateReplyToPostDto {
   @IsNotEmpty()
   @IsString()
-  @MinLength(2, {
+  @MinLength(replyMinLenght, {
     message: 'Topic is too short'
   })
-  @MaxLength(255, {
+  @MaxLength(replyMaxLenght, {
     message: 'Topic is too long'
   })
   reply!: string;

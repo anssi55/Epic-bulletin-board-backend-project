@@ -1,22 +1,28 @@
 import { IsString, MinLength, MaxLength, IsNotEmpty } from 'class-validator';
+import {
+  categoryNameMinLenght,
+  categoryNameMaxLenght,
+  categoryDescriptionMinLenght,
+  categoryDescriptionMaxLenght
+} from '../constants';
 
 class CreateCategoryDto {
   @IsNotEmpty()
   @IsString()
-  @MinLength(2, {
+  @MinLength(categoryNameMinLenght, {
     message: 'Name is too short'
   })
-  @MaxLength(50, {
+  @MaxLength(categoryNameMaxLenght, {
     message: 'Name is too long'
   })
   name!: string;
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(10, {
+  @MinLength(categoryDescriptionMinLenght, {
     message: 'Description is too short'
   })
-  @MaxLength(80, {
+  @MaxLength(categoryDescriptionMaxLenght, {
     message: 'Description is too long'
   })
   description!: string;
