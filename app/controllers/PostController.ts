@@ -20,7 +20,7 @@ class PostController {
   };
 
   public getOne = async (req: Request, res: Response, next: NextFunction) => {
-    const postId = req.params.id;
+    const postId = parseInt(req.params.id);
     try {
       const post = await this.postService.getOnePost(postId);
       res.status(200).send(post);
@@ -43,11 +43,8 @@ class PostController {
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
     const modifiedPost = plainToClass(Post, req.body, { excludeExtraneousValues: true });
-    modifiedPost.id = req.params.id;
-    const categoryId = req.body.categoryId;
-
     try {
-      const result = await this.postService.modifyPost(modifiedPost, categoryId);
+      const result = await this.postService.modifyPost(modifiedPost, parseInt(req.params.id));
       res.status(200).send(result);
     } catch (error) {
       next(error);
@@ -55,8 +52,7 @@ class PostController {
   };
 
   public delete = async (req: Request, res: Response, next: NextFunction) => {
-    const postId = req.params.id;
-
+    const postId = parseInt(req.params.id);
     try {
       const result = await this.postService.deletePost(postId);
       if (result) {

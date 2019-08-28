@@ -1,22 +1,28 @@
 import { IsString, MinLength, MaxLength, IsBoolean, IsInt, IsNotEmpty } from 'class-validator';
+import {
+  postPostMinLenght,
+  postPostMaxLenght,
+  postTopicMinLenght,
+  postTopicMaxLenght
+} from '../constants';
 
 class CreatePostDto {
   @IsNotEmpty()
   @IsString()
-  @MinLength(5, {
+  @MinLength(postTopicMinLenght, {
     message: 'Topic is too short'
   })
-  @MaxLength(50, {
+  @MaxLength(postTopicMaxLenght, {
     message: 'Topic is too long'
   })
   public topic!: string;
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(10, {
+  @MinLength(postPostMinLenght, {
     message: 'Post is too short, min: 10'
   })
-  @MaxLength(255, {
+  @MaxLength(postPostMaxLenght, {
     message: 'Post is too long, max: 255'
   })
   public post!: string;

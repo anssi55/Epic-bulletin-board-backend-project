@@ -11,7 +11,11 @@ function createDBConnection(envVariables: EnvVariables) {
     database: envVariables.DB_DATABASE,
     synchronize: envVariables.DB_SYNC,
     logging: false,
-    entities: ['build/app/orm/entities/*.js']
+    entities: ['build/app/orm/entities/*.js'],
+    migrations: ['build/app/orm/seeds/*.js']
+  }).then(async function(connection) {
+    await connection.runMigrations();
+    return connection;
   });
 }
 

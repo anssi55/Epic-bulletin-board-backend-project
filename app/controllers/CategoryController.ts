@@ -20,7 +20,7 @@ class CategoryController {
   };
 
   public getOne = async (req: Request, res: Response, next: NextFunction) => {
-    const categoryId = req.params.id;
+    const categoryId = parseInt(req.params.id);
     try {
       const result = await this.categoryService.getOneCategory(categoryId);
       res.status(200).send(result);
@@ -40,11 +40,11 @@ class CategoryController {
   };
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
-    const categoryId = req.params.id;
+    const categoryId = parseInt(req.params.id);
     const modifiedCategory = plainToClass(Category, req.body, { excludeExtraneousValues: true });
-    modifiedCategory.id = categoryId;
+
     try {
-      let result = await this.categoryService.modifyCategory(modifiedCategory);
+      let result = await this.categoryService.modifyCategory(modifiedCategory, categoryId);
       res.status(200).send(result);
     } catch (error) {
       next(error);
@@ -52,7 +52,7 @@ class CategoryController {
   };
 
   public delete = async (req: Request, res: Response, next: NextFunction) => {
-    const categoryId = req.params.id;
+    const categoryId = parseInt(req.params.id);
     try {
       const result = await this.categoryService.deleteCategory(categoryId);
       if (result) {

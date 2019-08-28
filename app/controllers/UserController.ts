@@ -20,7 +20,7 @@ class UserController {
   };
 
   public getOne = async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.params.id;
+    const userId = parseInt(req.params.id);
     try {
       const user = await this.userService.getOneUser(userId);
       res.status(200).send(user);
@@ -41,9 +41,9 @@ class UserController {
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
     const modifiedUser = plainToClass(User, req.body, { excludeExtraneousValues: true });
-    modifiedUser.id = req.params.id;
+    const userId = parseInt(req.params.id);
     try {
-      const result = await this.userService.modifyUser(modifiedUser);
+      const result = await this.userService.modifyUser(modifiedUser, userId);
       res.status(200).send(result);
     } catch (error) {
       next(error);
@@ -51,7 +51,7 @@ class UserController {
   };
 
   public delete = async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.params.id;
+    const userId = parseInt(req.params.id);
     try {
       const result = await this.userService.deleteUser(userId);
       if (result) {

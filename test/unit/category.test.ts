@@ -1,9 +1,10 @@
 import { mock, instance, when, verify, reset } from 'ts-mockito';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import Category from '../../app/orm/entities/Category';
 import { Dependencies } from '../../app/Types';
 import CategoryService from '../../app/services/CategoryService';
 import Boom from 'boom';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 describe('Category Service unit tests', () => {
   const categoryRepoMock = <Repository<Category>>mock(Repository);
@@ -17,6 +18,8 @@ describe('Category Service unit tests', () => {
   category.name = 'The Cool Category';
   const categories = [category];
   const emptyCategories: Category[] = [];
+  const partial: QueryDeepPartialEntity<Category> = category;
+  const results = new UpdateResult();
 
   beforeEach(async () => {
     reset(categoryRepoMock);
@@ -64,21 +67,21 @@ describe('Category Service unit tests', () => {
   test('Modify category', async () => {
     expect.assertions(1);
     when(categoryRepoMock.findOne(category.id)).thenResolve(category);
-    when(categoryRepoMock.save(category)).thenResolve(category);
-    await expect(categoryService.modifyCategory(category)).resolves.toEqual(category);
+    when(categoryRepoMock.update(category.id, partial)).thenResolve(results);
+    await expect(categoryService.modifyCategory(category, category.id)).resolves.toEqual(category);
     verify(categoryRepoMock.findOne(category.id)).called();
-    verify(categoryRepoMock.save(category)).called();
+    verify(categoryRepoMock.update(category.id, partial)).called();
   });
 
   test('Modify category, error test', async () => {
     expect.assertions(1);
     when(categoryRepoMock.findOne(category.id)).thenResolve(undefined);
-    when(categoryRepoMock.save(category)).thenResolve(category);
-    await expect(categoryService.modifyCategory(category)).rejects.toEqual(
+    when(categoryRepoMock.update(category.id, partial)).thenResolve(results);
+    await expect(categoryService.modifyCategory(category, category.id)).rejects.toEqual(
       Boom.notFound('Category not found')
     );
     verify(categoryRepoMock.findOne(category.id)).called();
-    verify(categoryRepoMock.save(category)).never();
+    verify(categoryRepoMock.update(category.id, partial)).called();
   });
   test('Delete category', async () => {
     expect.assertions(1);

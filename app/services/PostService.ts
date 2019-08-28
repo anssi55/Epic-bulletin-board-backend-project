@@ -3,6 +3,7 @@ import Post from '../orm/entities/Post';
 import Category from '../orm/entities/Category';
 import { Dependencies } from '../Types';
 import Boom from 'boom';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 class PostService {
   private postRepo: Repository<Post>;
@@ -44,7 +45,7 @@ class PostService {
   };
 
   public createPost = async (newPost: Post, categoryId: number) => {
-    newPost.datetime = new Date(Date.now());
+    newPost.created = new Date(Date.now());
     try {
       const category = await this.categoryRepo.findOne(categoryId);
       if (category) {
@@ -60,21 +61,13 @@ class PostService {
     }
   };
 
-  public modifyPost = async (modifiedPost: Post, categoryId: number) => {
+  public modifyPost = async (modifiedPost: QueryDeepPartialEntity<Post>, postId: number) => {
     try {
-      let originalPost = await this.postRepo.findOne(modifiedPost.id);
-      const newCategory = await this.categoryRepo.findOne(categoryId);
-      if (originalPost) {
-        originalPost.topic = modifiedPost.topic;
-        originalPost.post = modifiedPost.post;
-        originalPost.modified = new Date(Date.now());
-        originalPost.pinned = modifiedPost.pinned;
-        if (newCategory) {
-          originalPost.category = newCategory;
-        } else {
-          throw Boom.notFound('Category not found');
-        }
-        return await this.postRepo.save(originalPost);
+      modifiedPost.modified = new Date(Date.now());
+      await this.postRepo.update(postId, modifiedPost);
+      const post = await this.postRepo.findOne(postId);
+      if (post) {
+        return post;
       } else {
         throw Boom.notFound('Post not found');
       }

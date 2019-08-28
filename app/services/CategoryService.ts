@@ -50,13 +50,12 @@ class CategoryService {
     }
   };
 
-  public modifyCategory = async (modifiedCategory: Category) => {
+  public modifyCategory = async (modifiedCategory: Category, categoryId: number) => {
     try {
-      let originalCategory = await this.categoryRepo.findOne(modifiedCategory.id);
-      if (originalCategory) {
-        originalCategory.name = modifiedCategory.name;
-        originalCategory.description = modifiedCategory.description;
-        return await this.categoryRepo.save(originalCategory);
+      await this.categoryRepo.update(categoryId, modifiedCategory);
+      let category = await this.categoryRepo.findOne(modifiedCategory.id);
+      if (category) {
+        return category;
       } else {
         throw Boom.notFound('Category not found');
       }
