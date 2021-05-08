@@ -37,7 +37,7 @@
     "pg": "^7.12.1",
     "reflect-metadata": "^0.1.13",
     "tsc-watch": "^2.4.0",
-    "typeorm": "0.2.18",
+    "typeorm": "0.2.25",
     "typescript": "^3.5.2"
   },
   "devDependencies": {
